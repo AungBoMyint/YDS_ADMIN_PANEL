@@ -7,33 +7,36 @@ const userIcon = "assets/icon/user.png";
 const cartoonMapIcon = "assets/icon/cartoon_map.png";
  */
 class AdminIcon {
-  static const news = "assets/news.svg";
-  static const vlog = "assets/vlog.svg";
-  static const learning = "assets/learning.svg";
-  static const therapy = "assets/therapy.svg";
-  static const affirmations = "assets/affirmations.svg";
-  static const columnChart = "assets/admin/column-chart.svg";
-  static const customer = "assets/admin/customer.svg";
-  static const enter = "assets/admin/enter.svg";
-  static const halfCircle = "assets/admin/half-circle.svg";
-  static const nuclear = "assets/admin/nuclear.svg";
-  static const order = "assets/admin/order.svg";
-  static const rowUser = "assets/admin/row_users.svg";
-  static const setting = "assets/admin/setting.svg";
-  static const shoppingBag = "assets/admin/shopping-bag.svg";
-  static const shoppingCart = "assets/admin/shopping-cart.svg";
-  static const star = "assets/admin/star.svg";
-  static const totalSales = "assets/admin/total_sales.svg";
-  static const turnLeft = "assets/admin/turn-left.svg";
-  static const user = "assets/admin/user.png";
-  static const stackUser = "assets/admin/stack_user.png";
+  static const course = "assets/course.png";
+  static const license = "assets/license.png";
+  static const product = "assets/product.png";
+  static const purchase = "assets/purchase.png";
+  static const question = "assets/question.png";
+  static const guideLine = "assets/signpost.png";
+  static const users = "assets/users.png";
+  static const logout = "assets/ok.png";
+  static const overview = "assets/analytics.png";
+
+  //--Svg---/
+  static const courseSvg = "assets/bars/course.svg";
+  static const licenseSvg = "assets/bars/license.svg";
+  static const productSvg = "assets/bars/product.svg";
+  static const purchaseSvg = "assets/bars/purchase.svg";
+  static const questionSvg = "assets/bars/question.svg";
+  static const guideLineSvg = "assets/bars/signpost.svg";
+  static const usersSvg = "assets/bars/users.svg";
+  static const overviewSvg = "assets/bars/analytics.svg";
+  static const logoutSvg = "assets/bars/ok.svg";
+  //--*---/
   static const addImage = "assets/admin/add_image.png";
   static const calendar = "assets/admin/calendar.png";
   static const orderStatus = "assets/admin/order_status.png";
   static const acceptOrder = "assets/admin/accept.png";
   static const rejectOrder = "assets/admin/close.png";
   static const horizontalDots = "assets/admin/dots.png";
-  static const adminLoginImage = "assets/admin/admin_cover.png";
-  static const adminForgetPassword = "assets/admin/admin_forget_password.png";
-  static const logo = "assets/admin/logo.jpg";
+  static const adminLoginImage = "assets/driving_school.png";
+  static const adminForgetPassword = "assets/driving_test.png";
+  static const logo = "assets/logo.jpeg";
+  static const adminDriving = "assets/driving.png";
+  static const adminDrivingSeat = "assets/driving_seat.png";
 }

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../models/object_models/category.dart';
-
 const darkThemeBackgroundColor = Color(232333);
 const darkThemeCardColor = Color(0xFF2B2C40);
 
 const String emptyUserImage =
-    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png";
+    "https://cdn-icons-png.flaticon.com/512/194/194938.png";
+/* "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"; */
 
 const loginBox = "loginBox";
 const emailKey = "email";

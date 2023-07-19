@@ -62,17 +62,32 @@ class DrawerItems extends GetView<AdminLoginController> {
                   final pageType = adminUiController.pageType.value!
                       .getOrElse(() => PageType.initial());
                   return DrawerItem(
+                    isSvg: false,
                     onTap: () =>
                         adminUiController.changePageType(PageType.initial()),
                     textTheme: textTheme,
                     isSelected: pageType == PageType.initial(),
-                    imageIcon: AdminIcon.columnChart,
+                    imageIcon: AdminIcon.overview,
                     label: "Overview",
                   );
                 }),
                 verticalSpace(v: 10),
-                //News
-                ExpandablePanel(
+                //Courses
+                Obx(() {
+                  final pageType = adminUiController.pageType.value!
+                      .getOrElse(() => PageType.initial());
+                  return DrawerItem(
+                    isSvg: false,
+                    onTap: null,
+                    textTheme: textTheme,
+                    isSelected: pageType == PageType.newsSlider() ||
+                        pageType == PageType.newsType() ||
+                        pageType == PageType.newsItems(),
+                    imageIcon: AdminIcon.course,
+                    label: "Courses",
+                  );
+                }),
+                /*  ExpandablePanel(
                   theme: ExpandableThemeData(
                     expandIcon: null,
                     collapseIcon: null,
@@ -80,14 +95,14 @@ class DrawerItems extends GetView<AdminLoginController> {
                     tapHeaderToExpand: true,
                     iconPadding: EdgeInsets.zero,
                   ),
-                  header: DrawerItem(
+                  header: DrawerItem(isSvg:false,
                     onTap: null,
                     textTheme: textTheme,
                     isSelected: pageType == PageType.newsSlider() ||
                         pageType == PageType.newsType() ||
                         pageType == PageType.newsItems(),
-                    imageIcon: AdminIcon.news,
-                    label: "News",
+                    imageIcon: AdminIcon.courseSvg,
+                    label: "Courses",
                   ),
                   collapsed: const SizedBox(),
                   expanded: Container(
@@ -134,19 +149,21 @@ class DrawerItems extends GetView<AdminLoginController> {
                     }),
                   ),
                 ),
+                */
                 verticalSpace(v: 10),
                 //Vlog
                 Obx(() {
                   final pageType = adminUiController.pageType.value!
                       .getOrElse(() => PageType.initial());
                   return DrawerItem(
+                    isSvg: false,
                     onTap: () =>
                         adminUiController.changePageType(PageType.vlog()),
                     textTheme: textTheme,
                     isSelected: pageType == PageType.vlog() ||
                         pageType == PageType.vlogAdd(),
-                    imageIcon: AdminIcon.vlog,
-                    label: "Vlog",
+                    imageIcon: AdminIcon.product,
+                    label: "Reward Products",
                   );
                 }),
                 verticalSpace(v: 10),
@@ -158,12 +175,13 @@ class DrawerItems extends GetView<AdminLoginController> {
                     iconPadding: EdgeInsets.zero,
                   ),
                   header: DrawerItem(
+                    isSvg: false,
                     onTap: null,
                     textTheme: textTheme,
                     isSelected:
                         false /* pageType == const PageType.products() */,
-                    imageIcon: AdminIcon.therapy,
-                    label: "Therapy",
+                    imageIcon: AdminIcon.purchase,
+                    label: "Purchases",
                   ),
                   collapsed: const SizedBox(),
                   expanded: Container(
@@ -211,12 +229,13 @@ class DrawerItems extends GetView<AdminLoginController> {
                     iconPadding: EdgeInsets.zero,
                   ),
                   header: DrawerItem(
+                    isSvg: false,
                     onTap: null,
                     textTheme: textTheme,
                     isSelected:
                         false /* pageType == const PageType.products() */,
-                    imageIcon: AdminIcon.affirmations,
-                    label: "Affirmations",
+                    imageIcon: AdminIcon.guideLine,
+                    label: "GuideLine",
                   ),
                   collapsed: const SizedBox(),
                   expanded: Container(
@@ -270,12 +289,13 @@ class DrawerItems extends GetView<AdminLoginController> {
                   final pageType = adminUiController.pageType.value!
                       .getOrElse(() => PageType.initial());
                   return DrawerItem(
+                    isSvg: false,
                     onTap: () =>
                         adminUiController.changePageType(PageType.customers()),
                     textTheme: textTheme,
                     isSelected: pageType == PageType.vlog() ||
                         pageType == PageType.vlogAdd(),
-                    imageIcon: AdminIcon.rowUser,
+                    imageIcon: AdminIcon.users,
                     label: "Users",
                   );
                 }),
@@ -283,10 +303,11 @@ class DrawerItems extends GetView<AdminLoginController> {
                 Divider(),
                 verticalSpace(),
                 DrawerItem(
+                  isSvg: false,
                   onTap: () => alController.signOut(),
                   textTheme: textTheme,
                   isSelected: false,
-                  imageIcon: AdminIcon.enter,
+                  imageIcon: AdminIcon.logout,
                   label: "Log out",
                 ),
               ],

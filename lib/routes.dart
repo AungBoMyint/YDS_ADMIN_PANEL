@@ -26,11 +26,11 @@ const userProfilePage = "/user_profile_page";
 
 String getInitialRoute() {
   final box = Hive.box(loginBox);
-  if (box.get(isAuthenticatedKey, defaultValue: false) == false) {
-    return adminLoginRoute; /* loginRoute; */
-  } else {
+  /* if (box.get(isAuthenticatedKey, defaultValue: false) == false) { */
+  return adminLoginRoute; /* loginRoute; */
+  /* } else {
     return adminMainRoute;
-  }
+  } */
 }
 
 // We use name route

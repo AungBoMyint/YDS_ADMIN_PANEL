@@ -45,7 +45,7 @@ class DrawerHeader extends GetView<AdminUiController> {
         ),
         Expanded(
           child: Text(
-            "Shwe Thiri Khit",
+            "Yangon Driving School",
             style: textTheme.displayMedium?.copyWith(
               fontSize: controller.rbPoint.value!
                   .getOrElse(() => RBPoint.xl())

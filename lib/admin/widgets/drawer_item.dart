@@ -15,6 +15,7 @@ class DrawerItem extends GetView<AdminUiController> {
     this.trailling,
     required this.isSelected,
     required this.onTap,
+    this.isSvg = true,
   });
 
   final TextTheme textTheme;
@@ -22,6 +23,7 @@ class DrawerItem extends GetView<AdminUiController> {
   final Widget? trailling;
   final bool isSelected;
   final String imageIcon;
+  final bool? isSvg;
   final void Function()? onTap;
 
   @override
@@ -45,26 +47,44 @@ class DrawerItem extends GetView<AdminUiController> {
                       tablet: (_) => 15,
                       mobile: (_) => 10),
             ),
-            SvgPicture.asset(
-              imageIcon,
-              width: controller.rbPoint.value!
-                  .getOrElse(() => RBPoint.xl())
-                  .map(
-                      xl: (_) => 25,
-                      desktop: (_) => 20,
-                      tablet: (_) => 15,
-                      mobile: (_) => 10),
-              height: controller.rbPoint.value!
-                  .getOrElse(() => RBPoint.xl())
-                  .map(
-                      xl: (_) => 25,
-                      desktop: (_) => 20,
-                      tablet: (_) => 15,
-                      mobile: (_) => 10),
-              color: isSelected
-                  ? Theme.of(context).iconTheme.color
-                  : Colors.grey.shade800,
-            ),
+            isSvg!
+                ? SvgPicture.asset(
+                    imageIcon,
+                    width: controller.rbPoint.value!
+                        .getOrElse(() => RBPoint.xl())
+                        .map(
+                            xl: (_) => 25,
+                            desktop: (_) => 20,
+                            tablet: (_) => 15,
+                            mobile: (_) => 10),
+                    height: controller.rbPoint.value!
+                        .getOrElse(() => RBPoint.xl())
+                        .map(
+                            xl: (_) => 25,
+                            desktop: (_) => 20,
+                            tablet: (_) => 15,
+                            mobile: (_) => 10),
+                    color: isSelected
+                        ? Theme.of(context).iconTheme.color
+                        : Colors.grey.shade800,
+                  )
+                : Image.asset(
+                    imageIcon,
+                    width: controller.rbPoint.value!
+                        .getOrElse(() => RBPoint.xl())
+                        .map(
+                            xl: (_) => 25,
+                            desktop: (_) => 20,
+                            tablet: (_) => 15,
+                            mobile: (_) => 10),
+                    height: controller.rbPoint.value!
+                        .getOrElse(() => RBPoint.xl())
+                        .map(
+                            xl: (_) => 25,
+                            desktop: (_) => 20,
+                            tablet: (_) => 15,
+                            mobile: (_) => 10),
+                  ),
             SizedBox(
               width: controller.rbPoint.value!
                   .getOrElse(() => RBPoint.xl())

@@ -23,6 +23,7 @@ class DataColumnRowContainer extends GetView<AdminUiController> {
     this.rowMainAxisAlignment,
     this.border,
     this.titleLeftPadding,
+    this.isSvg = true,
   });
 
   final SizedBox Function({double? v}) horizontalSpace;
@@ -36,6 +37,7 @@ class DataColumnRowContainer extends GetView<AdminUiController> {
   final MainAxisAlignment? rowMainAxisAlignment;
   final BoxBorder? border;
   final double? titleLeftPadding;
+  final bool? isSvg;
 
   @override
   Widget build(BuildContext context) {
@@ -77,31 +79,53 @@ class DataColumnRowContainer extends GetView<AdminUiController> {
                 children: [
                   //Icon
                   CircleAvatar(
-                    radius: 15,
-                    backgroundColor: Colors.black,
+                    radius: 20,
+                    backgroundColor: Colors.white,
                     child: Center(
-                      child: SvgPicture.asset(
-                        topImageIcon,
-                        width: controller.rbPoint.value!.fold(
-                          (l) => 0,
-                          (r) => r.map(
-                            xl: (_) => 18,
-                            desktop: (_) => 14,
-                            tablet: (_) => 12,
-                            mobile: (_) => 10,
-                          ),
-                        ),
-                        height: controller.rbPoint.value!.fold(
-                          (l) => 0,
-                          (r) => r.map(
-                            xl: (_) => 18,
-                            desktop: (_) => 14,
-                            tablet: (_) => 12,
-                            mobile: (_) => 10,
-                          ),
-                        ),
-                        color: Colors.white,
-                      ),
+                      child: isSvg!
+                          ? SvgPicture.asset(
+                              topImageIcon,
+                              width: controller.rbPoint.value!.fold(
+                                (l) => 0,
+                                (r) => r.map(
+                                  xl: (_) => 18,
+                                  desktop: (_) => 14,
+                                  tablet: (_) => 12,
+                                  mobile: (_) => 10,
+                                ),
+                              ),
+                              height: controller.rbPoint.value!.fold(
+                                (l) => 0,
+                                (r) => r.map(
+                                  xl: (_) => 18,
+                                  desktop: (_) => 14,
+                                  tablet: (_) => 12,
+                                  mobile: (_) => 10,
+                                ),
+                              ),
+                              color: Color(0xFF5E8F94),
+                            )
+                          : Image.asset(
+                              topImageIcon,
+                              width: controller.rbPoint.value!.fold(
+                                (l) => 0,
+                                (r) => r.map(
+                                  xl: (_) => 20,
+                                  desktop: (_) => 14,
+                                  tablet: (_) => 12,
+                                  mobile: (_) => 10,
+                                ),
+                              ),
+                              height: controller.rbPoint.value!.fold(
+                                (l) => 0,
+                                (r) => r.map(
+                                  xl: (_) => 20,
+                                  desktop: (_) => 14,
+                                  tablet: (_) => 12,
+                                  mobile: (_) => 10,
+                                ),
+                              ),
+                            ),
                     ),
                   ),
                   horizontalSpace(

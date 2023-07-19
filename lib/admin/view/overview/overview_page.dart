@@ -1,20 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:pizza/admin/utils/widgets.dart';
-import 'package:pizza/constant/collection_name.dart';
-import 'package:pizza/core/firebase_reference.dart';
-import 'package:pizza/models/auth_user.dart';
-import 'package:pizza/models/object_models/category.dart';
-import 'package:pizza/models/object_models/expert.dart';
-import 'package:pizza/models/object_models/music.dart';
-import 'package:pizza/models/object_models/therapy_video.dart';
-import 'package:pizza/models/object_models/type.dart';
-import 'package:pizza/models/object_models/vlog_video.dart';
-import 'package:pizza/service/query.dart';
-import 'package:pizza/service/reference.dart';
-
 import '../../../constant/icon.dart';
 import '../../../models/rbpoint.dart';
 import '../../controller/admin_login_controller.dart';
@@ -46,7 +31,7 @@ class _OverviewPageState extends State<OverviewPage> {
 
   @override
   void initState() {
-    orController.getAll();
+    /* orController.getAll(); */
     debugPrint("*****************Overview init*******");
     super.initState();
   }
@@ -94,19 +79,19 @@ class _OverviewPageState extends State<OverviewPage> {
                     children: [
                       Obx(
                         () {
-                          final newsCategories =
-                              orController.newsCategories.value!;
+                          final newsCategories = orController.courses.value!;
                           return newsCategories.fold(
                             (l) => onLoading(),
                             (r) => DataColumnRowContainer(
+                              isSvg: false,
                               horizontalSpace: widget.horizontalSpace,
                               verticalSpace: widget.verticalSpace,
-                              topImageIcon: AdminIcon.news,
+                              topImageIcon: AdminIcon.course,
                               containerBackgroundColor:
                                   alController.isLightTheme.value
                                       ? const Color(0XFFCFF466)
                                       : Colors.black,
-                              topData: "News Slider",
+                              topData: "သင်တန်းများ",
                               titleData: "$r",
                               subTitleData: "",
                             ),
@@ -115,18 +100,19 @@ class _OverviewPageState extends State<OverviewPage> {
                       ),
                       Obx(
                         () {
-                          final newsTypes = orController.newsTypes.value!;
+                          final newsTypes = orController.products.value!;
                           return newsTypes.fold(
                             (l) => onLoading(),
                             (r) => DataColumnRowContainer(
+                              isSvg: false,
                               horizontalSpace: widget.horizontalSpace,
                               verticalSpace: widget.verticalSpace,
-                              topImageIcon: AdminIcon.news,
+                              topImageIcon: AdminIcon.product,
                               containerBackgroundColor:
                                   alController.isLightTheme.value
                                       ? const Color(0XFFCFF466)
                                       : Colors.black,
-                              topData: "News Type",
+                              topData: "ဆုတံဆိပ်များ",
                               titleData: "$r",
                               subTitleData: "",
                             ),
@@ -135,148 +121,110 @@ class _OverviewPageState extends State<OverviewPage> {
                       ),
                       Obx(
                         () {
-                          final newsItems = orController.newsItems.value!;
+                          final newsItems = orController.purchases.value!;
                           return newsItems.fold(
                             (l) => onLoading(),
                             (r) => DataColumnRowContainer(
+                              isSvg: false,
                               horizontalSpace: widget.horizontalSpace,
                               verticalSpace: widget.verticalSpace,
-                              topImageIcon: AdminIcon.news,
+                              topImageIcon: AdminIcon.purchase,
                               containerBackgroundColor:
                                   alController.isLightTheme.value
                                       ? const Color(0XFFCFF466)
                                       : Colors.black,
-                              topData: "News Items",
+                              topData: "စာရင်းသွင်းခြင်းများ",
                               titleData: "$r",
                               subTitleData: "",
                             ),
                           );
                         },
                       ),
-                      //Vlog
+                      //MainQuestions
                       Obx(
                         () {
-                          final vlogVideos = orController.vlogVideos.value!;
+                          final vlogVideos = orController.mainQuestions.value!;
                           return vlogVideos.fold(
                             (l) => onLoading(),
                             (r) => DataColumnRowContainer(
+                              isSvg: false,
                               horizontalSpace: widget.horizontalSpace,
                               verticalSpace: widget.verticalSpace,
-                              topImageIcon: AdminIcon.news,
+                              topImageIcon: AdminIcon.question,
                               containerBackgroundColor:
                                   alController.isLightTheme.value
                                       ? const Color(0XFFCFF466)
                                       : Colors.black,
-                              topData: "Vlog Videos",
+                              topData: "ခေါင်းစီးမေးခွန်းများ",
                               titleData: "$r",
                               subTitleData: "",
                             ),
                           );
                         },
                       ),
-                      //Therapy Categories
+                      //Sub Questions
                       Obx(() {
                         final therapyCategories =
-                            orController.therapyCategories.value!;
+                            orController.subQuestions.value!;
                         return therapyCategories.fold(
                           (l) => onLoading(),
                           (r) => DataColumnRowContainer(
+                            isSvg: false,
                             horizontalSpace: widget.horizontalSpace,
                             verticalSpace: widget.verticalSpace,
-                            topImageIcon: AdminIcon.news,
+                            topImageIcon: AdminIcon.question,
                             containerBackgroundColor:
                                 alController.isLightTheme.value
                                     ? const Color(0XFFCFF466)
                                     : Colors.black,
-                            topData: "Therapy Categories",
+                            topData: "မေးခွန်းခွဲများ",
                             titleData: "$r",
                             subTitleData: "",
                           ),
                         );
                       }),
-                      //Therapy Items
+                      //Main guideline
                       Obx(
                         () {
                           final therapyVideos =
-                              orController.therapyVideos.value!;
+                              orController.mainGuideLine.value!;
 
                           return therapyVideos.fold(
                             (l) => onLoading(),
                             (r) => DataColumnRowContainer(
+                              isSvg: false,
                               horizontalSpace: widget.horizontalSpace,
                               verticalSpace: widget.verticalSpace,
-                              topImageIcon: AdminIcon.news,
+                              topImageIcon: AdminIcon.guideLine,
                               containerBackgroundColor:
                                   alController.isLightTheme.value
                                       ? const Color(0XFFCFF466)
                                       : Colors.black,
-                              topData: "Therapy Videos",
+                              topData: "ခေါင်းစီးလမ်းညွှန်ချက်များ",
                               titleData: "$r",
                               subTitleData: "",
                             ),
                           );
                         },
                       ),
-                      //Affirmations Categories
+                      //Sub Guideline
                       Obx(
                         () {
-                          final affirmationCategories =
-                              orController.affirmationsCategories.value!;
-                          return affirmationCategories.fold(
+                          final therapyVideos =
+                              orController.subGuideLine.value!;
+
+                          return therapyVideos.fold(
                             (l) => onLoading(),
                             (r) => DataColumnRowContainer(
+                              isSvg: false,
                               horizontalSpace: widget.horizontalSpace,
                               verticalSpace: widget.verticalSpace,
-                              topImageIcon: AdminIcon.news,
+                              topImageIcon: AdminIcon.guideLine,
                               containerBackgroundColor:
                                   alController.isLightTheme.value
                                       ? const Color(0XFFCFF466)
                                       : Colors.black,
-                              topData: "Affirmations Categories",
-                              titleData: "$r",
-                              subTitleData: "",
-                            ),
-                          );
-                        },
-                      ),
-                      //Affirmations Type
-                      Obx(
-                        () {
-                          final affirmationTypes =
-                              orController.affirmationsTypes.value!;
-                          return affirmationTypes.fold(
-                            (l) => onLoading(),
-                            (r) => DataColumnRowContainer(
-                              horizontalSpace: widget.horizontalSpace,
-                              verticalSpace: widget.verticalSpace,
-                              topImageIcon: AdminIcon.news,
-                              containerBackgroundColor:
-                                  alController.isLightTheme.value
-                                      ? const Color(0XFFCFF466)
-                                      : Colors.black,
-                              topData: "Affirmations Type",
-                              titleData: "$r",
-                              subTitleData: "",
-                            ),
-                          );
-                        },
-                      ),
-                      //Affirmations Items
-                      Obx(
-                        () {
-                          final affirmationMusics =
-                              orController.affirmationsMusics.value!;
-                          return affirmationMusics.fold(
-                            (l) => onLoading(),
-                            (r) => DataColumnRowContainer(
-                              horizontalSpace: widget.horizontalSpace,
-                              verticalSpace: widget.verticalSpace,
-                              topImageIcon: AdminIcon.news,
-                              containerBackgroundColor:
-                                  alController.isLightTheme.value
-                                      ? const Color(0XFFCFF466)
-                                      : Colors.black,
-                              topData: "Affirmations Music",
+                              topData: "လမ်းညွှန်ချက်ခွဲများ",
                               titleData: "$r",
                               subTitleData: "",
                             ),
@@ -290,15 +238,16 @@ class _OverviewPageState extends State<OverviewPage> {
                           return users.fold(
                             (l) => onLoading(),
                             (r) => DataColumnRowContainer(
+                              isSvg: false,
                               horizontalSpace: widget.horizontalSpace,
                               verticalSpace: widget.verticalSpace,
-                              topImageIcon: AdminIcon.news,
+                              topImageIcon: AdminIcon.users,
                               containerBackgroundColor:
                                   alController.isLightTheme.value
                                       ? const Color(0XFFCFF466)
                                       : Colors.black,
-                              topData: "Total Users",
-                              titleData: "$r O",
+                              topData: "အသုံးပြုသူများ",
+                              titleData: "$r",
                               subTitleData: "",
                             ),
                           );

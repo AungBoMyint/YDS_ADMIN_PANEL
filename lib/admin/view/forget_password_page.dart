@@ -38,7 +38,7 @@ class ForgetPasswordPage extends GetView<PasswordResetController> {
         Expanded(
           flex: 6,
           child: Image.asset(
-            AdminIcon.adminForgetPassword,
+            AdminIcon.adminDrivingSeat,
             fit: BoxFit.contain,
           ),
         ),
@@ -59,7 +59,7 @@ class ForgetPasswordPage extends GetView<PasswordResetController> {
                     height: 30,
                   ),
                   title: Text(
-                    "Shwe Thiri Khit",
+                    "Yangon Driving School",
                     style: textTheme.displayLarge?.copyWith(
                       fontSize: 25,
                     ),

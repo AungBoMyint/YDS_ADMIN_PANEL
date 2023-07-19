@@ -38,7 +38,7 @@ class AdminLoginPage extends GetView<AdminLoginController> {
           Expanded(
             flex: 6,
             child: Image.asset(
-              AdminIcon.adminLoginImage,
+              AdminIcon.adminDriving,
               fit: BoxFit.cover,
             ),
           ),
@@ -61,7 +61,7 @@ class AdminLoginPage extends GetView<AdminLoginController> {
                         height: 30,
                       ),
                       title: Text(
-                        "Shwe Thiri Khit",
+                        "Yangon Driving School",
                         style: textTheme.displayLarge?.copyWith(
                           fontSize: 25,
                         ),
@@ -70,7 +70,7 @@ class AdminLoginPage extends GetView<AdminLoginController> {
                     verticalSpace(),
                     //Welcome
                     Text(
-                      "Welcome to Shwe Thiri Khit Admin! 👋",
+                      "Welcome to Yangon Driving School Admin! 👋",
                       style: GoogleFonts.inter(
                         color: Theme.of(context).textTheme.displaySmall?.color,
                         fontSize: 20,
@@ -206,7 +206,8 @@ class AdminLoginPage extends GetView<AdminLoginController> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () => controller.signIn(),
+                        onPressed: () => Get.toNamed(
+                            adminMainRoute) /* controller.signIn() */,
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Text(

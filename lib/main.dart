@@ -10,7 +10,7 @@ import 'key.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
+  /* await Firebase.initializeApp(
       //This is for web
       options: FirebaseOptions(
     apiKey: apiKey,
@@ -18,7 +18,7 @@ Future<void> main() async {
     messagingSenderId: messageSenderId,
     projectId: projectId,
     storageBucket: storageBucket,
-  ));
+  )); */
   await Hive.initFlutter();
   await Hive.openBox(loginBox);
   /* debugPaintSizeEnabled = true; */

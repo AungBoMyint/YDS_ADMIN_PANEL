@@ -80,7 +80,7 @@ class CustomerRelatedController extends GetxController {
   var pickedImage = "".obs;
   var pickedImageError = "".obs;
 
-  final Database _database = Database();
+  /* final Database _database = Database(); */
   final ImagePicker _imagePicker = ImagePicker();
   Rxn<Role> role = Rxn<Role>(null);
   var roleError = "".obs;
@@ -186,7 +186,7 @@ class CustomerRelatedController extends GetxController {
         email: emailController.text,
         password: passwordController.text,
       ).then((value) async {
-        final url = await _database.uploadImage("users", pickedImage.value);
+        /*  final url = await _database.uploadImage("users", pickedImage.value); */
         final r = role.value == Role.customer ? 0 : 1;
         List<String> subName = [];
         var subList = userNameController.text.split('');
@@ -197,7 +197,7 @@ class CustomerRelatedController extends GetxController {
         final authUser = AuthUser(
           id: Uuid().v1(),
           name: userNameController.text,
-          avatar: url,
+          avatar: "" /* url */,
           email: emailController.text,
           password: passwordController.text,
           location: locationController.text,
@@ -263,7 +263,8 @@ class CustomerRelatedController extends GetxController {
       }
       //user avatar update
       if (updateUser.avatar != editUser.value!.avatar) {
-        final url = await _database.uploadImage("users", updateUser.avatar!);
+        final url =
+            ""; /* await _database.uploadImage("users", updateUser.avatar!); */
         await userCredential.user?.updatePhotoURL(url);
         updateUser = updateUser.copyWith(avatar: url);
       }
@@ -327,7 +328,8 @@ class CustomerRelatedController extends GetxController {
         await user.updateEmail(emailController.text);
         await user.updatePassword(passwordController.text);
         log("Form is valid");
-        final url = await _database.uploadImage("users", pickedImage.value);
+        final url =
+            ""; /* await _database.uploadImage("users", pickedImage.value); */
         await user.updatePhotoURL(url);
         final r = role.value == Role.customer ? 0 : 1;
         final authUser = AuthUser(

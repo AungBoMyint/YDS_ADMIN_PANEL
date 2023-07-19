@@ -28,11 +28,11 @@ class AppTheme {
     ),
   );
   static ThemeData lightTheme() {
-    final colorCode = int.parse('562626', radix: 16);
+    final colorCode = int.parse('5E8F94', radix: 16);
     return ThemeData(
       scaffoldBackgroundColor: Colors.white,
       primarySwatch: MaterialColor(
-        0xff562626,
+        0xff5E8F94,
         <int, Color>{
           50: Color(colorCode),
           100: Color(colorCode),
@@ -72,7 +72,7 @@ class AppTheme {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xff562626),
+          backgroundColor: const Color(0xff5E8F94),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(
@@ -110,11 +110,11 @@ class AppTheme {
     ),
   );
   static ThemeData darkTheme() {
-    final colorCode = int.parse('562626', radix: 16);
+    final colorCode = int.parse('5E8F94', radix: 16);
     return ThemeData(
       scaffoldBackgroundColor: Colors.black,
       primarySwatch: MaterialColor(
-        0xFF562626,
+        0xFF5E8F94,
         <int, Color>{
           50: Color(colorCode),
           100: Color(colorCode),
@@ -155,7 +155,7 @@ class AppTheme {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xff562626),
+          backgroundColor: const Color(0xff5E8F94),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(

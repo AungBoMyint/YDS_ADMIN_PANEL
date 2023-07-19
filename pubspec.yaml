@@ -89,13 +89,9 @@ dev_dependencies:
   flutter_launcher_icons: "^0.13.1"
 
 flutter_launcher_icons:
-  android: true
-  ios: true
-  image_path: "assets/admin/stk_logo.png"
-  min_sdk_android: 21 # android min sdk min:16, default 21
   web:
     generate: true
-    image_path: "assets/admin/stk_logo.png"
+    image_path: "assets/logo.jpeg"
 
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -119,7 +115,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
-    - assets/admin/
+    - assets/bars/
     #- assets/pizza_order/
     #- assets/icon/
 

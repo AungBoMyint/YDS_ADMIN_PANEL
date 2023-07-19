@@ -5,7 +5,7 @@ import '../../service/firebase_reference.dart';
 import '../../service/query.dart';
 
 class OverviewRelatedController extends GetxController {
-  Rxn<Either<None, int>> newsCategories = Rxn(left(None()));
+  /*  Rxn<Either<None, int>> newsCategories = Rxn(left(None()));
   Rxn<Either<None, int>> newsTypes = Rxn(left(None()));
   Rxn<Either<None, int>> newsItems = Rxn(left(None()));
   Rxn<Either<None, int>> vlogVideos = Rxn(left(None()));
@@ -13,9 +13,16 @@ class OverviewRelatedController extends GetxController {
   Rxn<Either<None, int>> therapyVideos = Rxn(left(None()));
   Rxn<Either<None, int>> affirmationsCategories = Rxn(left(None()));
   Rxn<Either<None, int>> affirmationsTypes = Rxn(left(None()));
-  Rxn<Either<None, int>> affirmationsMusics = Rxn(left(None()));
-  Rxn<Either<None, int>> users = Rxn(left(None()));
-
+  Rxn<Either<None, int>> affirmationsMusics = Rxn(left(None())); */
+  Rxn<Either<None, int>> users = Rxn(right(1000) /* left(None()) */);
+  Rxn<Either<None, int>> courses = Rxn(right(4) /* left(None()) */);
+  Rxn<Either<None, int>> products = Rxn(right(2) /* left(None()) */);
+  Rxn<Either<None, int>> purchases = Rxn(right(2000) /* left(None()) */);
+  Rxn<Either<None, int>> mainQuestions = Rxn(right(5) /* left(None()) */);
+  Rxn<Either<None, int>> subQuestions = Rxn(right(250) /* left(None()) */);
+  Rxn<Either<None, int>> mainGuideLine = Rxn(right(4) /* left(None()) */);
+  Rxn<Either<None, int>> subGuideLine = Rxn(right(20) /* left(None()) */);
+/* 
   getNewsCategories() async {
     if (newsCategories.value!.getOrElse(() => 0) == 0) {
       final aggreCount = await categoryCollection().count().get();
@@ -84,9 +91,9 @@ class OverviewRelatedController extends GetxController {
       final aggreCount = await userCollectionReference().count().get();
       users.value = right(aggreCount.count);
     }
-  }
+  } */
 
-  void getAll() async {
+  /*  void getAll() async {
     getNewsCategories();
     getNewsTypes();
     getNewsItems();
@@ -97,5 +104,5 @@ class OverviewRelatedController extends GetxController {
     getAffirmationTypes();
     getAffirmationMusics();
     getUsers();
-  }
+  } */
 }

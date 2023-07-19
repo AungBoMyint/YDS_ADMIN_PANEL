@@ -27,7 +27,7 @@ class BottomHeader extends GetView<AdminUiController> {
               mobile: (_) => 10),
         ),
         SvgPicture.asset(
-          AdminIcon.halfCircle,
+          "",
           width: controller.rbPoint.value!.getOrElse(() => RBPoint.xl()).map(
               xl: (_) => 25,
               desktop: (_) => 20,

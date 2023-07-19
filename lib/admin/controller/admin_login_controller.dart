@@ -155,7 +155,7 @@ class AdminLoginController extends GetxController {
   @override
   void onInit() {
     isLightTheme.value = box.get(themeKey, defaultValue: true);
-    final isAuthenticated =
+    /* final isAuthenticated =
         box.get(isAuthenticatedKey, defaultValue: false) as bool;
     final userId = box.get(userIdKey, defaultValue: "") as String;
     if (isAuthenticated) {
@@ -171,7 +171,7 @@ class AdminLoginController extends GetxController {
     if (isRemember) {
       emailController.text = email;
       passwordController.text = pass;
-    }
+    } */
     super.onInit();
   }
 

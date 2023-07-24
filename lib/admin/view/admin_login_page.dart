@@ -206,8 +206,7 @@ class AdminLoginPage extends GetView<AdminLoginController> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () => Get.toNamed(
-                            adminMainRoute) /* controller.signIn() */,
+                        onPressed: () => controller.signIn(),
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Text(

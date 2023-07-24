@@ -65,7 +65,7 @@ class AddCustomerPage extends StatelessWidget {
                   ),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
-                      adminUiController.changePageType(PageType.customers());
+                      adminUiController.changePageType(PageType.addCustomer());
                     },
                 ),
               ),

@@ -123,7 +123,7 @@ class BodyActionBar extends GetView<AdminUiController> {
                             tablet: (_) => 15,
                             mobile: (_) => 10),
                     backgroundImage: NetworkImage(
-                      currentUser?.avatar ?? emptyUserImage,
+                      currentUser?.image ?? emptyUserImage,
                     ),
                   ),
 
@@ -131,7 +131,7 @@ class BodyActionBar extends GetView<AdminUiController> {
                     width: 15,
                   ),
                   Text(
-                    currentUser?.name ?? "",
+                    currentUser?.userName ?? "",
                     style: textTheme.headlineMedium?.copyWith(
                       fontSize: controller.rbPoint.value!
                           .getOrElse(() => RBPoint.xl())
@@ -203,11 +203,11 @@ void showPopupMenu(BuildContext context, Offset position) async {
           leading: CircleAvatar(
             radius: 30,
             backgroundImage: NetworkImage(
-              alController.currentUser.value?.avatar ?? emptyUserImage,
+              alController.currentUser.value?.image ?? emptyUserImage,
             ),
           ),
           title: Text(
-            alController.currentUser.value?.name ?? "",
+            alController.currentUser.value?.userName ?? "",
             style: textTheme.displayMedium?.copyWith(
               color: alController.isLightTheme.value
                   ? Colors.grey

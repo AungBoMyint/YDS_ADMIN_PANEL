@@ -209,13 +209,13 @@ class _CustomersPageState extends State<CustomersPage> {
                               CircleAvatar(
                                 radius: 20,
                                 backgroundImage: NetworkImage(
-                                  user.avatar ?? emptyProfile,
+                                  user.image ?? emptyProfile,
                                 ),
                               ),
                               horizontalSpace(v: 10),
                               Expanded(
                                 child: Text(
-                                  user.name,
+                                  user.userName,
                                   style: textTheme.displayMedium,
                                 ),
                               )

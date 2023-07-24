@@ -7,17 +7,17 @@ part 'auth_user.g.dart';
 class AuthUser with _$AuthUser {
   factory AuthUser({
     required String id,
-    required String name,
+    required String userName,
     String? email,
     String? phone,
     String? password,
     String? location,
     double? lat,
     double? long,
-    String? avatar,
+    String? image,
     int? status, //0 == customer,1 == Admin
     String? token,
-    String? age,
+    double? points,
     List<String>? area,
     List<String>? nameList,
   }) = _AuthUser;

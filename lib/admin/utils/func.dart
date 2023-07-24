@@ -217,3 +217,12 @@ Future<void> deleteItemsWithBatch<T>(
     d.log("Item Document Delete Error: $error");
   }
 }
+
+List<String> getNameList(String name) {
+  List<String> subName = [];
+  var subList = name.split('');
+  for (var i = 0; i < subList.length; i++) {
+    subName.add(name.substring(0, i + 1).toLowerCase());
+  }
+  return subName;
+}

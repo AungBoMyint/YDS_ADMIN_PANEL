@@ -98,3 +98,9 @@ Widget loadingWidget() => Center(
         child: CircularProgressIndicator(),
       ),
     );
+Widget onLoading() => SizedBox(
+      height: 50,
+      width: 200,
+      child: Center(
+          child: SizedBox(width: 50, child: CircularProgressIndicator())),
+    );

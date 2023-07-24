@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pizza/admin/utils/widgets.dart';
 import '../../../constant/icon.dart';
 import '../../../models/rbpoint.dart';
 import '../../controller/admin_login_controller.dart';
 import '../../controller/admin_ui_controller.dart';
 import '../../controller/overview_related_controller.dart';
 import '../../widgets/datacolumn_rowcontainer.dart';
-import '../../widgets/overview/onloading.dart';
 
 class OverviewPage extends StatefulWidget {
   const OverviewPage({
@@ -31,7 +31,7 @@ class _OverviewPageState extends State<OverviewPage> {
 
   @override
   void initState() {
-    /* orController.getAll(); */
+    orController.getAll();
     debugPrint("*****************Overview init*******");
     super.initState();
   }
@@ -119,27 +119,6 @@ class _OverviewPageState extends State<OverviewPage> {
                           );
                         },
                       ),
-                      Obx(
-                        () {
-                          final newsItems = orController.purchases.value!;
-                          return newsItems.fold(
-                            (l) => onLoading(),
-                            (r) => DataColumnRowContainer(
-                              isSvg: false,
-                              horizontalSpace: widget.horizontalSpace,
-                              verticalSpace: widget.verticalSpace,
-                              topImageIcon: AdminIcon.purchase,
-                              containerBackgroundColor:
-                                  alController.isLightTheme.value
-                                      ? const Color(0XFFCFF466)
-                                      : Colors.black,
-                              topData: "စာရင်းသွင်းခြင်းများ",
-                              titleData: "$r",
-                              subTitleData: "",
-                            ),
-                          );
-                        },
-                      ),
                       //MainQuestions
                       Obx(
                         () {
@@ -163,7 +142,7 @@ class _OverviewPageState extends State<OverviewPage> {
                         },
                       ),
                       //Sub Questions
-                      Obx(() {
+                      /*   Obx(() {
                         final therapyCategories =
                             orController.subQuestions.value!;
                         return therapyCategories.fold(
@@ -183,7 +162,7 @@ class _OverviewPageState extends State<OverviewPage> {
                           ),
                         );
                       }),
-                      //Main guideline
+                      */ //Main guideline
                       Obx(
                         () {
                           final therapyVideos =
@@ -247,6 +226,97 @@ class _OverviewPageState extends State<OverviewPage> {
                                       ? const Color(0XFFCFF466)
                                       : Colors.black,
                               topData: "အသုံးပြုသူများ",
+                              titleData: "$r",
+                              subTitleData: "",
+                            ),
+                          );
+                        },
+                      ),
+                      //reward purchase
+                      Obx(
+                        () {
+                          final newsItems =
+                              orController.rewardProductPurchases.value!;
+                          return newsItems.fold(
+                            (l) => onLoading(),
+                            (r) => DataColumnRowContainer(
+                              isSvg: false,
+                              horizontalSpace: widget.horizontalSpace,
+                              verticalSpace: widget.verticalSpace,
+                              topImageIcon: AdminIcon.purchase,
+                              containerBackgroundColor:
+                                  alController.isLightTheme.value
+                                      ? const Color(0XFFCFF466)
+                                      : Colors.black,
+                              topData: "ဆုလာဘ်အော်ဒါများ",
+                              titleData: "$r",
+                              subTitleData: "",
+                            ),
+                          );
+                        },
+                      ),
+                      //course purchase
+                      Obx(
+                        () {
+                          final newsItems = orController.coursePurchases.value!;
+                          return newsItems.fold(
+                            (l) => onLoading(),
+                            (r) => DataColumnRowContainer(
+                              isSvg: false,
+                              horizontalSpace: widget.horizontalSpace,
+                              verticalSpace: widget.verticalSpace,
+                              topImageIcon: AdminIcon.purchase,
+                              containerBackgroundColor:
+                                  alController.isLightTheme.value
+                                      ? const Color(0XFFCFF466)
+                                      : Colors.black,
+                              topData: "သင်တန်း စာရင်းသွင်းခြင်းများ",
+                              titleData: "$r",
+                              subTitleData: "",
+                            ),
+                          );
+                        },
+                      ),
+                      //driving purchase
+                      Obx(
+                        () {
+                          final newsItems =
+                              orController.drivingPurchases.value!;
+                          return newsItems.fold(
+                            (l) => onLoading(),
+                            (r) => DataColumnRowContainer(
+                              isSvg: false,
+                              horizontalSpace: widget.horizontalSpace,
+                              verticalSpace: widget.verticalSpace,
+                              topImageIcon: AdminIcon.purchase,
+                              containerBackgroundColor:
+                                  alController.isLightTheme.value
+                                      ? const Color(0XFFCFF466)
+                                      : Colors.black,
+                              topData:
+                                  "ယာဉ်မောင်းလိုင်စင် စာရင်းသွင်းခြင်းများ",
+                              titleData: "$r",
+                              subTitleData: "",
+                            ),
+                          );
+                        },
+                      ),
+                      //car purchase
+                      Obx(
+                        () {
+                          final newsItems = orController.carPurchases.value!;
+                          return newsItems.fold(
+                            (l) => onLoading(),
+                            (r) => DataColumnRowContainer(
+                              isSvg: false,
+                              horizontalSpace: widget.horizontalSpace,
+                              verticalSpace: widget.verticalSpace,
+                              topImageIcon: AdminIcon.purchase,
+                              containerBackgroundColor:
+                                  alController.isLightTheme.value
+                                      ? const Color(0XFFCFF466)
+                                      : Colors.black,
+                              topData: "ကားလိုင်စင် စာရင်းသွင်းခြင်းများ",
                               titleData: "$r",
                               subTitleData: "",
                             ),

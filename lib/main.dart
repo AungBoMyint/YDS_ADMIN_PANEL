@@ -6,19 +6,19 @@ import 'package:pizza/theme/app_theme.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'admin/controller/admin_login_controller.dart';
 import 'constant/data.dart';
-import 'key.dart';
+import 'core/key.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  /* await Firebase.initializeApp(
+  await Firebase.initializeApp(
       //This is for web
       options: FirebaseOptions(
     apiKey: apiKey,
     appId: appId,
-    messagingSenderId: messageSenderId,
+    messagingSenderId: messagingSenderId,
     projectId: projectId,
     storageBucket: storageBucket,
-  )); */
+  ));
   await Hive.initFlutter();
   await Hive.openBox(loginBox);
   /* debugPaintSizeEnabled = true; */

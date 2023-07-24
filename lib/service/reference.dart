@@ -1,84 +1,166 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pizza/models/object_models/form/driving_licence_form.dart';
+import 'package:pizza/models/object_models/guideline/guideline_category.dart';
+import 'package:pizza/service/collection_name.dart';
+import '../models/auth_user.dart';
+import '../models/object_models/form/car_licence_form.dart';
+import '../models/object_models/form/course_form.dart';
+import '../models/object_models/guideline/guideline_item.dart';
+import '../models/object_models/item.dart';
+import '../models/object_models/price/cost.dart';
+import '../models/object_models/purchase.dart';
+import '../models/object_models/question/question.dart';
+import '../models/object_models/question/sub_question.dart';
+import '../models/object_models/reward_product.dart';
 
-import '../models/object_models/category.dart';
-import '../models/object_models/expert.dart';
-import '../models/object_models/music.dart';
-import '../models/object_models/therapy_video.dart';
-import '../models/object_models/type.dart';
-import '../models/object_models/vlog_video.dart';
+//Course
+CollectionReference<ItemModel> courseCollection() =>
+    FirebaseFirestore.instance.collection(productCollection).withConverter(
+          fromFirestore: (snapshot, __) =>
+              ItemModel.fromJson(snapshot.data()!, snapshot.id),
+          toFirestore: (itemModel, __) => itemModel.toJson(),
+        );
+DocumentReference<ItemModel> courseDocument(id) => courseCollection().doc(id);
 
-CollectionReference<Category> categoryCollection() => FirebaseFirestore.instance
-    .collection("home_category")
-    .withConverter<Category>(
-        fromFirestore: (snap, __) => Category.fromJson(snap.data()!),
-        toFirestore: (cat, snap) => cat.toJson());
-DocumentReference<Category> categoryDocument(String id) =>
-    categoryCollection().doc(id);
-
-CollectionReference<Music> musicCollection() =>
-    FirebaseFirestore.instance.collection("music").withConverter<Music>(
-        fromFirestore: (snap, __) => Music.fromJson(snap.data()!),
-        toFirestore: (music, snap) => music.toJson());
-DocumentReference<Music> musicDocument(String id) => musicCollection().doc(id);
-CollectionReference<ItemType> affirmationsTypeCollection() =>
-    FirebaseFirestore.instance
-        .collection("affirmations_type")
-        .withConverter<ItemType>(
-            fromFirestore: (snap, __) => ItemType.fromJson(snap.data()!),
-            toFirestore: (itemType, snap) => itemType.toJson());
-
-DocumentReference<ItemType> affirmationsTypeDocument(String id) =>
-    affirmationsTypeCollection().doc(id);
-CollectionReference<ItemType> homeTypeCollection() =>
-    FirebaseFirestore.instance.collection("home_type").withConverter<ItemType>(
-        fromFirestore: (snap, __) => ItemType.fromJson(snap.data()!),
-        toFirestore: (itemType, snap) => itemType.toJson());
-DocumentReference<ItemType> homeTypeDocument(String id) =>
-    homeTypeCollection().doc(id);
-CollectionReference<ExpertModel> expertsCollection() =>
-    FirebaseFirestore.instance.collection("experts").withConverter<ExpertModel>(
-        fromFirestore: (snap, __) =>
-            ExpertModel.fromJson(snap.data()!, snap.id),
-        toFirestore: (itemType, snap) => itemType.toJson());
-
-DocumentReference<ExpertModel> expertsDocument(String id) =>
-    expertsCollection().doc(id);
-
-CollectionReference<VlogVideo> vlogVideoCollection() => FirebaseFirestore
+///Reward Product
+CollectionReference<RewardProduct> rproductCollection() => FirebaseFirestore
     .instance
-    .collection("vlog_videos")
-    .withConverter<VlogVideo>(
-        fromFirestore: (snapshot, __) => VlogVideo.fromJson(snapshot.data()!),
-        toFirestore: (vlog, __) => vlog.toJson());
+    .collection(rewardProductCollection)
+    .withConverter(
+      fromFirestore: (snapshot, __) => RewardProduct.fromJson(snapshot.data()!),
+      toFirestore: (itemModel, __) => itemModel.toJson(),
+    );
+DocumentReference<RewardProduct> rproductDocument(String id) =>
+    rproductCollection().doc(id);
 
-DocumentReference<VlogVideo> vlogVideoDocument(String id) =>
-    vlogVideoCollection().doc(id);
+///MainQuestion
+CollectionReference<Question> questionCollection() =>
+    FirebaseFirestore.instance.collection(mainQuestionCollection).withConverter(
+          fromFirestore: (snapshot, __) => Question.fromJson(snapshot.data()!),
+          toFirestore: (question, __) => question.toJson(),
+        );
 
-CollectionReference<Category> therapyCategoryCollection() =>
-    FirebaseFirestore.instance
-        .collection("therapy_category")
-        .withConverter<Category>(
-          fromFirestore: (snap, __) => Category.fromJson(snap.data()!),
-          toFirestore: (cat, __) => cat.toJson(),
-        );
-DocumentReference<Category> therapyCategoryDocument(String id) =>
-    therapyCategoryCollection().doc(id);
-CollectionReference<TherapyVideo> therapyVideoCollection() =>
-    FirebaseFirestore.instance
-        .collection("therapy_video")
-        .withConverter<TherapyVideo>(
-          fromFirestore: (snap, __) => TherapyVideo.fromJson(snap.data()!),
-          toFirestore: (cat, __) => cat.toJson(),
-        );
-DocumentReference<TherapyVideo> therapyVideoDocument(String id) =>
-    therapyVideoCollection().doc(id);
+///MainQuestion
+DocumentReference<Question> questionDocument(String id) =>
+    questionCollection().doc(id);
 
-CollectionReference<Category> affirmationsCategoryCollection() =>
+///SubQuestion
+CollectionReference<SubQuestion> sQuestionCollection(String mainQuestionId) =>
     FirebaseFirestore.instance
-        .collection("affirmations_category")
-        .withConverter<Category>(
-          fromFirestore: (snap, __) => Category.fromJson(snap.data()!),
-          toFirestore: (cat, __) => cat.toJson(),
-        );
-DocumentReference<Category> affirmationsCategoryDocument(String id) =>
-    affirmationsCategoryCollection().doc(id);
+        .collection(mainQuestionCollection)
+        .doc(mainQuestionId)
+        .collection(subQuestionCollection)
+        .withConverter(
+            fromFirestore: (snapshot, __) =>
+                SubQuestion.fromJson(snapshot.data()!),
+            toFirestore: (subquestion, __) => subquestion.toJson());
+
+///SubQuestion
+DocumentReference<SubQuestion> sQuestionDocument(
+        String mainQuestionId, String id) =>
+    sQuestionCollection(mainQuestionId).doc(id);
+
+///GuideLine Category
+CollectionReference<GuideLineCategory> glCategoryCollection() =>
+    FirebaseFirestore.instance
+        .collection(guideLineCategoryCollection)
+        .withConverter(
+            fromFirestore: (snapshot, __) =>
+                GuideLineCategory.fromJson(snapshot.data()!),
+            toFirestore: (glCategory, __) => glCategory.toJson());
+
+///GuideLine Category
+DocumentReference<GuideLineCategory> glCategoryDocument(String id) =>
+    glCategoryCollection().doc(id);
+
+///GuideLine item
+CollectionReference<GuideLineItem> glItemCollection() =>
+    FirebaseFirestore.instance
+        .collection(guideLineItemCollection)
+        .withConverter(
+            fromFirestore: (snapshot, __) =>
+                GuideLineItem.fromJson(snapshot.data()!),
+            toFirestore: (glCategory, __) => glCategory.toJson());
+
+///GuideLine item
+DocumentReference<GuideLineItem> glItemDocument(String id) =>
+    glItemCollection().doc(id);
+
+///Driving Licence
+CollectionReference<Cost> drivingLicencePriceCollection() =>
+    FirebaseFirestore.instance
+        .collection(drivingLicenceCostCollection)
+        .withConverter(
+            fromFirestore: (snapshot, __) => Cost.fromJson(snapshot.data()!),
+            toFirestore: (glCategory, __) => glCategory.toJson());
+
+///Driving Licence
+DocumentReference<Cost> drivingLicencePriceDocument(String id) =>
+    drivingLicencePriceCollection().doc(id);
+
+///Car Licence
+CollectionReference<Cost> carLicencePriceCollection() =>
+    FirebaseFirestore.instance
+        .collection(carLicenceCostCollection)
+        .withConverter(
+            fromFirestore: (snapshot, __) => Cost.fromJson(snapshot.data()!),
+            toFirestore: (glCategory, __) => glCategory.toJson());
+
+///Car Licence
+DocumentReference<Cost> carLicencePriceDocument(String id) =>
+    carLicencePriceCollection().doc(id);
+
+///Course Licence Purchase
+CollectionReference<CourseForm> courseFormPurchaseCollection() =>
+    FirebaseFirestore.instance.collection(courseFormCollection).withConverter(
+        fromFirestore: (snapshot, __) => CourseForm.fromJson(snapshot.data()!),
+        toFirestore: (glCategory, __) => glCategory.toJson());
+
+///Course Licence Purchase
+DocumentReference<CourseForm> courseFormPurchaseDocument(String id) =>
+    courseFormPurchaseCollection().doc(id);
+
+///Driving Licence Purchase
+CollectionReference<DrivingLicenceForm>
+    drivingLicenceFormPurchaseCollection() => FirebaseFirestore.instance
+        .collection(drivingLicenceCollection)
+        .withConverter(
+            fromFirestore: (snapshot, __) =>
+                DrivingLicenceForm.fromJson(snapshot.data()!),
+            toFirestore: (glCategory, __) => glCategory.toJson());
+
+///Driving Licence Purchase
+DocumentReference<DrivingLicenceForm> drivingLicenceFormPurchaseDocument(
+        String id) =>
+    drivingLicenceFormPurchaseCollection().doc(id);
+
+///Car Licence Purchase
+CollectionReference<CarLicenceForm> carLicenceFormPurchaseCollection() =>
+    FirebaseFirestore.instance.collection(carLicenceCollection).withConverter(
+        fromFirestore: (snapshot, __) =>
+            CarLicenceForm.fromJson(snapshot.data()!),
+        toFirestore: (glCategory, __) => glCategory.toJson());
+
+///Car Licence Purchase
+DocumentReference<CarLicenceForm> carLicenceFormPurchaseDocument(String id) =>
+    carLicenceFormPurchaseCollection().doc(id);
+
+///Product Purchase
+CollectionReference<PurchaseModel> productPurchaseCollection() =>
+    FirebaseFirestore.instance.collection(purchaseCollection).withConverter(
+        fromFirestore: (snapshot, __) =>
+            PurchaseModel.fromJson(snapshot.data()!),
+        toFirestore: (glCategory, __) => glCategory.toJson());
+
+///Product Purchase
+DocumentReference<PurchaseModel> productPurchaseDocument(String id) =>
+    productPurchaseCollection().doc(id);
+
+//User
+CollectionReference<AuthUser> userCollectionReference() =>
+    FirebaseFirestore.instance.collection(normalUserCollection).withConverter(
+        fromFirestore: (snapshot, __) => AuthUser.fromJson(snapshot.data()!),
+        toFirestore: (glCategory, __) => glCategory.toJson());
+
+DocumentReference<AuthUser> userDocumentReference(String id) =>
+    userCollectionReference().doc(id);

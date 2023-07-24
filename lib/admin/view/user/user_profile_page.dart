@@ -43,8 +43,7 @@ class UserProfilePage extends StatelessWidget {
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          adminUiController
-                              .changePageType(PageType.newsSlider());
+                          adminUiController.changePageType(PageType.initial());
                         },
                     ),
                   ),

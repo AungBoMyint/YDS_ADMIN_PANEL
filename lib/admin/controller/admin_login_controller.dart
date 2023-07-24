@@ -6,9 +6,9 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
 import '../../constant/data.dart';
-import '../../core/firebase_reference.dart';
 import '../../models/auth_user.dart';
 import '../../routes.dart';
+import '../../service/reference.dart';
 import '../../theme/app_theme.dart';
 import '../utils/func.dart';
 import '../utils/show_loading.dart';
@@ -120,7 +120,7 @@ class AdminLoginController extends GetxController {
       );
       currentUser.value = AuthUser(
         id: Uuid().v1(),
-        name: "Admin",
+        userName: "Admin",
         email: email,
         password: password,
         status: 1,
@@ -155,7 +155,7 @@ class AdminLoginController extends GetxController {
   @override
   void onInit() {
     isLightTheme.value = box.get(themeKey, defaultValue: true);
-    /* final isAuthenticated =
+    final isAuthenticated =
         box.get(isAuthenticatedKey, defaultValue: false) as bool;
     final userId = box.get(userIdKey, defaultValue: "") as String;
     if (isAuthenticated) {
@@ -171,7 +171,7 @@ class AdminLoginController extends GetxController {
     if (isRemember) {
       emailController.text = email;
       passwordController.text = pass;
-    } */
+    }
     super.onInit();
   }
 

@@ -1,19 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart' hide DrawerHeader;
 import 'package:get/get.dart';
-import 'package:pizza/admin/view/affirmations/categories_page.dart';
-import 'package:pizza/admin/view/affirmations/items_page.dart';
-import 'package:pizza/admin/view/affirmations/type_page.dart';
-import 'package:pizza/admin/view/news/item_add_page.dart';
-import 'package:pizza/admin/view/news/item_page.dart';
-import 'package:pizza/admin/view/news/type_page.dart';
-import 'package:pizza/admin/view/overview/overview_page.dart';
-import 'package:pizza/admin/view/therapy/categories_page.dart';
-import 'package:pizza/admin/view/therapy/therapy_videos_page.dart';
+import 'package:pizza/admin/view/course/course_page.dart';
+import 'package:pizza/admin/view/main_question/main_question_page.dart';
+import 'package:pizza/admin/view/main_question/sub_question_page.dart';
+import 'package:pizza/admin/view/reward/reward_product_page.dart';
 import 'package:pizza/admin/view/user/add_customer_page.dart';
-import 'package:pizza/admin/view/user/customers_page.dart';
-import 'package:pizza/admin/view/user/user_profile_page.dart';
-import 'package:pizza/admin/view/vlog/vlog_page.dart';
 import 'dart:developer';
 import '../../constant/icon.dart';
 import '../../models/rbpoint.dart';
@@ -24,7 +16,7 @@ import '../utils/func.dart';
 import '../utils/space.dart';
 import '../widgets/body_action_bar.dart';
 import '../widgets/drawer_items.dart';
-import 'news/slider_page.dart';
+import 'overview/overview_page.dart';
 import 'user_profile_page.dart';
 
 class AdminMainScreen extends GetView<AdminUiController> {
@@ -63,13 +55,13 @@ class AdminMainScreen extends GetView<AdminUiController> {
                     horizontalSpace: horizontalSpace,
                     girlNetworkImage: girlNetworkImage,
                     adminUiController: adminUiController),
-                tablet: (_) => MobileTabletSizeLayout(
+                tablet: (_) => DesktopXLSizeLayout(
                     textTheme: textTheme,
                     verticalSpace: verticalSpace,
                     horizontalSpace: horizontalSpace,
                     girlNetworkImage: girlNetworkImage,
                     adminUiController: adminUiController),
-                mobile: (_) => MobileTabletSizeLayout(
+                mobile: (_) => DesktopXLSizeLayout(
                     textTheme: textTheme,
                     verticalSpace: verticalSpace,
                     horizontalSpace: horizontalSpace,
@@ -82,7 +74,7 @@ class AdminMainScreen extends GetView<AdminUiController> {
   }
 }
 
-class MobileTabletSizeLayout extends StatelessWidget {
+/* class MobileTabletSizeLayout extends StatelessWidget {
   const MobileTabletSizeLayout({
     super.key,
     required this.textTheme,
@@ -150,7 +142,7 @@ class MobileTabletSizeLayout extends StatelessWidget {
     );
   }
 }
-
+ */
 class DesktopXLSizeLayout extends StatelessWidget {
   const DesktopXLSizeLayout({
     super.key,
@@ -200,26 +192,18 @@ class DesktopXLSizeLayout extends StatelessWidget {
                               horizontalSpace: horizontalSpace,
                               girlNetworkImage: girlNetworkImage,
                               textTheme: textTheme),
-                          news: (_) => Container(),
-                          newsSlider: (_) => SliderPage(),
-                          newsType: (_) => TypePage(),
-                          newsItems: (_) => ItemPage(),
-                          newsItemsAdd: (_) => ItemAddPage(),
-                          vlog: (_) => VlogPage(),
-                          vlogAdd: (_) => Container(),
-                          customers: (_) => CustomersPage(),
+                          course: (_) => CoursePage(),
+                          addCourse: (_) => Container(),
+                          rewardProduct: (_) => RewardProductPage(),
+                          questions: (_) => MainQuestion(),
+                          subQuestions: (_) => SubQuestionPage(),
+                          guideLineCategory: (_) => Container(),
+                          guideLineItem: (_) => Container(),
+                          drivingLicencePrice: (_) => Container(),
+                          carLicencePrice: (_) => Container(),
+                          enrollmentData: (_) => Container(),
+                          customer: (_) => Container(),
                           addCustomer: (_) => AddCustomerPage(),
-                          learning: (_) => Container(),
-                          therapy: (_) => Container(),
-                          therapyCategory: (_) => TherapyCategoriesPage(),
-                          therapyItems: (_) => TherapyVideosPage(),
-                          therapyItemsAdd: (_) => Container(),
-                          affirmations: (_) => Container(),
-                          affirmationsCategory: (_) =>
-                              AffirmationsCategoriesPage(),
-                          affirmationsType: (_) => AffirmationsTypePage(),
-                          affirmationsItems: (_) => AffirmationsItemsPage(),
-                          affirmationsItemsAdd: (_) => Container(),
                           settings: (_) => Container(),
                           updateProfile: (_) => AddCustomerPage(),
                         ),

@@ -12,10 +12,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../constant/data.dart';
-import '../../core/firebase_reference.dart';
 import '../../models/auth_user.dart';
 import '../../models/customer_role.dart';
 import '../../service/database.dart';
+import '../../service/reference.dart';
 import '../utils/debouncer.dart';
 import '../utils/func.dart';
 import '../utils/show_loading.dart';
@@ -97,7 +97,7 @@ class CustomerRelatedController extends GetxController {
     } else {
       editUser.value = user;
       //Make initialization
-      userNameController.text = user.name;
+      userNameController.text = user.userName;
       emailController.text = user.email ?? '';
       passwordController.text = user.password ?? "";
       locationController.text = user.location ?? '';
@@ -106,14 +106,7 @@ class CustomerRelatedController extends GetxController {
           : user.status == 1
               ? Role.admin
               : Role.nothing;
-      pickedImage.value = user.avatar ?? '';
-      ageController = SingleValueDropDownController(
-        data: DropDownValueModel(
-          name: user.age ?? "",
-          value: user.age ?? "",
-        ),
-      );
-      multiSelectedItems.value = user.area ?? <String>[];
+      pickedImage.value = user.image ?? '';
     }
   }
 
@@ -196,12 +189,11 @@ class CustomerRelatedController extends GetxController {
         }
         final authUser = AuthUser(
           id: Uuid().v1(),
-          name: userNameController.text,
-          avatar: "" /* url */,
+          userName: userNameController.text,
+          image: "" /* url */,
           email: emailController.text,
           password: passwordController.text,
           location: locationController.text,
-          age: ageController.dropDownValue?.value,
           area: multiSelectedItems.map((element) => element).toList(),
           lat: 0,
           long: 0,
@@ -239,12 +231,11 @@ class CustomerRelatedController extends GetxController {
       await Future.delayed(Duration.zero);
       var updateUser = AuthUser(
         id: editUser.value!.id,
-        name: userNameController.text,
-        avatar: pickedImage.value,
+        userName: userNameController.text,
+        image: pickedImage.value,
         email: emailController.text,
         password: passwordController.text,
         location: locationController.text,
-        age: ageController.dropDownValue?.value,
         area: multiSelectedItems.map((element) => element).toList(),
         lat: 0,
         long: 0,
@@ -258,15 +249,15 @@ class CustomerRelatedController extends GetxController {
         password: passwordController.text,
       );
       //user name update
-      if (updateUser.name != editUser.value!.name) {
-        await userCredential.user?.updateDisplayName(updateUser.name);
+      if (updateUser.userName != editUser.value!.userName) {
+        await userCredential.user?.updateDisplayName(updateUser.userName);
       }
       //user avatar update
-      if (updateUser.avatar != editUser.value!.avatar) {
+      if (updateUser.image != editUser.value!.image) {
         final url =
             ""; /* await _database.uploadImage("users", updateUser.avatar!); */
         await userCredential.user?.updatePhotoURL(url);
-        updateUser = updateUser.copyWith(avatar: url);
+        updateUser = updateUser.copyWith(image: url);
       }
       //user email update
       if (updateUser.email != editUser.value!.email) {
@@ -309,7 +300,7 @@ class CustomerRelatedController extends GetxController {
   void initializeUpdateProfile() {
     final password = alController.box.get(passwordKey, defaultValue: "");
     final currentUser = alController.currentUser.value!;
-    userNameController.text = currentUser.name;
+    userNameController.text = currentUser.userName;
     emailController.text = currentUser.email ?? "";
     passwordController.text = password;
     locationController.text = currentUser.location ?? "";
@@ -334,8 +325,8 @@ class CustomerRelatedController extends GetxController {
         final r = role.value == Role.customer ? 0 : 1;
         final authUser = AuthUser(
           id: alController.currentUser.value!.id,
-          name: userNameController.text,
-          avatar: url,
+          userName: userNameController.text,
+          image: url,
           email: emailController.text,
           status: r,
         );

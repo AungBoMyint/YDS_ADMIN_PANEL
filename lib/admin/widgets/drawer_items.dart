@@ -34,13 +34,7 @@ class DrawerItems extends GetView<AdminLoginController> {
       child: LayoutBuilder(builder: (context, constraints) {
         final height = constraints.maxHeight;
         final width = constraints.maxWidth;
-        return /* Drawer(
-            backgroundColor: controller.isLightTheme.value
-                ? Colors.white
-                : darkThemeCardColor,
-            elevation: 0,
-            child:  */
-            Container(
+        return Container(
           color: Theme.of(context).cardTheme.color,
           height: height,
           width: width,
@@ -78,223 +72,116 @@ class DrawerItems extends GetView<AdminLoginController> {
                       .getOrElse(() => PageType.initial());
                   return DrawerItem(
                     isSvg: false,
-                    onTap: null,
+                    onTap: () =>
+                        adminUiController.changePageType(PageType.course()),
                     textTheme: textTheme,
-                    isSelected: pageType == PageType.newsSlider() ||
-                        pageType == PageType.newsType() ||
-                        pageType == PageType.newsItems(),
+                    isSelected: pageType == PageType.course(),
                     imageIcon: AdminIcon.course,
                     label: "Courses",
                   );
                 }),
-                /*  ExpandablePanel(
-                  theme: ExpandableThemeData(
-                    expandIcon: null,
-                    collapseIcon: null,
-                    iconColor: Colors.grey,
-                    tapHeaderToExpand: true,
-                    iconPadding: EdgeInsets.zero,
-                  ),
-                  header: DrawerItem(isSvg:false,
-                    onTap: null,
-                    textTheme: textTheme,
-                    isSelected: pageType == PageType.newsSlider() ||
-                        pageType == PageType.newsType() ||
-                        pageType == PageType.newsItems(),
-                    imageIcon: AdminIcon.courseSvg,
-                    label: "Courses",
-                  ),
-                  collapsed: const SizedBox(),
-                  expanded: Container(
-                    color: Theme.of(context).cardTheme.color,
-                    padding: const EdgeInsets.only(
-                      left: 40,
-                    ),
-                    height: 160,
-                    child: Obx(() {
-                      final pageType = adminUiController.pageType.value!
-                          .getOrElse(() => PageType.initial());
-                      return Column(
-                        children: [
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          SubItem(
-                            onTap: () {
-                              adminUiController
-                                  .changePageType(PageType.newsSlider());
-                            },
-                            title: "Slider",
-                            isSelected: pageType == PageType.newsSlider(),
-                          ),
-                          SubItem(
-                            onTap: () {
-                              adminUiController
-                                  .changePageType(PageType.newsType());
-                            },
-                            title: "Type",
-                            isSelected: pageType == PageType.newsType(),
-                          ),
-                          SubItem(
-                            onTap: () {
-                              adminUiController
-                                  .changePageType(PageType.newsItems());
-                            },
-                            title: "Items",
-                            isSelected: pageType == PageType.newsItems() ||
-                                pageType == PageType.newsItemsAdd(),
-                          ),
-                        ],
-                      );
-                    }),
-                  ),
-                ),
-                */
                 verticalSpace(v: 10),
-                //Vlog
+                //Reward Product
                 Obx(() {
                   final pageType = adminUiController.pageType.value!
                       .getOrElse(() => PageType.initial());
                   return DrawerItem(
                     isSvg: false,
-                    onTap: () =>
-                        adminUiController.changePageType(PageType.vlog()),
+                    onTap: () => adminUiController
+                        .changePageType(PageType.rewardProduct()),
                     textTheme: textTheme,
-                    isSelected: pageType == PageType.vlog() ||
-                        pageType == PageType.vlogAdd(),
+                    isSelected: pageType == PageType.rewardProduct(),
                     imageIcon: AdminIcon.product,
                     label: "Reward Products",
                   );
                 }),
                 verticalSpace(v: 10),
-                //Affirmations
-                ExpandablePanel(
-                  theme: ExpandableThemeData(
-                    iconColor: Colors.grey,
-                    tapHeaderToExpand: true,
-                    iconPadding: EdgeInsets.zero,
-                  ),
-                  header: DrawerItem(
-                    isSvg: false,
-                    onTap: null,
-                    textTheme: textTheme,
-                    isSelected:
-                        false /* pageType == const PageType.products() */,
-                    imageIcon: AdminIcon.purchase,
-                    label: "Purchases",
-                  ),
-                  collapsed: const SizedBox(),
-                  expanded: Container(
-                    color: Theme.of(context).cardTheme.color,
-                    padding: const EdgeInsets.only(
-                      left: 40,
-                    ),
-                    height: 125,
-                    child: Obx(() {
-                      final pageType = adminUiController.pageType.value!
-                          .getOrElse(() => PageType.initial());
-                      return Column(
-                        children: [
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          SubItem(
-                            onTap: () {
-                              adminUiController
-                                  .changePageType(PageType.therapyCategory());
-                            },
-                            title: "Categories",
-                            isSelected: pageType == PageType.therapyCategory(),
-                          ),
-                          SubItem(
-                            onTap: () {
-                              adminUiController
-                                  .changePageType(PageType.therapyItems());
-                            },
-                            title: "Items",
-                            isSelected: pageType == PageType.therapyItems(),
-                          ),
-                        ],
-                      );
-                    }),
-                  ),
-                ),
-
-                verticalSpace(v: 10),
-                //Affirmations
-                ExpandablePanel(
-                  theme: ExpandableThemeData(
-                    iconColor: Colors.grey,
-                    tapHeaderToExpand: true,
-                    iconPadding: EdgeInsets.zero,
-                  ),
-                  header: DrawerItem(
-                    isSvg: false,
-                    onTap: null,
-                    textTheme: textTheme,
-                    isSelected:
-                        false /* pageType == const PageType.products() */,
-                    imageIcon: AdminIcon.guideLine,
-                    label: "GuideLine",
-                  ),
-                  collapsed: const SizedBox(),
-                  expanded: Container(
-                    color: Theme.of(context).cardTheme.color,
-                    padding: const EdgeInsets.only(
-                      left: 40,
-                    ),
-                    height: 160,
-                    child: Obx(() {
-                      final pageType = adminUiController.pageType.value!
-                          .getOrElse(() => PageType.initial());
-                      return Column(
-                        children: [
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          SubItem(
-                            onTap: () {
-                              adminUiController.changePageType(
-                                  PageType.affirmationsCategory());
-                            },
-                            title: "Categories",
-                            isSelected:
-                                pageType == PageType.affirmationsCategory(),
-                          ),
-                          SubItem(
-                            onTap: () {
-                              adminUiController
-                                  .changePageType(PageType.affirmationsType());
-                            },
-                            title: "Type",
-                            isSelected: pageType == PageType.affirmationsType(),
-                          ),
-                          SubItem(
-                            onTap: () {
-                              adminUiController
-                                  .changePageType(PageType.affirmationsItems());
-                            },
-                            title: "Items",
-                            isSelected:
-                                pageType == PageType.affirmationsItems(),
-                          ),
-                        ],
-                      );
-                    }),
-                  ),
-                ),
-                verticalSpace(v: 10),
-                //Vlog
+                //Questioins
                 Obx(() {
                   final pageType = adminUiController.pageType.value!
                       .getOrElse(() => PageType.initial());
                   return DrawerItem(
                     isSvg: false,
                     onTap: () =>
-                        adminUiController.changePageType(PageType.customers()),
+                        adminUiController.changePageType(PageType.questions()),
                     textTheme: textTheme,
-                    isSelected: pageType == PageType.vlog() ||
-                        pageType == PageType.vlogAdd(),
+                    isSelected: pageType == const PageType.questions(),
+                    imageIcon: AdminIcon.question,
+                    label: "Questions",
+                  );
+                }),
+                verticalSpace(v: 10),
+                //GuideLine Categories
+                Obx(() {
+                  final pageType = adminUiController.pageType.value!
+                      .getOrElse(() => PageType.initial());
+                  return DrawerItem(
+                    isSvg: false,
+                    onTap: () => adminUiController
+                        .changePageType(PageType.guideLineCategory()),
+                    textTheme: textTheme,
+                    isSelected: pageType == const PageType.guideLineCategory(),
+                    imageIcon: AdminIcon.guideLine,
+                    label: "GuideLine Categories",
+                  );
+                }),
+                verticalSpace(v: 10),
+                //GuideLine Item
+                Obx(() {
+                  final pageType = adminUiController.pageType.value!
+                      .getOrElse(() => PageType.initial());
+                  return DrawerItem(
+                    isSvg: false,
+                    onTap: () => adminUiController
+                        .changePageType(PageType.guideLineItem()),
+                    textTheme: textTheme,
+                    isSelected: pageType == const PageType.guideLineItem(),
+                    imageIcon: AdminIcon.guideLine,
+                    label: "GuideLine Items",
+                  );
+                }),
+                verticalSpace(v: 10),
+                //Driving Licence Price
+                Obx(() {
+                  final pageType = adminUiController.pageType.value!
+                      .getOrElse(() => PageType.initial());
+                  return DrawerItem(
+                    isSvg: false,
+                    onTap: () => adminUiController
+                        .changePageType(PageType.drivingLicencePrice()),
+                    textTheme: textTheme,
+                    isSelected:
+                        pageType == const PageType.drivingLicencePrice(),
+                    imageIcon: AdminIcon.guideLine,
+                    label: "Driving Licence Price",
+                  );
+                }),
+                verticalSpace(v: 10),
+                //Car Licence Price
+                Obx(() {
+                  final pageType = adminUiController.pageType.value!
+                      .getOrElse(() => PageType.initial());
+                  return DrawerItem(
+                    isSvg: false,
+                    onTap: () => adminUiController
+                        .changePageType(PageType.carLicencePrice()),
+                    textTheme: textTheme,
+                    isSelected: pageType == const PageType.carLicencePrice(),
+                    imageIcon: AdminIcon.guideLine,
+                    label: "Car Licence Price",
+                  );
+                }),
+                verticalSpace(v: 10),
+                //Users
+                Obx(() {
+                  final pageType = adminUiController.pageType.value!
+                      .getOrElse(() => PageType.initial());
+                  return DrawerItem(
+                    isSvg: false,
+                    onTap: () => adminUiController
+                        .changePageType(PageType.addCustomer()),
+                    textTheme: textTheme,
+                    isSelected: pageType == PageType.addCustomer(),
                     imageIcon: AdminIcon.users,
                     label: "Users",
                   );

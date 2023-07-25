@@ -1,80 +1,64 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:YDS/admin/controller/course_controller.dart';
-import 'package:YDS/admin/controller/question_controller.dart';
+import 'package:YDS/admin/controller/guideline_controller.dart';
 import 'package:YDS/admin/utils/extensions.dart';
-import 'package:YDS/models/object_models/item.dart';
-import 'package:YDS/models/object_models/question/question.dart';
 import 'package:YDS/service/reference.dart';
 import 'package:uuid/uuid.dart';
+import '../../../models/guideline_item.dart';
 import '../../utils/func.dart';
 import '../../utils/space.dart';
 import '../../utils/widgets.dart';
 
-class AddMainQuestionForm extends StatefulWidget {
-  const AddMainQuestionForm({
+class AddGuidelineItemForm extends StatefulWidget {
+  const AddGuidelineItemForm({
     super.key,
-    this.question,
+    this.guidelineItem,
   });
 
-  final Question? question;
+  final GuideLineItem? guidelineItem;
 
   @override
-  State<AddMainQuestionForm> createState() => _AddMainQuestionFormState();
+  State<AddGuidelineItemForm> createState() => _AddGuidelineItemFormState();
 }
 
-class _AddMainQuestionFormState extends State<AddMainQuestionForm> {
+class _AddGuidelineItemFormState extends State<AddGuidelineItemForm> {
   GlobalKey<FormState> formKey = GlobalKey();
-  TextEditingController questionNumberTextController = TextEditingController();
+  TextEditingController imageTextController = TextEditingController();
   TextEditingController titleTextController = TextEditingController();
 
   @override
   void initState() {
-    if (!(widget.question == null)) {
-      questionNumberTextController.text = "${widget.question?.qNo}";
-      titleTextController.text = widget.question?.title ?? "";
+    if (!(widget.guidelineItem == null)) {
+      imageTextController.text = widget.guidelineItem?.image ?? "";
+      titleTextController.text = widget.guidelineItem?.desc ?? "";
     }
     super.initState();
   }
 
   @override
   void dispose() {
-    questionNumberTextController.dispose();
+    imageTextController.dispose();
     titleTextController.dispose();
+
     super.dispose();
   }
 
   void refresh() {
     setState(() {
-      questionNumberTextController.clear();
+      imageTextController.clear();
       titleTextController.clear();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final QuestionController questionController = Get.find();
+    final GuideLineController glController = Get.find();
     return Form(
       key: formKey,
       child: SingleChildScrollView(
         child: Column(
           children: [
-            TextFormField(
-              validator: (v) => stringValidator("Question Number", v),
-              controller: questionNumberTextController,
-              decoration: InputDecoration(
-                border: dropDownBorder(),
-                disabledBorder: dropDownBorder(),
-                focusedBorder: dropDownBorder(),
-                enabledBorder: dropDownBorder(),
-                labelText: "Question Number",
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-              ),
-            ),
-            verticalSpace(),
             //Title
             TextFormField(
               validator: (v) => stringValidator("Title", v),
@@ -89,54 +73,78 @@ class _AddMainQuestionFormState extends State<AddMainQuestionForm> {
               ),
             ),
             verticalSpace(),
-
+            TextFormField(
+              validator: (v) => stringValidator("Image", v),
+              controller: imageTextController,
+              decoration: InputDecoration(
+                border: dropDownBorder(),
+                disabledBorder: dropDownBorder(),
+                focusedBorder: dropDownBorder(),
+                enabledBorder: dropDownBorder(),
+                labelText: "Image",
+                floatingLabelBehavior: FloatingLabelBehavior.always,
+              ),
+            ),
             verticalSpace(),
+
             ElevatedButton(
               onPressed: () {
                 if (formKey.currentState?.validate() == true) {
                   var nameList = getNameList(titleTextController.text);
-                  if (widget.question == null) {
-                    final question = Question(
+                  if (widget.guidelineItem == null) {
+                    final guidelineItem = GuideLineItem(
                       id: Uuid().v1(),
-                      qNo: int.tryParse(questionNumberTextController.text) ?? 0,
-                      title: titleTextController.text,
+                      desc: titleTextController.text,
+                      image: imageTextController.text,
+                      dateTime: DateTime.now(),
                       nameList: nameList,
+                      parentId: glController.selectedGuideLineCategory
+                              .getOrElse(() => null)
+                              ?.id ??
+                          "",
                     );
-                    upload<Question>(
-                        questionDocument(question.id),
-                        question,
-                        "Question uploading is successful.",
-                        "Question uploading is failed.", () {
+                    upload<GuideLineItem>(
+                        glItemDocument(guidelineItem.id),
+                        guidelineItem,
+                        "Guideline Item uploading is successful.",
+                        "Guideline Item uploading is failed.", () {
                       refresh();
-                      questionController.questions.add(question);
+                      glController.guideLineItems.add(guidelineItem);
                     });
 
-                    debugPrint("******Uploading...Slider");
+                    debugPrint(
+                        "******Guideline item: ${guidelineItem.toJson()}");
                   } else {
-                    final question = Question(
-                      id: widget.question?.id ?? "",
-                      qNo: int.tryParse(questionNumberTextController.text) ?? 0,
-                      title: titleTextController.text,
+                    final guidelineItem = GuideLineItem(
+                      id: widget.guidelineItem!.id,
+                      desc: titleTextController.text,
+                      image: imageTextController.text,
+                      dateTime: DateTime.now(),
                       nameList: nameList,
+                      parentId: glController.selectedGuideLineCategory
+                              .getOrElse(() => null)
+                              ?.id ??
+                          "",
                     );
-                    edit<Question>(
-                        questionDocument(question.id),
-                        question,
-                        "Question updating is successful.",
-                        "Question updating is failed.", () {
-                      final index = questionController.questions
-                          .indexWhere((element) => element.id == question.id);
-                      questionController.questions[index] = question;
+                    edit<GuideLineItem>(
+                        glItemDocument(guidelineItem.id),
+                        guidelineItem,
+                        "Guideline Item updating is successful.",
+                        "Guideline Item updating is failed.", () {
+                      final index = glController.guideLineItems.indexWhere(
+                          (element) => element.id == guidelineItem.id);
+                      glController.guideLineItems[index] = guidelineItem;
                     });
 
-                    debugPrint("******Uploading...Slider");
+                    debugPrint(
+                        "******Guideline item: ${guidelineItem.toJson()}");
                   }
                 }
               },
               child: Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: Text(
-                  widget.question == null ? "Save" : "Update",
+                  widget.guidelineItem == null ? "Save" : "Update",
                   style: GoogleFonts.inter(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

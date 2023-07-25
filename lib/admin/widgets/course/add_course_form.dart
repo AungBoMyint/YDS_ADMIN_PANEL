@@ -1,13 +1,13 @@
 import 'dart:developer';
 
+import 'package:YDS/admin/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pizza/admin/controller/course_controller.dart';
-import 'package:pizza/admin/utils/extensions.dart';
-import 'package:pizza/models/object_models/item.dart';
-import 'package:pizza/service/reference.dart';
 import 'package:uuid/uuid.dart';
+import '../../../models/object_models/item.dart';
+import '../../../service/reference.dart';
+import '../../controller/course_controller.dart';
 import '../../utils/func.dart';
 import '../../utils/space.dart';
 import '../../utils/widgets.dart';

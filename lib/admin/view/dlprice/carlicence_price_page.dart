@@ -1,41 +1,36 @@
+import 'package:YDS/admin/controller/car_licence_price_controller.dart';
+import 'package:YDS/admin/controller/driving_licence_price_controller.dart';
+import 'package:YDS/admin/widgets/price/dirvinglicence_add_form.dart';
+import 'package:YDS/models/object_models/price/cost.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import '../../../models/object_models/reward_product.dart';
+import 'package:YDS/admin/controller/course_controller.dart';
+import 'package:YDS/admin/widgets/course/add_course_form.dart';
+import 'package:YDS/models/object_models/item.dart';
+import 'package:YDS/service/reference.dart';
 import '../../../models/rbpoint.dart';
-import '../../../service/reference.dart';
 import '../../controller/admin_ui_controller.dart';
-import '../../controller/reward_product_controller.dart';
 import '../../utils/func.dart';
 import '../../utils/space.dart';
 import '../../utils/widgets.dart';
-import '../../widgets/reward/add_reward_form.dart';
+import '../../widgets/price/carlicence_add_form.dart';
 
-class RewardProductPage extends StatefulWidget {
-  const RewardProductPage({super.key});
+class CarLicencePricePage extends StatefulWidget {
+  const CarLicencePricePage({super.key});
 
   @override
-  State<RewardProductPage> createState() => _RewardProductPageState();
+  State<CarLicencePricePage> createState() => _CarLicencePricePageState();
 }
 
-class _RewardProductPageState extends State<RewardProductPage> {
-  late ScrollController scrollController;
-  final RewardProductController rpController = Get.find();
+class _CarLicencePricePageState extends State<CarLicencePricePage> {
+  final CarLicencePriceController dlPController = Get.find();
   @override
   void initState() {
-    scrollController = ScrollController(initialScrollOffset: 0.0);
-    rpController.setItemScrollControllerListener(scrollController);
-    rpController.startGetItems();
+    dlPController.startGetItems();
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    scrollController.removeListener(() {});
-    scrollController.dispose();
-    super.dispose();
   }
 
   @override
@@ -48,49 +43,6 @@ class _RewardProductPageState extends State<RewardProductPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Card(
-            child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Row(
-            children: [
-              //Search
-              Expanded(
-                flex: 1,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Search",
-                      style: textTheme.displayLarge?.copyWith(
-                        fontSize: controller.rbPoint.value!
-                            .getOrElse(() => RBPoint.xl())
-                            .map(
-                                xl: (_) => 16,
-                                desktop: (_) => 12,
-                                tablet: (_) => 10,
-                                mobile: (_) => 8),
-                      ),
-                    ),
-                    verticalSpace(),
-                    TextFormField(
-                      onChanged: (v) => rpController.debouncer.run(() {
-                        rpController.startItemSearch(v);
-                      }),
-                      decoration: InputDecoration(
-                        border: dropDownBorder(),
-                        disabledBorder: dropDownBorder(),
-                        focusedBorder: dropDownBorder(),
-                        enabledBorder: dropDownBorder(),
-                        suffixIcon: Icon(Icons.search, color: Colors.black),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        )),
-
         //Table
         Expanded(
           flex: controller.rbPoint.value!.fold(
@@ -142,26 +94,25 @@ class _RewardProductPageState extends State<RewardProductPage> {
 
                         Expanded(child: Container()),
                         CreateButton(
-                          title: "Create Reward Product",
+                          title: "Create Car Licence Price",
                           onPressed: () {
                             //TODO:CREATE ITEM
                             Get.dialog(
                               Center(
                                 child: SizedBox(
-                                  height: size.height,
+                                  height: size.height * 0.4,
                                   width: size.width * 0.5,
                                   child: Material(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(20)),
                                     child: Padding(
-                                      padding: const EdgeInsets.only(
-                                        left: 20,
-                                        right: 20,
-                                        top: 20,
-                                        bottom: 10,
-                                      ),
-                                      child: AddRewardForm(),
-                                    ),
+                                        padding: const EdgeInsets.only(
+                                          left: 20,
+                                          right: 20,
+                                          top: 20,
+                                          bottom: 10,
+                                        ),
+                                        child: CarLicencePriceAddForm()),
                                   ),
                                 ),
                               ),
@@ -177,12 +128,11 @@ class _RewardProductPageState extends State<RewardProductPage> {
                 const Divider(),
                 Expanded(
                   child: Obx(() {
-                    final rewardProducts = rpController.rewardProducts;
-                    final selectedAll = rpController.itemsSelectedAll.value;
-                    final selectedRow = rpController.itemsSelectedRow;
+                    final courses = dlPController.dlCosts;
+                    final selectedAll = dlPController.itemsSelectedAll.value;
+                    final selectedRow = dlPController.itemsSelectedRow;
                     return DataTable2(
                       showCheckboxColumn: true,
-                      scrollController: scrollController,
                       columnSpacing: 20,
                       horizontalMargin: 20,
                       minWidth: 600,
@@ -194,10 +144,9 @@ class _RewardProductPageState extends State<RewardProductPage> {
                             activeColor: Theme.of(context).primaryColor,
                             onChanged: (_) {
                               if (!selectedAll) {
-                                rpController
-                                    .setItemsSelectedAll(rewardProducts);
+                                dlPController.setItemsSelectedAll(courses);
                               } else {
-                                rpController.setItemsSelectedAll(null);
+                                dlPController.setItemsSelectedAll(null);
                               }
                             },
                             side: BorderSide(
@@ -210,32 +159,18 @@ class _RewardProductPageState extends State<RewardProductPage> {
 
                         DataColumn(
                           label: Text(
-                            'Name',
+                            'Description',
                             style: titleTextStyle,
                           ),
                         ),
                         //Out of stock
                         DataColumn2(
                           label: Text(
-                            'Image',
+                            'Price',
                             style: titleTextStyle,
                           ),
                           size: ColumnSize.L,
                         ),
-                        DataColumn(
-                          label: Text(
-                            'Description',
-                            style: titleTextStyle,
-                          ),
-                        ),
-                        //Category
-                        DataColumn(
-                          label: Text(
-                            'Required Points',
-                            style: titleTextStyle,
-                          ),
-                        ),
-                        //Type
 
                         DataColumn2(
                           label: Text(
@@ -247,9 +182,9 @@ class _RewardProductPageState extends State<RewardProductPage> {
                         ),
                       ],
                       rows: List.generate(
-                        rewardProducts.length,
+                        courses.length,
                         (index) {
-                          final item = rewardProducts[index];
+                          final item = courses[index];
                           return DataRow(
                             cells: [
                               DataCell(
@@ -257,7 +192,7 @@ class _RewardProductPageState extends State<RewardProductPage> {
                                   activeColor: Theme.of(context).primaryColor,
                                   value: selectedRow.contains(item.id),
                                   onChanged: (_) =>
-                                      rpController.setItemsSelectedRow(item),
+                                      dlPController.setItemsSelectedRow(item),
                                   side: const BorderSide(
                                     color: Colors.black,
                                     width: 1.5,
@@ -266,26 +201,13 @@ class _RewardProductPageState extends State<RewardProductPage> {
                               ),
                               DataCell(
                                 Text(
-                                  item.name,
+                                  item.desc,
                                   style: bodyTextStyle,
                                 ),
                               ),
-                              DataCell(Image.network(
-                                item.image,
-                                width: 80,
-                                height: 80,
-                                fit: BoxFit.contain,
-                              )),
                               DataCell(
                                 Text(
-                                  item.description ?? "",
-                                  style: bodyTextStyle,
-                                ),
-                              ),
-                              //Price
-                              DataCell(
-                                Text(
-                                  "${item.requirePoint}points",
+                                  "${item.cost}Ks",
                                   style: bodyTextStyle,
                                 ),
                               ),
@@ -295,12 +217,12 @@ class _RewardProductPageState extends State<RewardProductPage> {
                                   IconButton(
                                     iconSize: 25,
                                     onPressed: () {
-                                      delete<RewardProduct>(
-                                              rproductDocument(item.id),
-                                              "Reward Product deleting is successful.",
-                                              "Reward Product deleting is failed.")
+                                      delete<Cost>(
+                                              carLicencePriceDocument(item.id),
+                                              "Car Licence Price deleting is successful.",
+                                              "Car Licence Price deleting is failed.")
                                           .then((value) {
-                                        rpController.rewardProducts.removeWhere(
+                                        dlPController.dlCosts.removeWhere(
                                             (element) => element.id == item.id);
                                       });
                                     },
@@ -316,7 +238,7 @@ class _RewardProductPageState extends State<RewardProductPage> {
                                       Get.dialog(
                                         Center(
                                           child: SizedBox(
-                                            height: size.height,
+                                            height: size.height * 0.4,
                                             width: size.width * 0.5,
                                             child: Material(
                                               borderRadius: BorderRadius.all(
@@ -328,9 +250,8 @@ class _RewardProductPageState extends State<RewardProductPage> {
                                                   top: 20,
                                                   bottom: 10,
                                                 ),
-                                                child: AddRewardForm(
-                                                  rewardProduct: item,
-                                                ),
+                                                child: CarLicencePriceAddForm(
+                                                    cost: item),
                                               ),
                                             ),
                                           ),
@@ -363,7 +284,7 @@ class _RewardProductPageState extends State<RewardProductPage> {
 }
 
 void showPopupMenu(BuildContext context, Offset position) async {
-  final RewardProductController rpController = Get.find();
+  final DrivingLicencePriceController dlpController = Get.find();
   final textTheme = Theme.of(context).textTheme;
   final RenderBox overlay =
       Overlay.of(context).context.findRenderObject() as RenderBox;
@@ -387,12 +308,12 @@ void showPopupMenu(BuildContext context, Offset position) async {
       PopupMenuItem(
         value: 'delete',
         onTap: () {
-          deleteItems<RewardProduct>(
-            rpController.itemsSelectedRow,
-            rproductCollection(),
+          deleteItems<Cost>(
+            dlpController.itemsSelectedRow,
+            drivingLicencePriceCollection(),
           ).then((value) {
-            for (var element in rpController.itemsSelectedRow) {
-              rpController.rewardProducts.removeWhere((e) => e.id == element);
+            for (var element in dlpController.itemsSelectedRow) {
+              dlpController.dlCosts.removeWhere((e) => e.id == element);
             }
           });
         },

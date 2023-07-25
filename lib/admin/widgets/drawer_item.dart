@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:pizza/admin/controller/admin_login_controller.dart';
+import 'package:YDS/admin/controller/admin_login_controller.dart';
 
 import '../../../models/rbpoint.dart';
 import '../controller/admin_ui_controller.dart';

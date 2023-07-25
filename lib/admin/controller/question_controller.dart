@@ -4,8 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pizza/models/object_models/question/question.dart';
-import 'package:pizza/models/object_models/question/sub_question.dart';
+import '../../models/object_models/question/question.dart';
+import '../../models/object_models/question/sub_question.dart';
 import '../../service/query.dart';
 import '../utils/debouncer.dart';
 

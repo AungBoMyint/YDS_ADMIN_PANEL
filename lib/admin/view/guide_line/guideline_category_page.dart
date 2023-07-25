@@ -1,33 +1,34 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartz/dartz.dart' hide State;
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import '../../../models/object_models/reward_product.dart';
+import 'package:hexcolor/hexcolor.dart';
+import '../../../models/page_type.dart';
 import '../../../models/rbpoint.dart';
 import '../../../service/reference.dart';
 import '../../controller/admin_ui_controller.dart';
-import '../../controller/reward_product_controller.dart';
+import '../../controller/guideline_controller.dart';
 import '../../utils/func.dart';
 import '../../utils/space.dart';
 import '../../utils/widgets.dart';
-import '../../widgets/reward/add_reward_form.dart';
+import '../../widgets/guideline/guideline_category_addform.dart';
 
-class RewardProductPage extends StatefulWidget {
-  const RewardProductPage({super.key});
+class GuidelineCategoryPage extends StatefulWidget {
+  const GuidelineCategoryPage({super.key});
 
   @override
-  State<RewardProductPage> createState() => _RewardProductPageState();
+  State<GuidelineCategoryPage> createState() => _GuidelineCategoryPageState();
 }
 
-class _RewardProductPageState extends State<RewardProductPage> {
+class _GuidelineCategoryPageState extends State<GuidelineCategoryPage> {
   late ScrollController scrollController;
-  final RewardProductController rpController = Get.find();
+  final GuideLineController glController = Get.find();
   @override
   void initState() {
     scrollController = ScrollController(initialScrollOffset: 0.0);
-    rpController.setItemScrollControllerListener(scrollController);
-    rpController.startGetItems();
+    glController.setGuideLineCategoryScrollControllerListener(scrollController);
+    glController.startGetGuideLineCategory();
     super.initState();
   }
 
@@ -73,8 +74,8 @@ class _RewardProductPageState extends State<RewardProductPage> {
                     ),
                     verticalSpace(),
                     TextFormField(
-                      onChanged: (v) => rpController.debouncer.run(() {
-                        rpController.startItemSearch(v);
+                      onChanged: (v) => glController.debouncer.run(() {
+                        glController.startGuideLineCategorySearch(v);
                       }),
                       decoration: InputDecoration(
                         border: dropDownBorder(),
@@ -142,13 +143,13 @@ class _RewardProductPageState extends State<RewardProductPage> {
 
                         Expanded(child: Container()),
                         CreateButton(
-                          title: "Create Reward Product",
+                          title: "Create Guideline Category",
                           onPressed: () {
                             //TODO:CREATE ITEM
                             Get.dialog(
                               Center(
                                 child: SizedBox(
-                                  height: size.height,
+                                  height: size.height * 0.5,
                                   width: size.width * 0.5,
                                   child: Material(
                                     borderRadius:
@@ -160,7 +161,7 @@ class _RewardProductPageState extends State<RewardProductPage> {
                                         top: 20,
                                         bottom: 10,
                                       ),
-                                      child: AddRewardForm(),
+                                      child: AddGuidelineCategoryForm(),
                                     ),
                                   ),
                                 ),
@@ -177,9 +178,11 @@ class _RewardProductPageState extends State<RewardProductPage> {
                 const Divider(),
                 Expanded(
                   child: Obx(() {
-                    final rewardProducts = rpController.rewardProducts;
-                    final selectedAll = rpController.itemsSelectedAll.value;
-                    final selectedRow = rpController.itemsSelectedRow;
+                    final questions = glController.guideLineCategories;
+                    final selectedAll =
+                        glController.guideLineCategorySelectedAll.value;
+                    final selectedRow =
+                        glController.guideLineCategorySelectedRow;
                     return DataTable2(
                       showCheckboxColumn: true,
                       scrollController: scrollController,
@@ -194,10 +197,11 @@ class _RewardProductPageState extends State<RewardProductPage> {
                             activeColor: Theme.of(context).primaryColor,
                             onChanged: (_) {
                               if (!selectedAll) {
-                                rpController
-                                    .setItemsSelectedAll(rewardProducts);
+                                glController
+                                    .setGuideLineCategorySelectedAll(questions);
                               } else {
-                                rpController.setItemsSelectedAll(null);
+                                glController
+                                    .setGuideLineCategorySelectedAll(null);
                               }
                             },
                             side: BorderSide(
@@ -210,7 +214,7 @@ class _RewardProductPageState extends State<RewardProductPage> {
 
                         DataColumn(
                           label: Text(
-                            'Name',
+                            'Title',
                             style: titleTextStyle,
                           ),
                         ),
@@ -224,18 +228,10 @@ class _RewardProductPageState extends State<RewardProductPage> {
                         ),
                         DataColumn(
                           label: Text(
-                            'Description',
+                            'Background Color',
                             style: titleTextStyle,
                           ),
                         ),
-                        //Category
-                        DataColumn(
-                          label: Text(
-                            'Required Points',
-                            style: titleTextStyle,
-                          ),
-                        ),
-                        //Type
 
                         DataColumn2(
                           label: Text(
@@ -247,17 +243,17 @@ class _RewardProductPageState extends State<RewardProductPage> {
                         ),
                       ],
                       rows: List.generate(
-                        rewardProducts.length,
+                        questions.length,
                         (index) {
-                          final item = rewardProducts[index];
+                          final item = questions[index];
                           return DataRow(
                             cells: [
                               DataCell(
                                 Checkbox(
                                   activeColor: Theme.of(context).primaryColor,
                                   value: selectedRow.contains(item.id),
-                                  onChanged: (_) =>
-                                      rpController.setItemsSelectedRow(item),
+                                  onChanged: (_) => glController
+                                      .setGuideLineCategorySelectedRow(item),
                                   side: const BorderSide(
                                     color: Colors.black,
                                     width: 1.5,
@@ -266,7 +262,7 @@ class _RewardProductPageState extends State<RewardProductPage> {
                               ),
                               DataCell(
                                 Text(
-                                  item.name,
+                                  item.title,
                                   style: bodyTextStyle,
                                 ),
                               ),
@@ -276,36 +272,45 @@ class _RewardProductPageState extends State<RewardProductPage> {
                                 height: 80,
                                 fit: BoxFit.contain,
                               )),
-                              DataCell(
-                                Text(
-                                  item.description ?? "",
-                                  style: bodyTextStyle,
-                                ),
-                              ),
-                              //Price
-                              DataCell(
-                                Text(
-                                  "${item.requirePoint}points",
-                                  style: bodyTextStyle,
-                                ),
-                              ),
+                              //Total Sub Questions
+                              DataCell(Container(
+                                color: HexColor(item.color),
+                                width: 80,
+                                height: 80,
+                              )),
+
                               DataCell(Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   IconButton(
                                     iconSize: 25,
                                     onPressed: () {
-                                      delete<RewardProduct>(
-                                              rproductDocument(item.id),
-                                              "Reward Product deleting is successful.",
-                                              "Reward Product deleting is failed.")
+                                      delete<dynamic>(
+                                              glCategoryDocument(item.id),
+                                              "Guideline Category deleting is successful.",
+                                              "Guideline Category deleting is failed.")
                                           .then((value) {
-                                        rpController.rewardProducts.removeWhere(
-                                            (element) => element.id == item.id);
+                                        glController.guideLineCategories
+                                            .removeWhere((element) =>
+                                                element.id == item.id);
                                       });
                                     },
                                     icon: Icon(
                                       FontAwesomeIcons.trash,
+                                      color: Colors.grey.shade600,
+                                    ),
+                                  ),
+                                  //View
+                                  IconButton(
+                                    onPressed: () {
+                                      glController.setSelectedGuideLineCategory(
+                                          right(item));
+                                      controller.changePageType(
+                                          PageType.guideLineItem());
+                                    },
+                                    icon: Icon(
+                                      FontAwesomeIcons.eye,
+                                      size: 25,
                                       color: Colors.grey.shade600,
                                     ),
                                   ),
@@ -316,7 +321,7 @@ class _RewardProductPageState extends State<RewardProductPage> {
                                       Get.dialog(
                                         Center(
                                           child: SizedBox(
-                                            height: size.height,
+                                            height: size.height * 0.5,
                                             width: size.width * 0.5,
                                             child: Material(
                                               borderRadius: BorderRadius.all(
@@ -328,8 +333,8 @@ class _RewardProductPageState extends State<RewardProductPage> {
                                                   top: 20,
                                                   bottom: 10,
                                                 ),
-                                                child: AddRewardForm(
-                                                  rewardProduct: item,
+                                                child: AddGuidelineCategoryForm(
+                                                  guidelineCategory: item,
                                                 ),
                                               ),
                                             ),
@@ -363,7 +368,7 @@ class _RewardProductPageState extends State<RewardProductPage> {
 }
 
 void showPopupMenu(BuildContext context, Offset position) async {
-  final RewardProductController rpController = Get.find();
+  final GuideLineController glController = Get.find();
   final textTheme = Theme.of(context).textTheme;
   final RenderBox overlay =
       Overlay.of(context).context.findRenderObject() as RenderBox;
@@ -387,12 +392,13 @@ void showPopupMenu(BuildContext context, Offset position) async {
       PopupMenuItem(
         value: 'delete',
         onTap: () {
-          deleteItems<RewardProduct>(
-            rpController.itemsSelectedRow,
-            rproductCollection(),
+          deleteItems<dynamic>(
+            glController.guideLineCategorySelectedRow,
+            glCategoryCollection(),
           ).then((value) {
-            for (var element in rpController.itemsSelectedRow) {
-              rpController.rewardProducts.removeWhere((e) => e.id == element);
+            for (var element in glController.guideLineCategorySelectedRow) {
+              glController.guideLineCategories
+                  .removeWhere((e) => e.id == element);
             }
           });
         },

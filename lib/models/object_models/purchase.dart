@@ -1,5 +1,5 @@
+import 'package:YDS/models/object_models/reward_product.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pizza/models/object_models/reward_product.dart';
 
 import 'purchase_item.dart';
 

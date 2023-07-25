@@ -1,11 +1,14 @@
+import 'package:YDS/admin/view/dlprice/carlicence_price_page.dart';
+import 'package:YDS/admin/view/dlprice/driving_licence_price_page.dart';
+import 'package:YDS/admin/view/guide_line/guideline_item_page.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart' hide DrawerHeader;
 import 'package:get/get.dart';
-import 'package:pizza/admin/view/course/course_page.dart';
-import 'package:pizza/admin/view/main_question/main_question_page.dart';
-import 'package:pizza/admin/view/main_question/sub_question_page.dart';
-import 'package:pizza/admin/view/reward/reward_product_page.dart';
-import 'package:pizza/admin/view/user/add_customer_page.dart';
+import 'package:YDS/admin/view/course/course_page.dart';
+import 'package:YDS/admin/view/main_question/main_question_page.dart';
+import 'package:YDS/admin/view/main_question/sub_question_page.dart';
+import 'package:YDS/admin/view/reward/reward_product_page.dart';
+import 'package:YDS/admin/view/user/add_customer_page.dart';
 import 'dart:developer';
 import '../../constant/icon.dart';
 import '../../models/rbpoint.dart';
@@ -16,6 +19,7 @@ import '../utils/func.dart';
 import '../utils/space.dart';
 import '../widgets/body_action_bar.dart';
 import '../widgets/drawer_items.dart';
+import 'guide_line/guideline_category_page.dart';
 import 'overview/overview_page.dart';
 import 'user_profile_page.dart';
 
@@ -197,10 +201,10 @@ class DesktopXLSizeLayout extends StatelessWidget {
                           rewardProduct: (_) => RewardProductPage(),
                           questions: (_) => MainQuestion(),
                           subQuestions: (_) => SubQuestionPage(),
-                          guideLineCategory: (_) => Container(),
-                          guideLineItem: (_) => Container(),
-                          drivingLicencePrice: (_) => Container(),
-                          carLicencePrice: (_) => Container(),
+                          guideLineCategory: (_) => GuidelineCategoryPage(),
+                          guideLineItem: (_) => GuideLineItemPage(),
+                          drivingLicencePrice: (_) => DrivingLicencePricePage(),
+                          carLicencePrice: (_) => CarLicencePricePage(),
                           enrollmentData: (_) => Container(),
                           customer: (_) => Container(),
                           addCustomer: (_) => AddCustomerPage(),

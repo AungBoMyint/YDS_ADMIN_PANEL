@@ -1,16 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_table_2/data_table_2.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:pizza/admin/controller/course_controller.dart';
-import 'package:pizza/admin/controller/question_controller.dart';
-import 'package:pizza/admin/widgets/course/add_course_form.dart';
-import 'package:pizza/admin/widgets/questions/sub_quesiton_add_form.dart';
-import 'package:pizza/models/object_models/item.dart';
-import 'package:pizza/models/object_models/question/question.dart';
-import 'package:pizza/models/object_models/question/sub_question.dart';
-import 'package:pizza/service/reference.dart';
+import 'package:YDS/admin/controller/course_controller.dart';
+import 'package:YDS/admin/controller/question_controller.dart';
+import 'package:YDS/admin/widgets/course/add_course_form.dart';
+import 'package:YDS/admin/widgets/questions/sub_quesiton_add_form.dart';
+import 'package:YDS/models/object_models/item.dart';
+import 'package:YDS/models/object_models/question/question.dart';
+import 'package:YDS/models/object_models/question/sub_question.dart';
+import 'package:YDS/service/reference.dart';
+import '../../../models/page_type.dart';
 import '../../../models/rbpoint.dart';
 import '../../controller/admin_ui_controller.dart';
 import '../../utils/func.dart';
@@ -53,6 +55,19 @@ class _SubQuestionPageState extends State<SubQuestionPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        RichText(
+          text: TextSpan(
+            text: "← Questions/",
+            style: textTheme.displayMedium?.copyWith(
+              fontSize: 25,
+              color: Colors.blue,
+            ),
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                controller.changePageType(PageType.questions());
+              },
+          ),
+        ),
         Card(
             child: Padding(
           padding: const EdgeInsets.all(20.0),

@@ -2,7 +2,7 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart' hide DrawerHeader;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:pizza/admin/widgets/sub_item.dart';
+import 'package:YDS/admin/widgets/sub_item.dart';
 
 import '../../../constant/data.dart';
 import '../../../constant/icon.dart';
@@ -126,7 +126,7 @@ class DrawerItems extends GetView<AdminLoginController> {
                   );
                 }),
                 verticalSpace(v: 10),
-                //GuideLine Item
+                /*   //GuideLine Item
                 Obx(() {
                   final pageType = adminUiController.pageType.value!
                       .getOrElse(() => PageType.initial());
@@ -140,7 +140,7 @@ class DrawerItems extends GetView<AdminLoginController> {
                     label: "GuideLine Items",
                   );
                 }),
-                verticalSpace(v: 10),
+                verticalSpace(v: 10), */
                 //Driving Licence Price
                 Obx(() {
                   final pageType = adminUiController.pageType.value!
@@ -152,7 +152,7 @@ class DrawerItems extends GetView<AdminLoginController> {
                     textTheme: textTheme,
                     isSelected:
                         pageType == const PageType.drivingLicencePrice(),
-                    imageIcon: AdminIcon.guideLine,
+                    imageIcon: AdminIcon.money,
                     label: "Driving Licence Price",
                   );
                 }),
@@ -167,7 +167,7 @@ class DrawerItems extends GetView<AdminLoginController> {
                         .changePageType(PageType.carLicencePrice()),
                     textTheme: textTheme,
                     isSelected: pageType == const PageType.carLicencePrice(),
-                    imageIcon: AdminIcon.guideLine,
+                    imageIcon: AdminIcon.money,
                     label: "Car Licence Price",
                   );
                 }),

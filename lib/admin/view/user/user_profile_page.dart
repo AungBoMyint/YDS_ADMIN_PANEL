@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pizza/models/page_type.dart';
 
+import '../../../models/page_type.dart';
 import '../../controller/admin_ui_controller.dart';
 import '../../controller/customer_related_controller.dart';
 import '../../utils/space.dart';

@@ -4,8 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pizza/models/object_models/item.dart';
-import 'package:pizza/models/object_models/reward_product.dart';
+import 'package:YDS/models/object_models/item.dart';
+import 'package:YDS/models/object_models/reward_product.dart';
 import '../../service/query.dart';
 import '../utils/debouncer.dart';
 

@@ -1,17 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:pizza/models/object_models/form/driving_licence_form.dart';
-import 'package:pizza/models/object_models/guideline/guideline_category.dart';
-import 'package:pizza/service/collection_name.dart';
 import '../models/auth_user.dart';
+import '../models/guideline_category.dart';
+import '../models/guideline_item.dart';
 import '../models/object_models/form/car_licence_form.dart';
 import '../models/object_models/form/course_form.dart';
-import '../models/object_models/guideline/guideline_item.dart';
+import '../models/object_models/form/driving_licence_form.dart';
 import '../models/object_models/item.dart';
 import '../models/object_models/price/cost.dart';
 import '../models/object_models/purchase.dart';
 import '../models/object_models/question/question.dart';
 import '../models/object_models/question/sub_question.dart';
 import '../models/object_models/reward_product.dart';
+import 'collection_name.dart';
 
 //Course
 CollectionReference<ItemModel> courseCollection() =>

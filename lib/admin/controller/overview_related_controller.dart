@@ -1,8 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:get/get.dart';
-import 'package:pizza/service/collection_name.dart';
-import 'package:pizza/service/reference.dart';
 import '../../service/query.dart';
+import '../../service/reference.dart';
 
 class OverviewRelatedController extends GetxController {
   Rxn<Either<None, int>> users = Rxn(left(None()));

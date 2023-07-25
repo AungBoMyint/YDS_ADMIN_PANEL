@@ -1,142 +1,135 @@
-import 'dart:developer';
-
+import 'package:YDS/admin/controller/driving_licence_price_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:YDS/admin/controller/course_controller.dart';
-import 'package:YDS/admin/controller/question_controller.dart';
+import 'package:YDS/admin/controller/guideline_controller.dart';
 import 'package:YDS/admin/utils/extensions.dart';
-import 'package:YDS/models/object_models/item.dart';
-import 'package:YDS/models/object_models/question/question.dart';
 import 'package:YDS/service/reference.dart';
 import 'package:uuid/uuid.dart';
+import '../../../models/guideline_item.dart';
+import '../../../models/object_models/price/cost.dart';
 import '../../utils/func.dart';
 import '../../utils/space.dart';
 import '../../utils/widgets.dart';
 
-class AddMainQuestionForm extends StatefulWidget {
-  const AddMainQuestionForm({
+class DrivingLicencePriceAddForm extends StatefulWidget {
+  const DrivingLicencePriceAddForm({
     super.key,
-    this.question,
+    this.cost,
   });
 
-  final Question? question;
+  final Cost? cost;
 
   @override
-  State<AddMainQuestionForm> createState() => _AddMainQuestionFormState();
+  State<DrivingLicencePriceAddForm> createState() =>
+      _DrivingLicencePriceAddFormState();
 }
 
-class _AddMainQuestionFormState extends State<AddMainQuestionForm> {
+class _DrivingLicencePriceAddFormState
+    extends State<DrivingLicencePriceAddForm> {
   GlobalKey<FormState> formKey = GlobalKey();
-  TextEditingController questionNumberTextController = TextEditingController();
+  TextEditingController priceTextController = TextEditingController();
   TextEditingController titleTextController = TextEditingController();
 
   @override
   void initState() {
-    if (!(widget.question == null)) {
-      questionNumberTextController.text = "${widget.question?.qNo}";
-      titleTextController.text = widget.question?.title ?? "";
+    if (!(widget.cost == null)) {
+      priceTextController.text = "${widget.cost?.cost}";
+      titleTextController.text = widget.cost?.desc ?? "";
     }
     super.initState();
   }
 
   @override
   void dispose() {
-    questionNumberTextController.dispose();
+    priceTextController.dispose();
     titleTextController.dispose();
+
     super.dispose();
   }
 
   void refresh() {
     setState(() {
-      questionNumberTextController.clear();
+      priceTextController.clear();
       titleTextController.clear();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final QuestionController questionController = Get.find();
+    final DrivingLicencePriceController glController = Get.find();
     return Form(
       key: formKey,
       child: SingleChildScrollView(
         child: Column(
           children: [
-            TextFormField(
-              validator: (v) => stringValidator("Question Number", v),
-              controller: questionNumberTextController,
-              decoration: InputDecoration(
-                border: dropDownBorder(),
-                disabledBorder: dropDownBorder(),
-                focusedBorder: dropDownBorder(),
-                enabledBorder: dropDownBorder(),
-                labelText: "Question Number",
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-              ),
-            ),
-            verticalSpace(),
             //Title
             TextFormField(
-              validator: (v) => stringValidator("Title", v),
+              validator: (v) => stringValidator("Description", v),
               controller: titleTextController,
               decoration: InputDecoration(
                 border: dropDownBorder(),
                 disabledBorder: dropDownBorder(),
                 focusedBorder: dropDownBorder(),
                 enabledBorder: dropDownBorder(),
-                labelText: "Title",
+                labelText: "Description",
+                floatingLabelBehavior: FloatingLabelBehavior.always,
+              ),
+            ),
+            verticalSpace(),
+            TextFormField(
+              validator: (v) => stringValidator("Price", v),
+              controller: priceTextController,
+              decoration: InputDecoration(
+                border: dropDownBorder(),
+                disabledBorder: dropDownBorder(),
+                focusedBorder: dropDownBorder(),
+                enabledBorder: dropDownBorder(),
+                labelText: "Price",
                 floatingLabelBehavior: FloatingLabelBehavior.always,
               ),
             ),
             verticalSpace(),
 
-            verticalSpace(),
             ElevatedButton(
               onPressed: () {
                 if (formKey.currentState?.validate() == true) {
-                  var nameList = getNameList(titleTextController.text);
-                  if (widget.question == null) {
-                    final question = Question(
+                  if (widget.cost == null) {
+                    final cost = Cost(
                       id: Uuid().v1(),
-                      qNo: int.tryParse(questionNumberTextController.text) ?? 0,
-                      title: titleTextController.text,
-                      nameList: nameList,
+                      desc: titleTextController.text,
+                      cost: int.tryParse(priceTextController.text) ?? 0,
                     );
-                    upload<Question>(
-                        questionDocument(question.id),
-                        question,
-                        "Question uploading is successful.",
-                        "Question uploading is failed.", () {
+                    upload<Cost>(
+                        drivingLicencePriceDocument(cost.id),
+                        cost,
+                        "Driving Licence Price uploading is successful.",
+                        "Driving Licence Price uploading is failed.", () {
                       refresh();
-                      questionController.questions.add(question);
+                      glController.dlCosts.add(cost);
                     });
-
-                    debugPrint("******Uploading...Slider");
                   } else {
-                    final question = Question(
-                      id: widget.question?.id ?? "",
-                      qNo: int.tryParse(questionNumberTextController.text) ?? 0,
-                      title: titleTextController.text,
-                      nameList: nameList,
+                    final cost = Cost(
+                      id: widget.cost?.id ?? "",
+                      desc: titleTextController.text,
+                      cost: int.tryParse(priceTextController.text) ?? 0,
                     );
-                    edit<Question>(
-                        questionDocument(question.id),
-                        question,
-                        "Question updating is successful.",
-                        "Question updating is failed.", () {
-                      final index = questionController.questions
-                          .indexWhere((element) => element.id == question.id);
-                      questionController.questions[index] = question;
+                    edit<Cost>(
+                        drivingLicencePriceDocument(cost.id),
+                        cost,
+                        "Driving Licence Price updating is successful.",
+                        "Driving Licence Price updating is failed.", () {
+                      final index = glController.dlCosts
+                          .indexWhere((element) => element.id == cost.id);
+                      glController.dlCosts[index] = cost;
                     });
-
-                    debugPrint("******Uploading...Slider");
                   }
                 }
               },
               child: Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: Text(
-                  widget.question == null ? "Save" : "Update",
+                  widget.cost == null ? "Save" : "Update",
                   style: GoogleFonts.inter(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

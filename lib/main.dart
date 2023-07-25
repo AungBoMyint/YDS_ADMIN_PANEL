@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pizza/routes.dart';
-import 'package:pizza/theme/app_theme.dart';
+import 'package:YDS/routes.dart';
+import 'package:YDS/theme/app_theme.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'admin/controller/admin_login_controller.dart';
 import 'constant/data.dart';

@@ -16,6 +16,7 @@ class AdminIcon {
   static const users = "assets/users.png";
   static const logout = "assets/ok.png";
   static const overview = "assets/analytics.png";
+  static const money = "assets/money.png";
 
   //--Svg---/
   static const courseSvg = "assets/bars/course.svg";

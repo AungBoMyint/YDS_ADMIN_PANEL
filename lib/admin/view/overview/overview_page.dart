@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pizza/admin/utils/widgets.dart';
+import 'package:YDS/admin/utils/widgets.dart';
 import '../../../constant/icon.dart';
 import '../../../models/rbpoint.dart';
 import '../../controller/admin_login_controller.dart';

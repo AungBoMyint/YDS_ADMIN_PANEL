@@ -8,6 +8,10 @@ import 'dart:math';
 import 'dart:developer' as d;
 import '../../models/rbpoint.dart';
 
+String getDateTime(DateTime dateTime) {
+  return DateFormat.yMMMMd('en_US').format(dateTime);
+}
+
 RBPoint getRBPoint(double width) {
   if (width <= kMobileBreakpoint) {
     return const RBPoint.mobile();

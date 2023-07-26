@@ -1,3 +1,4 @@
+import 'package:YDS/admin/controller/purchase_controller.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart' hide DrawerHeader;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -27,6 +28,7 @@ class DrawerItems extends GetView<AdminLoginController> {
   Widget build(BuildContext context) {
     final AdminLoginController alController = Get.find();
     final AdminUiController adminUiController = Get.find();
+    final PurchaseController purchaseController = Get.find();
     final pageType = adminUiController.pageType.value;
     return Expanded(
       flex: adminUiController.rbPoint.value!.getOrElse(() => RBPoint.xl()).map(
@@ -169,6 +171,117 @@ class DrawerItems extends GetView<AdminLoginController> {
                     isSelected: pageType == const PageType.carLicencePrice(),
                     imageIcon: AdminIcon.money,
                     label: "Car Licence Price",
+                  );
+                }),
+                verticalSpace(v: 10),
+                //Course Purchase
+                Obx(() {
+                  final pageType = adminUiController.pageType.value!
+                      .getOrElse(() => PageType.initial());
+                  return DrawerItem(
+                    isSvg: false,
+                    onTap: () => adminUiController
+                        .changePageType(PageType.coursePurchase()),
+                    textTheme: textTheme,
+                    isSelected: pageType == const PageType.carLicencePrice(),
+                    imageIcon: AdminIcon.purchase,
+                    label: "Course Purchase",
+                    trailling: Container(
+                      width: 35,
+                      height: 25,
+                      decoration: const BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(
+                              20,
+                            ),
+                          )),
+                      child: Obx(() {
+                        final newOrderCount =
+                            purchaseController.courseFormNewOrders.value;
+                        return Center(
+                            child: Text(
+                          "$newOrderCount",
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ));
+                      }),
+                    ),
+                  );
+                }),
+                verticalSpace(v: 10),
+                //Driving Licence Purchase
+                Obx(() {
+                  final pageType = adminUiController.pageType.value!
+                      .getOrElse(() => PageType.initial());
+                  return DrawerItem(
+                    isSvg: false,
+                    onTap: () => adminUiController
+                        .changePageType(PageType.drivingLicencePurchase()),
+                    textTheme: textTheme,
+                    isSelected: pageType == const PageType.carLicencePrice(),
+                    imageIcon: AdminIcon.purchase,
+                    label: "Driving Licence Purchase",
+                    trailling: Container(
+                      width: 35,
+                      height: 25,
+                      decoration: const BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(
+                              20,
+                            ),
+                          )),
+                      child: Obx(() {
+                        final newOrderCount =
+                            purchaseController.drivingFormNewOrders.value;
+                        return Center(
+                            child: Text(
+                          "$newOrderCount",
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ));
+                      }),
+                    ),
+                  );
+                }),
+                verticalSpace(v: 10),
+                //Car Licence Purchase
+                Obx(() {
+                  final pageType = adminUiController.pageType.value!
+                      .getOrElse(() => PageType.initial());
+                  return DrawerItem(
+                    isSvg: false,
+                    onTap: () => adminUiController
+                        .changePageType(PageType.carLicencePurchase()),
+                    textTheme: textTheme,
+                    isSelected: pageType == const PageType.carLicencePrice(),
+                    imageIcon: AdminIcon.purchase,
+                    label: "Car Licence Purchase",
+                    trailling: Container(
+                      width: 35,
+                      height: 25,
+                      decoration: const BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(
+                              20,
+                            ),
+                          )),
+                      child: Obx(() {
+                        final newOrderCount =
+                            purchaseController.carFormNewOrders.value;
+                        return Center(
+                            child: Text(
+                          "$newOrderCount",
+                          style: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ));
+                      }),
+                    ),
                   );
                 }),
                 verticalSpace(v: 10),

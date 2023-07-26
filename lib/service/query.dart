@@ -28,8 +28,11 @@ Query<GuideLineItem> glItemQuery(String parentId) => glItemCollection()
 Query<Cost> drivingLicenceCostQuery() =>
     drivingLicencePriceCollection().limit(10);
 Query<Cost> carLicenceCostQuery() => carLicencePriceCollection().limit(10);
-Query<CourseForm> coursePurchaseQuery() =>
-    courseFormPurchaseCollection().orderBy("dateTime").limit(10);
+Query<CourseForm> coursePurchaseQuery() => courseFormPurchaseCollection()
+    .orderBy("dateTime")
+    .orderBy("name")
+    .orderBy("id")
+    .limit(10);
 Query drivingPurchaseQuery() =>
     drivingLicenceFormPurchaseCollection().orderBy("dateTime").limit(10);
 Query<CarLicenceForm> carPurchaseQuery() =>

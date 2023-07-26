@@ -1,6 +1,10 @@
 import 'package:YDS/admin/view/dlprice/carlicence_price_page.dart';
 import 'package:YDS/admin/view/dlprice/driving_licence_price_page.dart';
 import 'package:YDS/admin/view/guide_line/guideline_item_page.dart';
+import 'package:YDS/admin/view/purchase/car_purchase_page.dart';
+import 'package:YDS/admin/view/purchase/course_purchase_detail_page.dart';
+import 'package:YDS/admin/view/purchase/course_purchase_page.dart';
+import 'package:YDS/admin/view/purchase/driving_purchase_page.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart' hide DrawerHeader;
 import 'package:get/get.dart';
@@ -205,7 +209,15 @@ class DesktopXLSizeLayout extends StatelessWidget {
                           guideLineItem: (_) => GuideLineItemPage(),
                           drivingLicencePrice: (_) => DrivingLicencePricePage(),
                           carLicencePrice: (_) => CarLicencePricePage(),
-                          enrollmentData: (_) => Container(),
+                          carLicencePurchase: (_) =>
+                              CarLicenceFormPurchasePage(),
+                          drivingLicencePurchase: (_) =>
+                              DrivingLicenceFormPurchasePage(),
+                          coursePurchase: (_) => CourseFormPurchasePage(),
+                          coursePurchaseDetail: (_) =>
+                              CoursePurchaseDetailPage(),
+                          drivingLicencePurchaseDetail: (_) => Container(),
+                          carLicencePurchaseDetail: (_) => Container(),
                           customer: (_) => Container(),
                           addCustomer: (_) => AddCustomerPage(),
                           settings: (_) => Container(),

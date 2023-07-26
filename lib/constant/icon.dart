@@ -32,7 +32,7 @@ class AdminIcon {
   static const addImage = "assets/admin/add_image.png";
   static const calendar = "assets/admin/calendar.png";
   static const orderStatus = "assets/admin/order_status.png";
-  static const acceptOrder = "assets/admin/accept.png";
+  static const acceptOrder = "assets/accept.png";
   static const rejectOrder = "assets/admin/close.png";
   static const horizontalDots = "assets/admin/dots.png";
   static const adminLoginImage = "assets/driving_school.png";

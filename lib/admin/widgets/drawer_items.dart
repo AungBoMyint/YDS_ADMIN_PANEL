@@ -107,7 +107,8 @@ class DrawerItems extends GetView<AdminLoginController> {
                     onTap: () =>
                         adminUiController.changePageType(PageType.questions()),
                     textTheme: textTheme,
-                    isSelected: pageType == const PageType.questions(),
+                    isSelected: pageType == const PageType.questions() ||
+                        pageType == const PageType.subQuestions(),
                     imageIcon: AdminIcon.question,
                     label: "Questions",
                   );
@@ -122,7 +123,9 @@ class DrawerItems extends GetView<AdminLoginController> {
                     onTap: () => adminUiController
                         .changePageType(PageType.guideLineCategory()),
                     textTheme: textTheme,
-                    isSelected: pageType == const PageType.guideLineCategory(),
+                    isSelected:
+                        pageType == const PageType.guideLineCategory() ||
+                            pageType == const PageType.guideLineItem(),
                     imageIcon: AdminIcon.guideLine,
                     label: "GuideLine Categories",
                   );
@@ -183,7 +186,8 @@ class DrawerItems extends GetView<AdminLoginController> {
                     onTap: () => adminUiController
                         .changePageType(PageType.coursePurchase()),
                     textTheme: textTheme,
-                    isSelected: pageType == const PageType.carLicencePrice(),
+                    isSelected: pageType == const PageType.coursePurchase() ||
+                        pageType == const PageType.coursePurchaseDetail(),
                     imageIcon: AdminIcon.purchase,
                     label: "Course Purchase",
                     trailling: Container(
@@ -220,7 +224,10 @@ class DrawerItems extends GetView<AdminLoginController> {
                     onTap: () => adminUiController
                         .changePageType(PageType.drivingLicencePurchase()),
                     textTheme: textTheme,
-                    isSelected: pageType == const PageType.carLicencePrice(),
+                    isSelected:
+                        pageType == const PageType.drivingLicencePurchase() ||
+                            pageType ==
+                                const PageType.drivingLicencePurchaseDetail(),
                     imageIcon: AdminIcon.purchase,
                     label: "Driving Licence Purchase",
                     trailling: Container(
@@ -257,7 +264,8 @@ class DrawerItems extends GetView<AdminLoginController> {
                     onTap: () => adminUiController
                         .changePageType(PageType.carLicencePurchase()),
                     textTheme: textTheme,
-                    isSelected: pageType == const PageType.carLicencePrice(),
+                    isSelected: pageType == const PageType.carLicencePrice() ||
+                        pageType == const PageType.carLicencePurchaseDetail(),
                     imageIcon: AdminIcon.purchase,
                     label: "Car Licence Purchase",
                     trailling: Container(
@@ -285,16 +293,33 @@ class DrawerItems extends GetView<AdminLoginController> {
                   );
                 }),
                 verticalSpace(v: 10),
-                //Users
+                //Product Purchase
                 Obx(() {
                   final pageType = adminUiController.pageType.value!
                       .getOrElse(() => PageType.initial());
                   return DrawerItem(
                     isSvg: false,
                     onTap: () => adminUiController
-                        .changePageType(PageType.addCustomer()),
+                        .changePageType(PageType.productPurchase()),
                     textTheme: textTheme,
-                    isSelected: pageType == PageType.addCustomer(),
+                    isSelected: pageType == const PageType.productPurchase() ||
+                        pageType == const PageType.productPurchaseDetail(),
+                    imageIcon: AdminIcon.purchase,
+                    label: "Product Purchase",
+                  );
+                }),
+                verticalSpace(v: 10),
+                //Users
+                Obx(() {
+                  final pageType = adminUiController.pageType.value!
+                      .getOrElse(() => PageType.initial());
+                  return DrawerItem(
+                    isSvg: false,
+                    onTap: () =>
+                        adminUiController.changePageType(PageType.customer()),
+                    textTheme: textTheme,
+                    isSelected: pageType == PageType.addCustomer() ||
+                        pageType == PageType.addCustomer(),
                     imageIcon: AdminIcon.users,
                     label: "Users",
                   );

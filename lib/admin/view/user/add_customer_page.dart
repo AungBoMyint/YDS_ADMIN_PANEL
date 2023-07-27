@@ -65,7 +65,7 @@ class AddCustomerPage extends StatelessWidget {
                   ),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
-                      adminUiController.changePageType(PageType.addCustomer());
+                      adminUiController.changePageType(PageType.customer());
                     },
                 ),
               ),
@@ -172,81 +172,7 @@ class AddCustomerPage extends StatelessWidget {
                               ),
                               verticalSpace(),
                               //password
-                              SizedBox(
-                                child: TextFormField(
-                                  validator: (v) =>
-                                      crController.validator(v, "Password"),
-                                  controller: crController.passwordController,
-                                  decoration: InputDecoration(
-                                    border: dropDownBorder(),
-                                    disabledBorder: dropDownBorder(),
-                                    focusedBorder: dropDownBorder(),
-                                    enabledBorder: dropDownBorder(),
-                                    labelText: "Password",
-                                    labelStyle: labelStyle,
-                                    floatingLabelStyle: floatingLabelStyle,
-                                  ),
-                                ),
-                              ),
-                              verticalSpace(),
-                              //Ages
-                              DropDownTextField(
-                                controller: crController.ageController,
-                                clearOption: true,
-                                textFieldDecoration: InputDecoration(
-                                  border: dropDownBorder(),
-                                  disabledBorder: dropDownBorder(),
-                                  focusedBorder: dropDownBorder(),
-                                  enabledBorder: dropDownBorder(),
-                                  labelText: "Select Age",
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.always,
-                                ),
-                                validator: (value) =>
-                                    stringValidator("Age", value),
-                                dropDownItemCount: ages.length,
-                                dropDownList: ages
-                                    .map((e) => DropDownValueModel(
-                                          name: e,
-                                          value: e,
-                                        ))
-                                    .toList(),
-                                onChanged: (val) {
-                                  debugPrint("Single Selections: $val");
-                                },
-                              ),
-                              verticalSpace(),
-                              //Areas
-                              MultiSelectDialogField(
-                                initialValue: crController.multiSelectedItems
-                                    .map((element) => element)
-                                    .toList(),
-                                title: Text("Select Areas"),
-                                buttonText: Text("Select Areas"),
-                                buttonIcon: Icon(Icons.arrow_drop_down),
-                                items: areas
-                                    .map((e) => MultiSelectItem(e, e))
-                                    .toList(),
-                                listType: MultiSelectListType.LIST,
-                                onConfirm: (values) {
-                                  crController.multiSelectedItems.value =
-                                      values.map((e) => e as String).toList();
-                                },
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: alController.isLightTheme.value
-                                        ? Theme.of(context).dividerColor
-                                        : Colors.grey.shade100,
-                                  ),
-                                ),
-                                validator: (v) {
-                                  if (v == null || v.isEmpty) {
-                                    return "Areas is required.";
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                              ),
+
                               /*  DropDownTextField.multiSelection(
                                 controller:
                                     multiController /* crController.areaController */,
@@ -337,38 +263,20 @@ class AddCustomerPage extends StatelessWidget {
                                     : const SizedBox();
                               }),
                               verticalSpace(),
-                              Obx(() {
-                                return Align(
-                                  alignment: Alignment.bottomRight,
-                                  child: crController.editUser.value == null
-                                      ? ElevatedButton(
-                                          onPressed: () =>
-                                              crController.addUser(),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              "ADD",
-                                              style: textTheme.displayMedium
-                                                  ?.copyWith(
-                                                      color: Colors.white),
-                                            ),
-                                          ),
-                                        )
-                                      : ElevatedButton(
-                                          onPressed: () =>
-                                              crController.updateUser(),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              "UPDATE",
-                                              style: textTheme.displayMedium
-                                                  ?.copyWith(
-                                                      color: Colors.white),
-                                            ),
-                                          ),
-                                        ),
-                                );
-                              }),
+                              Align(
+                                alignment: Alignment.bottomRight,
+                                child: ElevatedButton(
+                                  onPressed: () => crController.updateProfile(),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "UPDATE",
+                                      style: textTheme.displayMedium
+                                          ?.copyWith(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              ),
                               verticalSpace(),
                             ]),
                       ),

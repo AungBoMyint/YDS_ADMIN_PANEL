@@ -4,6 +4,7 @@ import 'package:YDS/admin/controller/purchase_controller.dart';
 import 'package:YDS/models/object_models/form/course_form.dart';
 import 'package:YDS/models/purchase_filter.dart';
 import 'package:YDS/models/purchase_filter_type.dart';
+import 'package:YDS/service/collection_name.dart';
 import 'package:dartz/dartz.dart' hide State;
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
@@ -407,6 +408,12 @@ void showPopupMenu(
           }
           //TODO:Chage this form to Confirm = true
           /* orController.changeOrderStatua(1); */
+          orController.confirmEnrollment(
+            collection: courseFormCollection,
+            resourceId: order.id,
+            userId: order.userID,
+            cost: order.price.price,
+          );
         },
         value: 'confirm',
         child: Row(

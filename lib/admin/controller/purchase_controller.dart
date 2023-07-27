@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:YDS/models/object_models/form/car_licence_form.dart';
 import 'package:YDS/models/object_models/form/course_form.dart';
 import 'package:YDS/models/object_models/form/driving_licence_form.dart';
+import 'package:YDS/models/object_models/purchase.dart';
 import 'package:YDS/models/purchase_filter_type.dart';
 import 'package:YDS/service/collection_name.dart';
 import 'package:YDS/service/reference.dart';
@@ -11,6 +12,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:YDS/models/object_models/item.dart';
+import '../../service/api.dart';
 import '../../service/query.dart';
 import '../utils/debouncer.dart';
 
@@ -22,6 +24,7 @@ class PurchaseController extends GetxController {
   Either<CourseForm, CourseForm?> selectedCourseForm = right(null);
   Either<DrivingLicenceForm, DrivingLicenceForm?> selectedDrivingForm =
       right(null);
+  Either<PurchaseModel, PurchaseModel?> selectedRewardPurchase = right(null);
 
   Either<CarLicenceForm, CarLicenceForm?> selectedCarForm = right(null);
 
@@ -39,6 +42,7 @@ class PurchaseController extends GetxController {
   //CarLicenceForm
   RxList<CarLicenceForm> carLicenceForms = <CarLicenceForm>[].obs;
   RxList<CarLicenceForm> searchCarLicenceForms = <CarLicenceForm>[].obs;
+  RxList<PurchaseModel> rewardPurchases = <PurchaseModel>[].obs;
 
   final debouncer = Debouncer(milliseconds: 800);
 
@@ -79,9 +83,11 @@ class PurchaseController extends GetxController {
     if (p == null) {
       searchCarLicenceForms.value = carLicenceForms;
     } else if (!(p == null) && p == PurchaseFilterType.cashon()) {
+      searchCarLicenceForms.clear();
       searchCarLicenceForms.value =
           carLicenceForms.where((e) => e.bankSlipImage == null).toList();
     } else if (!(p == null) && p == PurchaseFilterType.prepay()) {
+      searchCarLicenceForms.clear();
       searchCarLicenceForms.value =
           carLicenceForms.where((e) => e.bankSlipImage != null).toList();
     }
@@ -94,6 +100,8 @@ class PurchaseController extends GetxController {
       selectedDrivingForm = item;
   void setSelectedCarForm(Either<CarLicenceForm, CarLicenceForm?> item) =>
       selectedCarForm = item;
+  void setRewardPurchase(Either<PurchaseModel, PurchaseModel?> item) =>
+      selectedRewardPurchase = item;
 
   void startCourseFormsSearch(String value) {
     if (value.isNotEmpty) {
@@ -145,6 +153,36 @@ class PurchaseController extends GetxController {
           .toList()
           .length;
     });
+    productPurchaseCollection().snapshots().listen((event) {
+      rewardPurchases.value = event.docs.map((e) => e.data()).toList();
+    });
     super.onInit();
+  }
+
+  Future<void> confirmEnrollment({
+    required String collection,
+    required String resourceId,
+    required String userId,
+    required int cost,
+  }) async {
+    FirebaseFirestore.instance.collection(collection).doc(resourceId).update({
+      'isConfirmed': true,
+    }).then((value) async {
+      //Then we need to increase,enrolled user's point
+      FirebaseFirestore.instance.runTransaction((transaction) async {
+        final secureSnapshot = await FirebaseFirestore.instance
+            .collection(normalUserCollection)
+            .doc(userId)
+            .get();
+        final previousPoint = secureSnapshot.get("points") as int;
+        transaction.update(secureSnapshot.reference, {
+          "points": previousPoint + ((cost / 100).round() * 5),
+          //If cost = 100 => 5 points
+          //   cost = 1000 => 50 points
+        });
+      });
+      await Api.sendPushToUser("သင်တန်းလက်ခံခြင်း",
+          "You get ${(cost / 100).round() * 5} points", userId);
+    });
   }
 }

@@ -1,11 +1,16 @@
 import 'package:YDS/admin/view/dlprice/carlicence_price_page.dart';
 import 'package:YDS/admin/view/dlprice/driving_licence_price_page.dart';
 import 'package:YDS/admin/view/guide_line/guideline_item_page.dart';
+import 'package:YDS/admin/view/purchase/car_purchase_detail_page.dart';
 import 'package:YDS/admin/view/purchase/car_purchase_page.dart';
 import 'package:YDS/admin/view/purchase/course_purchase_detail_page.dart';
 import 'package:YDS/admin/view/purchase/course_purchase_page.dart';
+import 'package:YDS/admin/view/purchase/driving_purchase_detail_page.dart';
 import 'package:YDS/admin/view/purchase/driving_purchase_page.dart';
-import 'package:dartz/dartz.dart';
+import 'package:YDS/admin/view/purchase/reward_purchase_detail_page.dart';
+import 'package:YDS/admin/view/purchase/reward_purchase_page.dart';
+import 'package:YDS/admin/view/user/customers_page.dart';
+import 'package:dartz/dartz.dart' hide State;
 import 'package:flutter/material.dart' hide DrawerHeader;
 import 'package:get/get.dart';
 import 'package:YDS/admin/view/course/course_page.dart';
@@ -16,6 +21,7 @@ import 'package:YDS/admin/view/user/add_customer_page.dart';
 import 'dart:developer';
 import '../../constant/icon.dart';
 import '../../models/rbpoint.dart';
+import '../../service/notification_service.dart';
 import '../../theme/app_theme.dart';
 import '../controller/admin_login_controller.dart';
 import '../controller/admin_ui_controller.dart';
@@ -27,8 +33,21 @@ import 'guide_line/guideline_category_page.dart';
 import 'overview/overview_page.dart';
 import 'user_profile_page.dart';
 
-class AdminMainScreen extends GetView<AdminUiController> {
+class AdminMainScreen extends StatefulWidget {
   const AdminMainScreen({super.key});
+
+  @override
+  State<AdminMainScreen> createState() => _AdminMainScreenState();
+}
+
+class _AdminMainScreenState extends State<AdminMainScreen> {
+  @override
+  void initState() {
+    FirebaseMessagingService.getToken();
+    FirebaseMessagingService.requestPermission();
+    FirebaseMessagingService.setUpFullNotification();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +59,7 @@ class AdminMainScreen extends GetView<AdminUiController> {
     final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
-        key: controller.scaffoldKey,
+        key: adminUiController.scaffoldKey,
         /* endDrawer: AddUser, */
         drawer: DrawerItems(
           textTheme: textTheme,
@@ -48,7 +67,7 @@ class AdminMainScreen extends GetView<AdminUiController> {
         body: SafeArea(
           child: LayoutBuilder(builder: (context, constraints) {
             adminUiController.setRBPoint(getRBPoint(constraints.maxWidth));
-            return controller.rbPoint.value!.fold(
+            return adminUiController.rbPoint.value!.fold(
               (l) => const SizedBox(),
               (r) => r.map(
                 xl: (_) => DesktopXLSizeLayout(
@@ -216,10 +235,16 @@ class DesktopXLSizeLayout extends StatelessWidget {
                           coursePurchase: (_) => CourseFormPurchasePage(),
                           coursePurchaseDetail: (_) =>
                               CoursePurchaseDetailPage(),
-                          drivingLicencePurchaseDetail: (_) => Container(),
-                          carLicencePurchaseDetail: (_) => Container(),
-                          customer: (_) => Container(),
+                          drivingLicencePurchaseDetail: (_) =>
+                              DrivingPurchaseDetailPage(),
+                          carLicencePurchaseDetail: (_) =>
+                              CarPurchaseDetailPage(),
+                          productPurchase: (_) => RewardPurchasePage(),
+                          productPurchaseDetail: (_) =>
+                              RewardPurchaseDetailPage(),
+                          customer: (_) => CustomersPage(),
                           addCustomer: (_) => AddCustomerPage(),
+                          /*  addCustomer: (_) => AddCustomerPage(), */
                           settings: (_) => Container(),
                           updateProfile: (_) => AddCustomerPage(),
                         ),

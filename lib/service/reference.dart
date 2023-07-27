@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../models/auth_user.dart';
 import '../models/guideline_category.dart';
 import '../models/guideline_item.dart';
 import '../models/object_models/form/car_licence_form.dart';
@@ -11,6 +10,7 @@ import '../models/object_models/purchase.dart';
 import '../models/object_models/question/question.dart';
 import '../models/object_models/question/sub_question.dart';
 import '../models/object_models/reward_product.dart';
+import '../models/object_models/user.dart';
 import 'collection_name.dart';
 
 //Course
@@ -157,10 +157,12 @@ DocumentReference<PurchaseModel> productPurchaseDocument(String id) =>
     productPurchaseCollection().doc(id);
 
 //User
-CollectionReference<AuthUser> userCollectionReference() =>
-    FirebaseFirestore.instance.collection(normalUserCollection).withConverter(
+CollectionReference<dynamic> userCollectionReference() =>
+    FirebaseFirestore.instance.collection(
+        normalUserCollection) /* .withConverter(
         fromFirestore: (snapshot, __) => AuthUser.fromJson(snapshot.data()!),
-        toFirestore: (glCategory, __) => glCategory.toJson());
+        toFirestore: (glCategory, __) => glCategory.toJson()) */
+    ;
 
-DocumentReference<AuthUser> userDocumentReference(String id) =>
+DocumentReference<dynamic> userDocumentReference(String id) =>
     userCollectionReference().doc(id);

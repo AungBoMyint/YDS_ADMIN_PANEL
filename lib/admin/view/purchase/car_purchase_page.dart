@@ -4,8 +4,11 @@ import 'package:YDS/admin/controller/purchase_controller.dart';
 import 'package:YDS/models/object_models/form/car_licence_form.dart';
 import 'package:YDS/models/object_models/form/course_form.dart';
 import 'package:YDS/models/object_models/form/driving_licence_form.dart';
+import 'package:YDS/models/page_type.dart';
 import 'package:YDS/models/purchase_filter.dart';
 import 'package:YDS/models/purchase_filter_type.dart';
+import 'package:YDS/service/collection_name.dart';
+import 'package:YDS/service/reference.dart';
 import 'package:dartz/dartz.dart' hide State;
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
@@ -405,6 +408,12 @@ void showPopupMenu(
             );
             return;
           }
+          orController.confirmEnrollment(
+            collection: carLicenceCollection,
+            resourceId: order.id,
+            userId: order.userId,
+            cost: order.cost,
+          );
           //TODO:Chage this form to Confirm = true
           /* orController.changeOrderStatua(1); */
         },
@@ -462,7 +471,7 @@ void showPopupMenu(
         onTap: () {
           orController.setSelectedCarForm(right(order));
           //TODO:View Order
-          /*  adminUiController.setPageType(const PageType.orderDetail()); */
+          adminUiController.changePageType(PageType.carLicencePurchaseDetail());
         },
         value: 'view order',
         child: Row(

@@ -182,6 +182,48 @@ Widget rowText(
   );
 }
 
+Widget rowThreeColumnsText({
+  required String left,
+  required String middle,
+  required String right,
+  required double width,
+  required FontWeight fontWeight,
+}) {
+  return SizedBox(
+    height: 50,
+    width: width,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          left,
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: fontWeight,
+            fontSize: 22,
+          ),
+        ),
+        Text(
+          middle,
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: fontWeight,
+            fontSize: 22,
+          ),
+        ),
+        Text(
+          right,
+          style: TextStyle(
+            fontWeight: fontWeight,
+            color: Colors.black,
+            fontSize: 22,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
 Widget photoViewer({required String heroTags}) {
   return Center(
     child: AspectRatio(

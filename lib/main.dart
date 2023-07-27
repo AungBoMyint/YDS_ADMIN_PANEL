@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:YDS/routes.dart';
@@ -7,6 +8,12 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'admin/controller/admin_login_controller.dart';
 import 'constant/data.dart';
 import 'core/key.dart';
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print("==============Notification Receive====");
+  print('Handling a background message ${message.messageId}');
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +26,7 @@ Future<void> main() async {
     projectId: projectId,
     storageBucket: storageBucket,
   ));
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await Hive.initFlutter();
   await Hive.openBox(loginBox);
   /* debugPaintSizeEnabled = true; */

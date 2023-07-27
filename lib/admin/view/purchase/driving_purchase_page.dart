@@ -5,6 +5,7 @@ import 'package:YDS/models/object_models/form/course_form.dart';
 import 'package:YDS/models/object_models/form/driving_licence_form.dart';
 import 'package:YDS/models/purchase_filter.dart';
 import 'package:YDS/models/purchase_filter_type.dart';
+import 'package:YDS/service/collection_name.dart';
 import 'package:dartz/dartz.dart' hide State;
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../../constant/icon.dart';
+import '../../../models/page_type.dart';
 import '../../controller/admin_login_controller.dart';
 import '../../controller/admin_ui_controller.dart';
 import '../../utils/space.dart';
@@ -408,6 +410,12 @@ void showPopupMenu(
           }
           //TODO:Chage this form to Confirm = true
           /* orController.changeOrderStatua(1); */
+          orController.confirmEnrollment(
+            collection: drivingLicenceCollection,
+            resourceId: order.id,
+            userId: order.userId,
+            cost: order.cost,
+          );
         },
         value: 'confirm',
         child: Row(
@@ -463,7 +471,8 @@ void showPopupMenu(
         onTap: () {
           orController.setSelectedDrivingForm(right(order));
           //TODO:View Order
-          /*  adminUiController.setPageType(const PageType.orderDetail()); */
+          adminUiController
+              .changePageType(PageType.drivingLicencePurchaseDetail());
         },
         value: 'view order',
         child: Row(

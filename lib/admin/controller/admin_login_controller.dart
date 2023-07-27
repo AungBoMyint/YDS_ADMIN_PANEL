@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
 import '../../constant/data.dart';
-import '../../models/auth_user.dart';
+import '../../models/object_models/user.dart';
 import '../../routes.dart';
 import '../../service/reference.dart';
 import '../../theme/app_theme.dart';
@@ -69,10 +69,10 @@ class AdminLoginController extends GetxController {
         password: passwordController.text,
       ).then((value) async {
         userCollectionReference()
-            .where("email", isEqualTo: emailController.text)
+            .where("emailAddress", isEqualTo: emailController.text)
             .get()
             .then((userSnap) {
-          currentUser.value = userSnap.docs.first.data();
+          currentUser.value = AuthUser.fromJson(userSnap.docs.first.data());
           debugPrint(
               "***************Current User is ${currentUser.value}********");
           hideLoading(Get.context!);
@@ -114,20 +114,22 @@ class AdminLoginController extends GetxController {
 
   Future<void> createUserWithEmail(String email, String password) async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final user = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
       currentUser.value = AuthUser(
-        id: Uuid().v1(),
+        id: user.user?.uid ?? "",
         userName: "Admin",
-        email: email,
-        password: password,
+        emailAddress: email,
+        image: emptyUserImage,
+        points: 0,
+        token: '',
         status: 1,
       );
       await userCollectionReference()
           .doc(currentUser.value!.id)
-          .set(currentUser.value!);
+          .set(currentUser.value!.toJson());
       if (currentUser.value!.status! > 0) {
         Get.toNamed(adminMainRoute); //we do only if user is admin
         box.put(isAuthenticatedKey, true);
@@ -140,7 +142,7 @@ class AdminLoginController extends GetxController {
         print('The account already exists for that email.');
       }
     } catch (e) {
-      print(e);
+      print("============$e");
     }
   }
 
@@ -178,7 +180,7 @@ class AdminLoginController extends GetxController {
   Future<void> retrieveCurrentUser(String userId) async {
     try {
       final userSnapshot = await userDocumentReference(userId).get();
-      currentUser.value = userSnapshot.data();
+      currentUser.value = AuthUser.fromJson(userSnapshot.data());
       log("*********Current User: ${currentUser.value?.toJson()}");
     } catch (e) {
       debugPrint("******Firebase Error: $e");

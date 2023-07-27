@@ -21,6 +21,8 @@ class PageType with _$PageType {
   const factory PageType.drivingLicencePurchaseDetail() =
       _DrivingLicencePurchaseDetail;
   const factory PageType.carLicencePurchaseDetail() = _CarLicencePurchaseDetail;
+  const factory PageType.productPurchase() = _ProductPurchase;
+  const factory PageType.productPurchaseDetail() = _ProductPurchaseDetail;
   const factory PageType.customer() = _Customer;
   const factory PageType.addCustomer() = _AddCustomer;
   const factory PageType.settings() = _Settings;

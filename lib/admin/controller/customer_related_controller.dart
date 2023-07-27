@@ -12,8 +12,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../constant/data.dart';
-import '../../models/auth_user.dart';
 import '../../models/customer_role.dart';
+import '../../models/object_models/user.dart';
 import '../../service/database.dart';
 import '../../service/reference.dart';
 import '../utils/debouncer.dart';
@@ -24,13 +24,15 @@ import 'admin_ui_controller.dart';
 
 class CustomerRelatedController extends GetxController {
   final box = Hive.box(loginBox);
+  final Database _database = Database();
   final AdminLoginController alController = Get.find();
   final AdminUiController adminUiController = Get.find();
-  Rxn<Query<AuthUser>> userQuery = Rxn<Query<AuthUser>>();
+  Rxn<Query<dynamic>> userQuery = Rxn<Query<dynamic>>();
   final debouncer = Debouncer(milliseconds: 800);
   RxList<AuthUser> users = <AuthUser>[].obs;
   TextEditingController searchController = TextEditingController();
-
+  final Rxn<DocumentSnapshot<dynamic>> lastIndex =
+      Rxn<DocumentSnapshot<dynamic>>(null);
   Rxn<AuthUser> editUser = Rxn<AuthUser>(null);
   SingleValueDropDownController ageController = SingleValueDropDownController();
   RxList<String> multiSelectedItems = <String>[].obs;
@@ -43,22 +45,21 @@ class CustomerRelatedController extends GetxController {
     }
   }
 
-  allUsersExceptCurrentQuery() => userCollectionReference()
-      .where("id", isNotEqualTo: box.get(userIdKey))
-      .orderBy("id")
-      .orderBy("name")
-      .orderBy("email")
-      .limit(10);
+  Query<dynamic> allUsersExceptCurrentQuery() => userCollectionReference()
+      .orderBy("emailAddress")
+      .orderBy("userName")
+      .limit(20);
 
   void setScrollListener(ScrollController scroll) {
     scroll.addListener(() {
       if (scroll.position.pixels == scroll.position.maxScrollExtent) {
         allUsersExceptCurrentQuery()
-            .startAfter([users.last.id, users.last.email])
+            .startAfterDocument(lastIndex.value!)
             .get()
             .then((value) {
-              users.addAll(value.docs.map((e) => e.data()).toList());
-            });
+          users.addAll(
+              value.docs.map((e) => AuthUser.fromJson(e.data())).toList());
+        });
       }
     });
   }
@@ -69,10 +70,12 @@ class CustomerRelatedController extends GetxController {
     }
   }
 
-  Future<void> getUsers(Query<AuthUser> query) async {
+  Future<void> getUsers(Query<dynamic> query) async {
     userQuery.value = query;
     final value = await query.get();
-    users.value = value.docs.map((e) => e.data()).toList();
+    users.value = value.docs.map((e) => AuthUser.fromJson(e.data())).toList();
+
+    lastIndex.value = value.docs.last;
   }
 
   //---------------------For Adding Customer-----------------
@@ -97,21 +100,15 @@ class CustomerRelatedController extends GetxController {
     } else {
       editUser.value = user;
       //Make initialization
-      userNameController.text = user.userName;
-      emailController.text = user.email ?? '';
-      passwordController.text = user.password ?? "";
-      locationController.text = user.location ?? '';
-      role.value = user.status == 0
-          ? Role.customer
-          : user.status == 1
-              ? Role.admin
-              : Role.nothing;
+      userNameController.text = user.userName ?? "";
+      emailController.text = user.emailAddress ?? '';
       pickedImage.value = user.image ?? '';
+      role.value = role.value == 0 ? Role.customer : Role.admin;
     }
   }
 
   void reset() {
-    isFileImage.value = true;
+    /* isFileImage.value = true;
     pickedImage.value = "";
     pickedImageError.value = "";
     userNameController.clear();
@@ -121,7 +118,7 @@ class CustomerRelatedController extends GetxController {
     role.value = null;
     roleError.value = "";
     ageController.clearDropDown();
-    multiSelectedItems.value = [];
+    multiSelectedItems.value = []; */
   }
 
   void changeRole(Role r) {
@@ -166,7 +163,7 @@ class CustomerRelatedController extends GetxController {
     }
   }
 
-  Future<void> addUser() async {
+  /*  Future<void> addUser() async {
     final checkImage = checkPickImage();
     final checkRoleError = checkRole();
     if ((form.currentState?.validate() == true) &&
@@ -190,8 +187,8 @@ class CustomerRelatedController extends GetxController {
         final authUser = AuthUser(
           id: Uuid().v1(),
           userName: userNameController.text,
-          image: "" /* url */,
-          email: emailController.text,
+          image: url,
+          emailAddress: emailController.text,
           password: passwordController.text,
           location: locationController.text,
           area: multiSelectedItems.map((element) => element).toList(),
@@ -212,9 +209,9 @@ class CustomerRelatedController extends GetxController {
     } else {
       log("Form is not valid");
     }
-  }
+  } */
 
-  //TODO:TO MAKE LOGIC FOR UPDATE USE
+/*   //TODO:TO MAKE LOGIC FOR UPDATE USE
   Future<void> updateUser() async {
     final checkImage = checkPickImage();
     final checkRoleError = checkRole();
@@ -306,7 +303,7 @@ class CustomerRelatedController extends GetxController {
     locationController.text = currentUser.location ?? "";
     role.value = currentUser.status == 0 ? Role.customer : Role.admin;
   }
-
+ */
   Future<void> updateProfile() async {
     final checkImage = checkPickImage();
 /*     final checkRoleError = checkRole();
@@ -319,16 +316,21 @@ class CustomerRelatedController extends GetxController {
         await user.updateEmail(emailController.text);
         await user.updatePassword(passwordController.text);
         log("Form is valid");
-        final url =
-            ""; /* await _database.uploadImage("users", pickedImage.value); */
+        final url = await _database.uploadImage("users", pickedImage.value);
+        print("=============User Uploaded Image: $url");
         await user.updatePhotoURL(url);
         final r = role.value == Role.customer ? 0 : 1;
+        var nameList = getNameList(
+            userNameController.text.toLowerCase().removeAllWhitespace);
         final authUser = AuthUser(
           id: alController.currentUser.value!.id,
           userName: userNameController.text,
           image: url,
-          email: emailController.text,
+          emailAddress: emailController.text,
           status: r,
+          points: editUser.value?.points ?? 0,
+          token: editUser.value?.token ?? "",
+          nameList: nameList,
         );
         await userDocumentReference(authUser.id).update(authUser.toJson());
         alController.currentUser.value = authUser;

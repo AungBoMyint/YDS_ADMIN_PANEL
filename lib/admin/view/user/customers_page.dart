@@ -1,17 +1,8 @@
-import 'dart:developer';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data_table_2/data_table_2.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterfire_ui/firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
-
-import '../../../constant/icon.dart';
-import '../../../models/auth_user.dart';
-import '../../../models/customer_filter_type.dart';
 import '../../../models/page_type.dart';
 import '../../controller/admin_login_controller.dart';
 import '../../controller/admin_ui_controller.dart';
@@ -111,7 +102,7 @@ class _CustomersPageState extends State<CustomersPage> {
               children: [
                 verticalSpace(v: 5),
                 //Head Actions
-                Padding(
+                /*   Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20,
                   ),
@@ -152,7 +143,7 @@ class _CustomersPageState extends State<CustomersPage> {
                     ),
                   ),
                 ),
-                //Table
+               */ //Table
                 const Divider(),
                 Expanded(
                   child: Obx(() {
@@ -195,6 +186,7 @@ class _CustomersPageState extends State<CustomersPage> {
                       ],
                       rows: List.generate(users.length, (index) {
                         final user = users[index];
+
                         return DataRow(cells: [
                           //ID
                           DataCell(
@@ -215,7 +207,7 @@ class _CustomersPageState extends State<CustomersPage> {
                               horizontalSpace(v: 10),
                               Expanded(
                                 child: Text(
-                                  user.userName,
+                                  user.userName ?? "",
                                   style: textTheme.displayMedium,
                                 ),
                               )
@@ -319,7 +311,6 @@ class _CustomersPageState extends State<CustomersPage> {
                               IconButton(
                                 iconSize: 25,
                                 onPressed: () {
-                                  /* prController.setSelectedItem(item); */
                                   crController.setEditUser(user);
                                   adminUiController
                                       .changePageType(PageType.addCustomer());

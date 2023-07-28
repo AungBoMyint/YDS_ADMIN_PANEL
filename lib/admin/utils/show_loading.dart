@@ -61,7 +61,7 @@ showLoading(BuildContext context) {
           child: Center(
             child: LoadingAnimationWidget.flickr(
               leftDotColor: const Color(0xFF1A1A3F),
-              rightDotColor: const Color.fromRGBO(244, 167, 41, 1),
+              rightDotColor: Color(0xFF5E8F94),
               size: 50,
             ),
           ),

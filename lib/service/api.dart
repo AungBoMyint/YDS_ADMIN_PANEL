@@ -48,7 +48,7 @@ class Api {
         "click_action": "FLUTTER_NOTIFICATION_CLICK",
         "route": "/home",
       },
-      "topic": "alarm",
+      "condition": "'alarm' in topics",
     };
     final response = await Dio().post("https://fcm.googleapis.com/fcm/send",
         data: jsonBody,

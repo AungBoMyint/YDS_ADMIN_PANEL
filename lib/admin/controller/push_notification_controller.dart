@@ -18,6 +18,8 @@ class PushNotificationController extends GetxController {
   }
 
   Future<void> sentNotification(String title, String body) async {
+    showLoading(Get.context!);
+    await Future.delayed(Duration.zero);
     Api.sendPushToAllUser(title, body).then((value) async {
       await notificationCollection().doc().set({
         "title": title,
@@ -27,6 +29,7 @@ class PushNotificationController extends GetxController {
         "title": title,
         "body": body,
       });
+      hideLoading(Get.context!);
       if (Get.isDialogOpen == true) {
         hideLoading(Get.context!);
       }

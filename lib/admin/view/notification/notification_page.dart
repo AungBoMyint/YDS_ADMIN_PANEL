@@ -15,9 +15,16 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
+  final PushNotificationController pnController = Get.find();
+
+  @override
+  void initState() {
+    pnController.startGetNotification();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final PushNotificationController pnController = Get.find();
     final AdminUiController controller = Get.find();
     final textTheme = Theme.of(context).textTheme;
     final titleTextStyle = textTheme.displayMedium?.copyWith(fontSize: 22);

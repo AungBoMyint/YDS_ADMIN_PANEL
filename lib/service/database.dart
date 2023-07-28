@@ -1,8 +1,11 @@
 import 'dart:io';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:uuid/uuid.dart';
+
+import '../admin/utils/show_loading.dart';
 
 class Database {
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
@@ -44,5 +47,23 @@ class Database {
     final snapshot = await uploadTask;
 
     return await snapshot.ref.getDownloadURL();
+  }
+
+  Future<List<String>> uploadImageList(String path, List<String> image) async {
+    showLoading(Get.context!);
+    List<String> list = [];
+    // ignore: dead_code
+    for (var i = 0; i < 3; i++) {
+      Reference storageReference =
+          _firebaseStorage.ref().child('$path/${image[i]}');
+      UploadTask uploadTask =
+          storageReference.putData(await XFile(image[i]).readAsBytes());
+      final snapshot = await uploadTask;
+
+      final url = await snapshot.ref.getDownloadURL();
+      list.add(url);
+    }
+    hideLoading(Get.context!);
+    return list;
   }
 }

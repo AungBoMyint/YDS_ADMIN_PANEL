@@ -1,6 +1,8 @@
 import 'package:YDS/admin/view/dlprice/carlicence_price_page.dart';
 import 'package:YDS/admin/view/dlprice/driving_licence_price_page.dart';
+import 'package:YDS/admin/view/guide_line/allguideline_item_page.dart';
 import 'package:YDS/admin/view/guide_line/guideline_item_page.dart';
+import 'package:YDS/admin/view/notification/notification_page.dart';
 import 'package:YDS/admin/view/purchase/car_purchase_detail_page.dart';
 import 'package:YDS/admin/view/purchase/car_purchase_page.dart';
 import 'package:YDS/admin/view/purchase/course_purchase_detail_page.dart';
@@ -226,6 +228,7 @@ class DesktopXLSizeLayout extends StatelessWidget {
                           subQuestions: (_) => SubQuestionPage(),
                           guideLineCategory: (_) => GuidelineCategoryPage(),
                           guideLineItem: (_) => GuideLineItemPage(),
+                          allGuideLineItem: (_) => AllGuideLineItemPage(),
                           drivingLicencePrice: (_) => DrivingLicencePricePage(),
                           carLicencePrice: (_) => CarLicencePricePage(),
                           carLicencePurchase: (_) =>
@@ -247,6 +250,7 @@ class DesktopXLSizeLayout extends StatelessWidget {
                           /*  addCustomer: (_) => AddCustomerPage(), */
                           settings: (_) => Container(),
                           updateProfile: (_) => AddCustomerPage(),
+                          sendPushNotification: (_) => NotificationPage(),
                         ),
                       )),
                 ),

@@ -1,6 +1,7 @@
 import 'package:YDS/admin/controller/car_licence_price_controller.dart';
 import 'package:YDS/admin/controller/driving_licence_price_controller.dart';
 import 'package:YDS/admin/controller/purchase_controller.dart';
+import 'package:YDS/admin/controller/push_notification_controller.dart';
 import 'package:get/get.dart';
 import 'package:YDS/admin/controller/guideline_controller.dart';
 import 'package:YDS/admin/controller/overview_related_controller.dart';
@@ -23,5 +24,6 @@ class AdminBinding extends Bindings {
     Get.put(DrivingLicencePriceController());
     Get.put(CarLicencePriceController());
     Get.put(PurchaseController());
+    Get.put(PushNotificationController());
   }
 }

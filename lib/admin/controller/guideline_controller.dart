@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'package:YDS/service/reference.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,8 @@ import '../../service/query.dart';
 import '../utils/debouncer.dart';
 
 class GuideLineController extends GetxController {
+  RxList<GuideLineItem> allGuideLineItems = <GuideLineItem>[].obs;
+  var allGuideLineItemLoading = false.obs;
   Either<GuideLineCategory, GuideLineCategory?> selectedGuideLineCategory =
       right(null);
   Either<GuideLineItem, GuideLineItem?> selectedGuideLineItem = right(null);
@@ -179,6 +182,15 @@ class GuideLineController extends GetxController {
     if (guideLineItems.isEmpty) {
       await getGuideLineItem(glItemQuery(
           selectedGuideLineCategory.getOrElse(() => null)?.id ?? ""));
+    }
+  }
+
+  Future<void> startGetAllGuideLineItem() async {
+    if (allGuideLineItems.isEmpty) {
+      allGuideLineItemLoading.value = true;
+      final snapshot = await glItemCollection().get();
+      allGuideLineItems.value = snapshot.docs.map((e) => e.data()).toList();
+      allGuideLineItemLoading.value = false;
     }
   }
 }

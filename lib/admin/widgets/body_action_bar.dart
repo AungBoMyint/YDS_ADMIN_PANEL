@@ -24,6 +24,7 @@ class BodyActionBar extends GetView<AdminUiController> {
 
   @override
   Widget build(BuildContext context) {
+    final AdminUiController uiController = Get.find();
     final AdminLoginController alController = Get.find();
     return Obx(() {
       final currentUser = alController.currentUser.value;
@@ -92,9 +93,10 @@ class BodyActionBar extends GetView<AdminUiController> {
             horizontalSpace(v: 15),
             //Ball Notify Icon
             IconButton(
-              onPressed: () {},
+              onPressed: () =>
+                  uiController.changePageType(PageType.sendPushNotification()),
               icon: Icon(
-                FontAwesomeIcons.bell,
+                FontAwesomeIcons.paperPlane,
                 size: controller.rbPoint.value!
                     .getOrElse(() => RBPoint.xl())
                     .map(
@@ -226,7 +228,7 @@ void showPopupMenu(BuildContext context, Offset position) async {
       //Profile
       PopupMenuItem(
         onTap: () {
-          crController.setEditUser(alController.currentUser.value);
+          crController.setEditUser(alController.currentUser.value, 0.0);
           adminUiController.changePageType(const PageType.addCustomer());
         },
         value: 'profile',

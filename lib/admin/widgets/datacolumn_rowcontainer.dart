@@ -24,6 +24,7 @@ class DataColumnRowContainer extends GetView<AdminUiController> {
     this.border,
     this.titleLeftPadding,
     this.isSvg = true,
+    this.onTap,
   });
 
   final SizedBox Function({double? v}) horizontalSpace;
@@ -38,6 +39,7 @@ class DataColumnRowContainer extends GetView<AdminUiController> {
   final BoxBorder? border;
   final double? titleLeftPadding;
   final bool? isSvg;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -60,131 +62,107 @@ class DataColumnRowContainer extends GetView<AdminUiController> {
     return SizedBox(
       width: 250,
       height: 200,
-      child: Card(
-        shape: RoundedRectangleBorder(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(20),
-            ),
-            side: BorderSide(
-              color: Colors.grey,
-            )),
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  //Icon
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundColor: Colors.white,
-                    child: Center(
-                      child: isSvg!
-                          ? SvgPicture.asset(
-                              topImageIcon,
-                              width: controller.rbPoint.value!.fold(
-                                (l) => 0,
-                                (r) => r.map(
-                                  xl: (_) => 18,
-                                  desktop: (_) => 14,
-                                  tablet: (_) => 12,
-                                  mobile: (_) => 10,
+      child: InkWell(
+        onTap: onTap,
+        child: Card(
+          shape: RoundedRectangleBorder(
+              borderRadius: const BorderRadius.all(
+                Radius.circular(20),
+              ),
+              side: BorderSide(
+                color: Colors.grey,
+              )),
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    //Icon
+                    CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Colors.white,
+                      child: Center(
+                        child: isSvg!
+                            ? SvgPicture.asset(
+                                topImageIcon,
+                                width: controller.rbPoint.value!.fold(
+                                  (l) => 0,
+                                  (r) => r.map(
+                                    xl: (_) => 18,
+                                    desktop: (_) => 14,
+                                    tablet: (_) => 12,
+                                    mobile: (_) => 10,
+                                  ),
+                                ),
+                                height: controller.rbPoint.value!.fold(
+                                  (l) => 0,
+                                  (r) => r.map(
+                                    xl: (_) => 18,
+                                    desktop: (_) => 14,
+                                    tablet: (_) => 12,
+                                    mobile: (_) => 10,
+                                  ),
+                                ),
+                                color: Color(0xFF5E8F94),
+                              )
+                            : Image.asset(
+                                topImageIcon,
+                                width: controller.rbPoint.value!.fold(
+                                  (l) => 0,
+                                  (r) => r.map(
+                                    xl: (_) => 20,
+                                    desktop: (_) => 14,
+                                    tablet: (_) => 12,
+                                    mobile: (_) => 10,
+                                  ),
+                                ),
+                                height: controller.rbPoint.value!.fold(
+                                  (l) => 0,
+                                  (r) => r.map(
+                                    xl: (_) => 20,
+                                    desktop: (_) => 14,
+                                    tablet: (_) => 12,
+                                    mobile: (_) => 10,
+                                  ),
                                 ),
                               ),
-                              height: controller.rbPoint.value!.fold(
-                                (l) => 0,
-                                (r) => r.map(
-                                  xl: (_) => 18,
-                                  desktop: (_) => 14,
-                                  tablet: (_) => 12,
-                                  mobile: (_) => 10,
-                                ),
-                              ),
-                              color: Color(0xFF5E8F94),
-                            )
-                          : Image.asset(
-                              topImageIcon,
-                              width: controller.rbPoint.value!.fold(
-                                (l) => 0,
-                                (r) => r.map(
-                                  xl: (_) => 20,
-                                  desktop: (_) => 14,
-                                  tablet: (_) => 12,
-                                  mobile: (_) => 10,
-                                ),
-                              ),
-                              height: controller.rbPoint.value!.fold(
-                                (l) => 0,
-                                (r) => r.map(
-                                  xl: (_) => 20,
-                                  desktop: (_) => 14,
-                                  tablet: (_) => 12,
-                                  mobile: (_) => 10,
-                                ),
-                              ),
-                            ),
-                    ),
-                  ),
-                  horizontalSpace(
-                    v: controller.rbPoint.value!.fold(
-                      (l) => 0,
-                      (r) => r.map(
-                        xl: (_) => 20,
-                        desktop: (_) => 16,
-                        tablet: (_) => 14,
-                        mobile: (_) => 12,
                       ),
                     ),
-                  ),
-                  //Data
-                  Expanded(
-                    child: Text(
-                      topData,
-                      style: textTheme.displayLarge?.copyWith(
-                        fontSize: controller.rbPoint.value!
-                            .getOrElse(() => RBPoint.xl())
-                            .map(
-                                xl: (_) => 16,
-                                desktop: (_) => 14,
-                                tablet: (_) => 12,
-                                mobile: (_) => 10),
+                    horizontalSpace(
+                      v: controller.rbPoint.value!.fold(
+                        (l) => 0,
+                        (r) => r.map(
+                          xl: (_) => 20,
+                          desktop: (_) => 16,
+                          tablet: (_) => 14,
+                          mobile: (_) => 12,
+                        ),
                       ),
-                      maxLines: 2,
                     ),
-                  ),
-                ],
-              ),
-              verticalSpace(
-                v: controller.rbPoint.value!.fold(
-                  (l) => 0,
-                  (r) => r.map(
-                    xl: (_) => 12,
-                    desktop: (_) => 10,
-                    tablet: (_) => 8,
-                    mobile: (_) => 6,
-                  ),
+                    //Data
+                    Expanded(
+                      child: Text(
+                        topData,
+                        style: textTheme.displayLarge?.copyWith(
+                          fontSize: controller.rbPoint.value!
+                              .getOrElse(() => RBPoint.xl())
+                              .map(
+                                  xl: (_) => 16,
+                                  desktop: (_) => 14,
+                                  tablet: (_) => 12,
+                                  mobile: (_) => 10),
+                        ),
+                        maxLines: 2,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              //Container Title
-              Padding(
-                padding: EdgeInsets.only(left: titleLeftPadding ?? 0),
-                child: Text(
-                  titleData,
-                  style: dataTextStyle,
-                ),
-              ),
-              verticalSpace(v: 4),
-              //Container SubTitle
-
-              Text(
-                subTitleData,
-                style: dataTextStyle.copyWith(
-                  fontWeight: FontWeight.normal,
-                  color: Colors.grey,
-                  fontSize: controller.rbPoint.value!.fold(
+                verticalSpace(
+                  v: controller.rbPoint.value!.fold(
                     (l) => 0,
                     (r) => r.map(
                       xl: (_) => 12,
@@ -194,10 +172,37 @@ class DataColumnRowContainer extends GetView<AdminUiController> {
                     ),
                   ),
                 ),
-              ),
-              /*  verticalSpace,
-                    Divider(), */
-            ],
+                //Container Title
+                Padding(
+                  padding: EdgeInsets.only(left: titleLeftPadding ?? 0),
+                  child: Text(
+                    titleData,
+                    style: dataTextStyle,
+                  ),
+                ),
+                verticalSpace(v: 4),
+                //Container SubTitle
+
+                Text(
+                  subTitleData,
+                  style: dataTextStyle.copyWith(
+                    fontWeight: FontWeight.normal,
+                    color: Colors.grey,
+                    fontSize: controller.rbPoint.value!.fold(
+                      (l) => 0,
+                      (r) => r.map(
+                        xl: (_) => 12,
+                        desktop: (_) => 10,
+                        tablet: (_) => 8,
+                        mobile: (_) => 6,
+                      ),
+                    ),
+                  ),
+                ),
+                /*  verticalSpace,
+                      Divider(), */
+              ],
+            ),
           ),
         ),
       ),

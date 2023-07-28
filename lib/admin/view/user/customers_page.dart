@@ -19,12 +19,17 @@ class CustomersPage extends StatefulWidget {
   State<CustomersPage> createState() => _CustomersPageState();
 }
 
-class _CustomersPageState extends State<CustomersPage> {
+class _CustomersPageState extends State<
+    CustomersPage> /* 
+    with AutomaticKeepAliveClientMixin<CustomersPage> */
+{
   late ScrollController scrollController;
   final CustomerRelatedController crController = Get.find();
   @override
   void initState() {
-    scrollController = ScrollController(initialScrollOffset: 0.0);
+    scrollController = ScrollController(
+        initialScrollOffset: crController.previousScrollOffset);
+    print("============Initialized Scroll Controller");
     crController.setScrollListener(scrollController);
     crController.startGetUsers();
     super.initState();
@@ -32,8 +37,8 @@ class _CustomersPageState extends State<CustomersPage> {
 
   @override
   void dispose() {
-    scrollController.removeListener(() {});
     scrollController.dispose();
+    print("============Disposed Scroll Controller");
     super.dispose();
   }
 
@@ -149,9 +154,11 @@ class _CustomersPageState extends State<CustomersPage> {
                   child: Obx(() {
                     final users = crController.users;
                     return DataTable2(
+                      key: crController.pageStorageKey,
                       scrollController: scrollController,
                       columnSpacing: 20,
                       horizontalMargin: 20,
+                      headingRowHeight: 50,
                       minWidth: 600,
                       onSelectAll: (v) =>
                           adminUiController.setDataTableSelectAll(),
@@ -311,7 +318,8 @@ class _CustomersPageState extends State<CustomersPage> {
                               IconButton(
                                 iconSize: 25,
                                 onPressed: () {
-                                  crController.setEditUser(user);
+                                  crController.setEditUser(
+                                      user, scrollController.offset);
                                   adminUiController
                                       .changePageType(PageType.addCustomer());
                                 },
@@ -334,6 +342,10 @@ class _CustomersPageState extends State<CustomersPage> {
       ],
     );
   }
+
+  /* @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true; */
 }
 
 class TextShimmer extends StatelessWidget {

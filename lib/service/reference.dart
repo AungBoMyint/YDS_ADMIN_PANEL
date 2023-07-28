@@ -166,3 +166,6 @@ CollectionReference<dynamic> userCollectionReference() =>
 
 DocumentReference<dynamic> userDocumentReference(String id) =>
     userCollectionReference().doc(id);
+
+CollectionReference<dynamic> notificationCollection() =>
+    FirebaseFirestore.instance.collection("notificaitons");

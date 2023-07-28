@@ -139,17 +139,25 @@ Future<void> upload<T>(
   String error,
   void Function() successCallBack,
 ) async {
-  showLoading(Get.context!);
+  if (Get.isDialogOpen == false) {
+    showLoading(Get.context!);
+  }
+
   try {
     await reference.set(object);
-    hideLoading(Get.context!);
+
+    if (Get.isDialogOpen == true) {
+      hideLoading(Get.context!);
+    }
     successSnap(success);
     if (!Get.isSnackbarOpen) {
       successSnap(success);
     }
     successCallBack();
   } catch (e) {
-    hideLoading(Get.context!);
+    if (Get.isDialogOpen == true) {
+      hideLoading(Get.context!);
+    }
     if (!Get.isSnackbarOpen) {
       errorSnap(error);
     }
@@ -163,17 +171,24 @@ Future<void> edit<T>(
   String error,
   void Function() successCallBack,
 ) async {
-  showLoading(Get.context!);
+  if (Get.isDialogOpen == false) {
+    showLoading(Get.context!);
+  }
+
   try {
     await reference.set(object);
-    hideLoading(Get.context!);
+    if (Get.isDialogOpen == true) {
+      hideLoading(Get.context!);
+    }
     successSnap(success);
     if (!Get.isSnackbarOpen) {
       successSnap(success);
     }
     successCallBack();
   } catch (e) {
-    hideLoading(Get.context!);
+    if (Get.isDialogOpen == true) {
+      hideLoading(Get.context!);
+    }
     if (!Get.isSnackbarOpen) {
       errorSnap(error);
     }

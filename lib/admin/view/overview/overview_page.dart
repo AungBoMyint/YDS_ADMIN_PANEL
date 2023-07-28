@@ -1,3 +1,4 @@
+import 'package:YDS/models/page_type.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:YDS/admin/utils/widgets.dart';
@@ -83,6 +84,8 @@ class _OverviewPageState extends State<OverviewPage> {
                           return newsCategories.fold(
                             (l) => onLoading(),
                             (r) => DataColumnRowContainer(
+                              onTap: () =>
+                                  controller.changePageType(PageType.course()),
                               isSvg: false,
                               horizontalSpace: widget.horizontalSpace,
                               verticalSpace: widget.verticalSpace,
@@ -104,6 +107,8 @@ class _OverviewPageState extends State<OverviewPage> {
                           return newsTypes.fold(
                             (l) => onLoading(),
                             (r) => DataColumnRowContainer(
+                              onTap: () => controller
+                                  .changePageType(PageType.rewardProduct()),
                               isSvg: false,
                               horizontalSpace: widget.horizontalSpace,
                               verticalSpace: widget.verticalSpace,
@@ -126,6 +131,8 @@ class _OverviewPageState extends State<OverviewPage> {
                           return vlogVideos.fold(
                             (l) => onLoading(),
                             (r) => DataColumnRowContainer(
+                              onTap: () => controller
+                                  .changePageType(PageType.questions()),
                               isSvg: false,
                               horizontalSpace: widget.horizontalSpace,
                               verticalSpace: widget.verticalSpace,
@@ -171,6 +178,8 @@ class _OverviewPageState extends State<OverviewPage> {
                           return therapyVideos.fold(
                             (l) => onLoading(),
                             (r) => DataColumnRowContainer(
+                              onTap: () => controller
+                                  .changePageType(PageType.guideLineCategory()),
                               isSvg: false,
                               horizontalSpace: widget.horizontalSpace,
                               verticalSpace: widget.verticalSpace,
@@ -195,6 +204,8 @@ class _OverviewPageState extends State<OverviewPage> {
                           return therapyVideos.fold(
                             (l) => onLoading(),
                             (r) => DataColumnRowContainer(
+                              onTap: () => controller
+                                  .changePageType(PageType.allGuideLineItem()),
                               isSvg: false,
                               horizontalSpace: widget.horizontalSpace,
                               verticalSpace: widget.verticalSpace,
@@ -217,6 +228,8 @@ class _OverviewPageState extends State<OverviewPage> {
                           return users.fold(
                             (l) => onLoading(),
                             (r) => DataColumnRowContainer(
+                              onTap: () => controller
+                                  .changePageType(PageType.customer()),
                               isSvg: false,
                               horizontalSpace: widget.horizontalSpace,
                               verticalSpace: widget.verticalSpace,
@@ -240,6 +253,8 @@ class _OverviewPageState extends State<OverviewPage> {
                           return newsItems.fold(
                             (l) => onLoading(),
                             (r) => DataColumnRowContainer(
+                              onTap: () => controller
+                                  .changePageType(PageType.productPurchase()),
                               isSvg: false,
                               horizontalSpace: widget.horizontalSpace,
                               verticalSpace: widget.verticalSpace,
@@ -262,6 +277,8 @@ class _OverviewPageState extends State<OverviewPage> {
                           return newsItems.fold(
                             (l) => onLoading(),
                             (r) => DataColumnRowContainer(
+                              onTap: () => controller
+                                  .changePageType(PageType.coursePurchase()),
                               isSvg: false,
                               horizontalSpace: widget.horizontalSpace,
                               verticalSpace: widget.verticalSpace,
@@ -285,6 +302,8 @@ class _OverviewPageState extends State<OverviewPage> {
                           return newsItems.fold(
                             (l) => onLoading(),
                             (r) => DataColumnRowContainer(
+                              onTap: () => controller.changePageType(
+                                  PageType.drivingLicencePurchase()),
                               isSvg: false,
                               horizontalSpace: widget.horizontalSpace,
                               verticalSpace: widget.verticalSpace,
@@ -308,6 +327,8 @@ class _OverviewPageState extends State<OverviewPage> {
                           return newsItems.fold(
                             (l) => onLoading(),
                             (r) => DataColumnRowContainer(
+                              onTap: () => controller.changePageType(
+                                  PageType.carLicencePurchase()),
                               isSvg: false,
                               horizontalSpace: widget.horizontalSpace,
                               verticalSpace: widget.verticalSpace,

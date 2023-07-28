@@ -17,7 +17,9 @@ class AdminIcon {
   static const logout = "assets/ok.png";
   static const overview = "assets/analytics.png";
   static const money = "assets/money.png";
-
+  static const addImage = "assets/add-image.png";
+  static const gallery = "assets/gallery.png";
+  static const send = "assets/send.png";
   //--Svg---/
   static const courseSvg = "assets/bars/course.svg";
   static const licenseSvg = "assets/bars/license.svg";
@@ -29,7 +31,6 @@ class AdminIcon {
   static const overviewSvg = "assets/bars/analytics.svg";
   static const logoutSvg = "assets/bars/ok.svg";
   //--*---/
-  static const addImage = "assets/admin/add_image.png";
   static const calendar = "assets/admin/calendar.png";
   static const orderStatus = "assets/admin/order_status.png";
   static const acceptOrder = "assets/accept.png";

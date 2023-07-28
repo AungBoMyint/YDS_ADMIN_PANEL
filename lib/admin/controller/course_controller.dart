@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:developer';
+import 'package:YDS/service/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:YDS/models/object_models/item.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../service/query.dart';
 import '../utils/debouncer.dart';
 
@@ -14,7 +16,7 @@ class CourseController extends GetxController {
   //Right refer to Upload,Update
   RxList<ItemModel> courses = <ItemModel>[].obs;
   RxList<ItemModel> searchCourse = <ItemModel>[].obs;
-
+  Database database = Database();
   Rxn<Query<ItemModel>> itemsQuery = Rxn<Query<ItemModel>>();
   final debouncer = Debouncer(milliseconds: 800);
   /* FirestoreQueryBuilderSnapshot<Category>? sliderSnapshot;
@@ -99,6 +101,22 @@ class CourseController extends GetxController {
   Future<void> startGetItems() async {
     if (courses.isEmpty) {
       await getItems(allCourseQuery());
+    }
+  }
+
+  //update picked image//
+  final ImagePicker _imagePicker = ImagePicker();
+  RxList<String> pickedImageList = <String>["", "", ""].obs;
+
+  Future<void> pickImage(int index) async {
+    try {
+      final XFile? _file =
+          await _imagePicker.pickImage(source: ImageSource.gallery);
+      if (!(_file == null)) {
+        pickedImageList[index] = _file.path;
+      }
+    } catch (e) {
+      print("pickImage error $e");
     }
   }
 }

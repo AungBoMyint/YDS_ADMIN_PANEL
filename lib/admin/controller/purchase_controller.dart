@@ -52,44 +52,83 @@ class PurchaseController extends GetxController {
 
   void setPurchaseFilterType(PurchaseFilterType? p) {
     purchaseFilterType.value = p;
+    var list = List.from(courseForms).map((e) => e as CourseForm).toList();
     if (p == null) {
-      searchCourseForms.value = courseForms;
+      searchCourseForms.clear();
+      searchCourseForms.value = list;
     } else if (!(p == null) && p == PurchaseFilterType.cashon()) {
+      searchCourseForms.clear();
       searchCourseForms.value =
-          courseForms.where((e) => e.bankSlipImage == null).toList();
+          list.where((e) => e.bankSlipImage == null).toList();
     } else if (!(p == null) && p == PurchaseFilterType.prepay()) {
+      searchCourseForms.clear();
       searchCourseForms.value =
-          courseForms.where((e) => e.bankSlipImage != null).toList();
+          list.where((e) => e.bankSlipImage != null).toList();
+    } else if (!(p == null) && p == PurchaseFilterType.new()) {
+      searchCourseForms.clear();
+      searchCourseForms.value =
+          list.where((e) => e.isConfirmed == false).toList();
+    } else if (!(p == null) && p == PurchaseFilterType.confirm()) {
+      searchCourseForms.clear();
+      searchCourseForms.value =
+          list.where((e) => e.isConfirmed == true).toList();
     }
+    print("============SearchCourseForm:${searchCourseForms.length}");
+    print("============CourseForm:${courseForms.length}");
   }
 
   //driving purchase filter
   void setDrivingPurchaseFilterType(PurchaseFilterType? p) {
     drivingPurchaseFilterType.value = p;
+    var list = List.from(drivingLicenceForms)
+        .map((e) => e as DrivingLicenceForm)
+        .toList();
     if (p == null) {
-      searchDrivingLicenceForms.value = drivingLicenceForms;
+      searchDrivingLicenceForms.clear();
+      searchDrivingLicenceForms.value = list;
     } else if (!(p == null) && p == PurchaseFilterType.cashon()) {
+      searchDrivingLicenceForms.clear();
       searchDrivingLicenceForms.value =
-          drivingLicenceForms.where((e) => e.bankSlipImage == null).toList();
+          list.where((e) => e.bankSlipImage == null).toList();
     } else if (!(p == null) && p == PurchaseFilterType.prepay()) {
+      searchDrivingLicenceForms.clear();
       searchDrivingLicenceForms.value =
-          drivingLicenceForms.where((e) => e.bankSlipImage != null).toList();
+          list.where((e) => e.bankSlipImage != null).toList();
+    } else if (!(p == null) && p == PurchaseFilterType.new()) {
+      searchDrivingLicenceForms.clear();
+      searchDrivingLicenceForms.value =
+          list.where((e) => e.isConfirmed == false).toList();
+    } else if (!(p == null) && p == PurchaseFilterType.confirm()) {
+      searchDrivingLicenceForms.clear();
+      searchDrivingLicenceForms.value =
+          list.where((e) => e.isConfirmed == true).toList();
     }
   }
 
   //car purchase filter
   void setCarPurchaseFilterType(PurchaseFilterType? p) {
     carPurchaseFilterType.value = p;
+    var list =
+        List.from(carLicenceForms).map((e) => e as CarLicenceForm).toList();
     if (p == null) {
-      searchCarLicenceForms.value = carLicenceForms;
+      searchCarLicenceForms.clear();
+      searchCarLicenceForms.value = list;
     } else if (!(p == null) && p == PurchaseFilterType.cashon()) {
       searchCarLicenceForms.clear();
       searchCarLicenceForms.value =
-          carLicenceForms.where((e) => e.bankSlipImage == null).toList();
+          list.where((e) => e.bankSlipImage == null).toList();
     } else if (!(p == null) && p == PurchaseFilterType.prepay()) {
       searchCarLicenceForms.clear();
       searchCarLicenceForms.value =
-          carLicenceForms.where((e) => e.bankSlipImage != null).toList();
+          list.where((e) => e.bankSlipImage != null).toList();
+    } else if (!(p == null) && p == PurchaseFilterType.new()) {
+      searchCarLicenceForms.clear();
+      searchCarLicenceForms.value =
+          list.where((e) => e.isConfirmed == false).toList();
+    } else if (!(p == null) && p == PurchaseFilterType.confirm()) {
+      searchCarLicenceForms.clear();
+      searchCarLicenceForms.value =
+          list.where((e) => e.isConfirmed == true).toList();
     }
   }
 

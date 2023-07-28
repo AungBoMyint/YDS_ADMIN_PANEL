@@ -171,6 +171,24 @@ class AddCustomerPage extends StatelessWidget {
                                 ),
                               ),
                               verticalSpace(),
+                              //Points
+                              SizedBox(
+                                child: TextFormField(
+                                  validator: (v) =>
+                                      crController.validator(v, "Points"),
+                                  controller: crController.pointController,
+                                  decoration: InputDecoration(
+                                    border: dropDownBorder(),
+                                    disabledBorder: dropDownBorder(),
+                                    focusedBorder: dropDownBorder(),
+                                    enabledBorder: dropDownBorder(),
+                                    labelText: "Points",
+                                    labelStyle: labelStyle,
+                                    floatingLabelStyle: floatingLabelStyle,
+                                  ),
+                                ),
+                              ),
+                              verticalSpace(),
                               //password
 
                               /*  DropDownTextField.multiSelection(

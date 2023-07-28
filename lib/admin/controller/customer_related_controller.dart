@@ -23,6 +23,9 @@ import 'admin_login_controller.dart';
 import 'admin_ui_controller.dart';
 
 class CustomerRelatedController extends GetxController {
+  var pageStorageKey = PageStorageKey<String>('controllerA');
+/*   ScrollController scrollController = ScrollController();
+ */
   final box = Hive.box(loginBox);
   final Database _database = Database();
   final AdminLoginController alController = Get.find();
@@ -50,9 +53,11 @@ class CustomerRelatedController extends GetxController {
       .orderBy("userName")
       .limit(20);
 
-  void setScrollListener(ScrollController scroll) {
-    scroll.addListener(() {
-      if (scroll.position.pixels == scroll.position.maxScrollExtent) {
+  var previousScrollOffset = 0.0;
+  void setScrollListener(ScrollController scrollController) {
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
         allUsersExceptCurrentQuery()
             .startAfterDocument(lastIndex.value!)
             .get()
@@ -92,8 +97,10 @@ class CustomerRelatedController extends GetxController {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController locationController = TextEditingController();
+  TextEditingController pointController = TextEditingController();
 
-  void setEditUser(AuthUser? user) {
+  void setEditUser(AuthUser? user, double scrollOffset) {
+    previousScrollOffset = scrollOffset;
     reset();
     if (user == null) {
       editUser.value = null;
@@ -102,8 +109,9 @@ class CustomerRelatedController extends GetxController {
       //Make initialization
       userNameController.text = user.userName ?? "";
       emailController.text = user.emailAddress ?? '';
+      pointController.text = "${user.points}";
       pickedImage.value = user.image ?? '';
-      role.value = role.value == 0 ? Role.customer : Role.admin;
+      role.value = user.status == 0 ? Role.customer : Role.admin;
     }
   }
 
@@ -328,7 +336,7 @@ class CustomerRelatedController extends GetxController {
           image: url,
           emailAddress: emailController.text,
           status: r,
-          points: editUser.value?.points ?? 0,
+          points: int.tryParse(pointController.text) ?? 0,
           token: editUser.value?.token ?? "",
           nameList: nameList,
         );

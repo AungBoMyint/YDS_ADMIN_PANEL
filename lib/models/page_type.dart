@@ -27,4 +27,6 @@ class PageType with _$PageType {
   const factory PageType.addCustomer() = _AddCustomer;
   const factory PageType.settings() = _Settings;
   const factory PageType.updateProfile() = _UpdateProfile;
+  const factory PageType.allGuideLineItem() = _AllGuideLineItem;
+  const factory PageType.sendPushNotification() = _SendPushNotification;
 }

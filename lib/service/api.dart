@@ -37,4 +37,26 @@ class Api {
           }));
     });
   }
+
+  static Future<void> sendPushToAllUser(String title, String message) async {
+    final jsonBody = <String, dynamic>{
+      "notification": <String, dynamic>{
+        "title": title,
+        "body": message,
+      },
+      "data": <String, dynamic>{
+        "click_action": "FLUTTER_NOTIFICATION_CLICK",
+        "route": "/home",
+      },
+      "topic": "alarm",
+    };
+    final response = await Dio().post("https://fcm.googleapis.com/fcm/send",
+        data: jsonBody,
+        options: Options(headers: {
+          "Authorization": "key=$fcmKey",
+          "Content-Type": "application/json"
+        }));
+    print("Response ${response}");
+    return;
+  }
 }

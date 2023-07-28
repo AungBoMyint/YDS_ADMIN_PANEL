@@ -9,4 +9,6 @@ class PurchaseFilter {
 List<PurchaseFilter> purchaseFilters = [
   PurchaseFilter(pft: PurchaseFilterType.cashon(), name: "Cash On"),
   PurchaseFilter(pft: PurchaseFilterType.prepay(), name: "Prepay"),
+  PurchaseFilter(pft: PurchaseFilterType.new(), name: "New"),
+  PurchaseFilter(pft: PurchaseFilterType.confirm(), name: "Confirmed"),
 ];

@@ -125,7 +125,8 @@ class DrawerItems extends GetView<AdminLoginController> {
                     textTheme: textTheme,
                     isSelected:
                         pageType == const PageType.guideLineCategory() ||
-                            pageType == const PageType.guideLineItem(),
+                            pageType == const PageType.guideLineItem() ||
+                            pageType == const PageType.allGuideLineItem(),
                     imageIcon: AdminIcon.guideLine,
                     label: "GuideLine Categories",
                   );
@@ -264,7 +265,8 @@ class DrawerItems extends GetView<AdminLoginController> {
                     onTap: () => adminUiController
                         .changePageType(PageType.carLicencePurchase()),
                     textTheme: textTheme,
-                    isSelected: pageType == const PageType.carLicencePrice() ||
+                    isSelected: pageType ==
+                            const PageType.carLicencePurchase() ||
                         pageType == const PageType.carLicencePurchaseDetail(),
                     imageIcon: AdminIcon.purchase,
                     label: "Car Licence Purchase",
@@ -318,7 +320,7 @@ class DrawerItems extends GetView<AdminLoginController> {
                     onTap: () =>
                         adminUiController.changePageType(PageType.customer()),
                     textTheme: textTheme,
-                    isSelected: pageType == PageType.addCustomer() ||
+                    isSelected: pageType == PageType.customer() ||
                         pageType == PageType.addCustomer(),
                     imageIcon: AdminIcon.users,
                     label: "Users",

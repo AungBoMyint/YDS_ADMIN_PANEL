@@ -17,8 +17,8 @@ import '../../utils/constant.dart';
 import '../../utils/func.dart';
 import '../../utils/space.dart';
 
-class AddCustomerPage extends StatelessWidget {
-  const AddCustomerPage({super.key});
+class UpdateProfilePage extends StatelessWidget {
+  const UpdateProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -284,7 +284,7 @@ class AddCustomerPage extends StatelessWidget {
                               Align(
                                 alignment: Alignment.bottomRight,
                                 child: ElevatedButton(
-                                  onPressed: () => crController.updateUser(),
+                                  onPressed: () => crController.updateProfile(),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(

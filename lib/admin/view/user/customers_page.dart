@@ -153,6 +153,7 @@ class _CustomersPageState extends State<
                 Expanded(
                   child: Obx(() {
                     final users = crController.users;
+                    print("=============All Users:${users.length}");
                     return DataTable2(
                       key: crController.pageStorageKey,
                       scrollController: scrollController,

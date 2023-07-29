@@ -12,6 +12,7 @@ import 'package:YDS/admin/view/purchase/driving_purchase_page.dart';
 import 'package:YDS/admin/view/purchase/reward_purchase_detail_page.dart';
 import 'package:YDS/admin/view/purchase/reward_purchase_page.dart';
 import 'package:YDS/admin/view/user/customers_page.dart';
+import 'package:YDS/admin/view/user/update_profile_page.dart';
 import 'package:dartz/dartz.dart' hide State;
 import 'package:flutter/material.dart' hide DrawerHeader;
 import 'package:get/get.dart';
@@ -249,7 +250,7 @@ class DesktopXLSizeLayout extends StatelessWidget {
                           addCustomer: (_) => AddCustomerPage(),
                           /*  addCustomer: (_) => AddCustomerPage(), */
                           settings: (_) => Container(),
-                          updateProfile: (_) => AddCustomerPage(),
+                          updateProfile: (_) => UpdateProfilePage(),
                           sendPushNotification: (_) => NotificationPage(),
                         ),
                       )),

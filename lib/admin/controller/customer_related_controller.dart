@@ -62,6 +62,9 @@ class CustomerRelatedController extends GetxController {
             .startAfterDocument(lastIndex.value!)
             .get()
             .then((value) {
+          if (value.docs.isNotEmpty) {
+            lastIndex.value = value.docs.last;
+          }
           users.addAll(
               value.docs.map((e) => AuthUser.fromJson(e.data())).toList());
         });
@@ -219,7 +222,7 @@ class CustomerRelatedController extends GetxController {
     }
   } */
 
-/*   //TODO:TO MAKE LOGIC FOR UPDATE USE
+  //TODO:TO MAKE LOGIC FOR UPDATE USE
   Future<void> updateUser() async {
     final checkImage = checkPickImage();
     final checkRoleError = checkRole();
@@ -238,23 +241,20 @@ class CustomerRelatedController extends GetxController {
         id: editUser.value!.id,
         userName: userNameController.text,
         image: pickedImage.value,
-        email: emailController.text,
-        password: passwordController.text,
-        location: locationController.text,
-        area: multiSelectedItems.map((element) => element).toList(),
-        lat: 0,
-        long: 0,
+        emailAddress: emailController.text,
+        points: int.tryParse(pointController.text) ?? 0,
         status: role.value == Role.customer ? 0 : 1,
         nameList: subName,
+        token: editUser.value?.token,
       );
       //we need to first Login to get this user
-      final userCredential =
+      /* final userCredential =
           await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
-      );
+      ); */
       //user name update
-      if (updateUser.userName != editUser.value!.userName) {
+      /* if (updateUser.userName != editUser.value!.userName) {
         await userCredential.user?.updateDisplayName(updateUser.userName);
       }
       //user avatar update
@@ -271,9 +271,9 @@ class CustomerRelatedController extends GetxController {
       //user password update
       if (updateUser.password != editUser.value!.password) {
         await userCredential.user?.updatePassword(updateUser.password!);
-      }
+      } */
 
-      await userDocumentReference(updateUser.id).set(updateUser);
+      await userDocumentReference(updateUser.id).set(updateUser.toJson());
       final index = users.indexWhere((element) => element.id == updateUser.id);
       users[index] = updateUser;
       hideLoading(Get.context!);
@@ -283,6 +283,7 @@ class CustomerRelatedController extends GetxController {
     }
   }
 
+/*
   Future<void> registerWithEmailAndPassword(
       {required String email, required String password}) async {
     try {
@@ -321,8 +322,8 @@ class CustomerRelatedController extends GetxController {
         showLoading(Get.context!);
         final User user = FirebaseAuth.instance.currentUser!;
         await user.updateDisplayName(userNameController.text);
-        await user.updateEmail(emailController.text);
-        await user.updatePassword(passwordController.text);
+        /* await user.updateEmail(emailController.text);
+        await user.updatePassword(passwordController.text); */
         log("Form is valid");
         final url = await _database.uploadImage("users", pickedImage.value);
         print("=============User Uploaded Image: $url");

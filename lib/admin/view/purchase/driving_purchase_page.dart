@@ -6,6 +6,7 @@ import 'package:YDS/models/object_models/form/driving_licence_form.dart';
 import 'package:YDS/models/purchase_filter.dart';
 import 'package:YDS/models/purchase_filter_type.dart';
 import 'package:YDS/service/collection_name.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart' hide State;
 import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
@@ -16,9 +17,12 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../../constant/icon.dart';
+import '../../../models/object_models/user.dart';
 import '../../../models/page_type.dart';
+import '../../../service/reference.dart';
 import '../../controller/admin_login_controller.dart';
 import '../../controller/admin_ui_controller.dart';
+import '../../utils/constant.dart';
 import '../../utils/space.dart';
 import '../../utils/widgets.dart';
 
@@ -177,7 +181,7 @@ class DrivingLicenceFormPurchasePage extends StatelessWidget {
                   columns: [
                     DataColumn2(
                       label: Text(
-                        'STUDENT\nNAME',
+                        'STUDENT',
                         style: titleTextStyle,
                       ),
                     ),
@@ -237,14 +241,54 @@ class DrivingLicenceFormPurchasePage extends StatelessWidget {
                       return DataRow(
                         cells: [
                           //order id
-                          DataCell(
-                            Text(
+                          DataCell(FutureBuilder<DocumentSnapshot<dynamic>>(
+                                  future:
+                                      userDocumentReference(order.userId).get(),
+                                  builder: (context,
+                                      AsyncSnapshot<DocumentSnapshot<dynamic>>
+                                          snapshot) {
+                                    if (snapshot.hasData) {
+                                      AuthUser? user;
+                                      if (snapshot.data?.data() == null) {
+                                        user = null;
+                                      } else {
+                                        user = AuthUser.fromJson(snapshot.data
+                                            ?.data() as Map<String, dynamic>);
+                                      }
+
+                                      return Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          CircleAvatar(
+                                            radius: 20,
+                                            backgroundImage: NetworkImage(
+                                              user?.image ?? emptyProfile,
+                                            ),
+                                          ),
+                                          horizontalSpace(v: 10),
+                                          Expanded(
+                                            child: Text(
+                                              user?.userName ?? "",
+                                              style: textTheme.displayMedium,
+                                            ),
+                                          )
+                                        ],
+                                      );
+                                    }
+                                    return Text(
+                                      "",
+                                      style: bodyTextStyle,
+                                      maxLines: 3,
+                                    );
+                                  })
+                              /* Text(
                               order.name,
                               style: textTheme.displayMedium,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 3,
-                            ),
-                          ),
+                            ), */
+                              ),
                           DataCell(
                             Text(
                               order.phoneNumber,

@@ -1,6 +1,8 @@
 import 'dart:developer';
 /* import 'dart:html' as html;
  */
+import 'package:YDS/models/object_models/form/driving_licence_form.dart';
+import 'package:YDS/models/object_models/purchase.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,6 +15,8 @@ import 'package:uuid/uuid.dart';
 
 import '../../constant/data.dart';
 import '../../models/customer_role.dart';
+import '../../models/object_models/form/car_licence_form.dart';
+import '../../models/object_models/form/course_form.dart';
 import '../../models/object_models/user.dart';
 import '../../service/database.dart';
 import '../../service/reference.dart';
@@ -23,9 +27,13 @@ import 'admin_login_controller.dart';
 import 'admin_ui_controller.dart';
 
 class CustomerRelatedController extends GetxController {
+  RxList<CourseForm> coursePurchases = <CourseForm>[].obs;
+  RxList<DrivingLicenceForm> drivingPurchases = <DrivingLicenceForm>[].obs;
+  RxList<CarLicenceForm> carLicencerPurchases = <CarLicenceForm>[].obs;
+  RxList<PurchaseModel> rewardPurchases = <PurchaseModel>[].obs;
+
   var pageStorageKey = PageStorageKey<String>('controllerA');
-/*   ScrollController scrollController = ScrollController();
- */
+
   final box = Hive.box(loginBox);
   final Database _database = Database();
   final AdminLoginController alController = Get.find();
@@ -39,6 +47,7 @@ class CustomerRelatedController extends GetxController {
   Rxn<AuthUser> editUser = Rxn<AuthUser>(null);
   SingleValueDropDownController ageController = SingleValueDropDownController();
   RxList<String> multiSelectedItems = <String>[].obs;
+
   void startSearch() {
     if (searchController.text.isNotEmpty) {
       getUsers(allUsersExceptCurrentQuery().where("nameList",
@@ -115,22 +124,11 @@ class CustomerRelatedController extends GetxController {
       pointController.text = "${user.points}";
       pickedImage.value = user.image ?? '';
       role.value = user.status == 0 ? Role.customer : Role.admin;
+      getAllCurrentUserPurchase(user.id);
     }
   }
 
-  void reset() {
-    /* isFileImage.value = true;
-    pickedImage.value = "";
-    pickedImageError.value = "";
-    userNameController.clear();
-    emailController.clear();
-    passwordController.clear();
-    locationController.clear();
-    role.value = null;
-    roleError.value = "";
-    ageController.clearDropDown();
-    multiSelectedItems.value = []; */
-  }
+  void reset() {}
 
   void changeRole(Role r) {
     role.value = r;
@@ -174,54 +172,6 @@ class CustomerRelatedController extends GetxController {
     }
   }
 
-  /*  Future<void> addUser() async {
-    final checkImage = checkPickImage();
-    final checkRoleError = checkRole();
-    if ((form.currentState?.validate() == true) &&
-        checkImage &&
-        checkRoleError) {
-      log("Form is valid");
-      showLoading(Get.context!);
-      await Future.delayed(Duration.zero);
-      registerWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
-      ).then((value) async {
-        /*  final url = await _database.uploadImage("users", pickedImage.value); */
-        final r = role.value == Role.customer ? 0 : 1;
-        List<String> subName = [];
-        var subList = userNameController.text.split('');
-        for (var i = 0; i < subList.length; i++) {
-          subName
-              .add(userNameController.text.substring(0, i + 1).toLowerCase());
-        }
-        final authUser = AuthUser(
-          id: Uuid().v1(),
-          userName: userNameController.text,
-          image: url,
-          emailAddress: emailController.text,
-          password: passwordController.text,
-          location: locationController.text,
-          area: multiSelectedItems.map((element) => element).toList(),
-          lat: 0,
-          long: 0,
-          status: r,
-          nameList: subName,
-        );
-        await userDocumentReference(authUser.id).set(authUser);
-        users.add(authUser);
-        hideLoading(Get.context!);
-        reset();
-        successSnap("Success", message: "User Adding is successful");
-      }).catchError((o) {
-        hideLoading(Get.context!);
-        log("Register error: $o");
-      });
-    } else {
-      log("Form is not valid");
-    }
-  } */
-
   //TODO:TO MAKE LOGIC FOR UPDATE USE
   Future<void> updateUser() async {
     final checkImage = checkPickImage();
@@ -247,32 +197,6 @@ class CustomerRelatedController extends GetxController {
         nameList: subName,
         token: editUser.value?.token,
       );
-      //we need to first Login to get this user
-      /* final userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
-      ); */
-      //user name update
-      /* if (updateUser.userName != editUser.value!.userName) {
-        await userCredential.user?.updateDisplayName(updateUser.userName);
-      }
-      //user avatar update
-      if (updateUser.image != editUser.value!.image) {
-        final url =
-            ""; /* await _database.uploadImage("users", updateUser.avatar!); */
-        await userCredential.user?.updatePhotoURL(url);
-        updateUser = updateUser.copyWith(image: url);
-      }
-      //user email update
-      if (updateUser.email != editUser.value!.email) {
-        await userCredential.user?.updateEmail(updateUser.email!);
-      }
-      //user password update
-      if (updateUser.password != editUser.value!.password) {
-        await userCredential.user?.updatePassword(updateUser.password!);
-      } */
-
       await userDocumentReference(updateUser.id).set(updateUser.toJson());
       final index = users.indexWhere((element) => element.id == updateUser.id);
       users[index] = updateUser;
@@ -283,40 +207,9 @@ class CustomerRelatedController extends GetxController {
     }
   }
 
-/*
-  Future<void> registerWithEmailAndPassword(
-      {required String email, required String password}) async {
-    try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        log('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        log('The account already exists for that email.');
-      }
-    } catch (e) {
-      log("$e");
-    }
-  }
-
-  ///------UPDATE CURRENT USER PROFILE-------//
-  void initializeUpdateProfile() {
-    final password = alController.box.get(passwordKey, defaultValue: "");
-    final currentUser = alController.currentUser.value!;
-    userNameController.text = currentUser.userName;
-    emailController.text = currentUser.email ?? "";
-    passwordController.text = password;
-    locationController.text = currentUser.location ?? "";
-    role.value = currentUser.status == 0 ? Role.customer : Role.admin;
-  }
- */
   Future<void> updateProfile() async {
     final checkImage = checkPickImage();
-/*     final checkRoleError = checkRole();
- */
+
     if ((form.currentState?.validate() == true) && checkImage) {
       try {
         showLoading(Get.context!);
@@ -383,5 +276,34 @@ class CustomerRelatedController extends GetxController {
       hideLoading(Get.context!);
       errorSnack("$e");
     }
+  }
+
+  //Get current user's course purchase,car purchase,driving purchase and
+  //reward purchase
+  Future<void> getAllCurrentUserPurchase(String userId) async {
+    //Course Purchases
+    final snapshot = await courseFormPurchaseCollection()
+        .where("userID", isEqualTo: userId)
+        .get();
+    coursePurchases.value = snapshot.docs.map((e) => e.data()).toList();
+    log("===========Course Purchases: ${coursePurchases.length}");
+    //Driving Purchases
+    final drivingSnap = await drivingLicenceFormPurchaseCollection()
+        .where("userId", isEqualTo: userId)
+        .get();
+    drivingPurchases.value = drivingSnap.docs.map((e) => e.data()).toList();
+    log("===========Driving Purchases: ${drivingPurchases.length}");
+    //CarLicence Purchases
+    final carSnap = await carLicenceFormPurchaseCollection()
+        .where("userId", isEqualTo: userId)
+        .get();
+    carLicencerPurchases.value = carSnap.docs.map((e) => e.data()).toList();
+    log("===========Car Licence Purchases: ${carLicencerPurchases.length}");
+    //Reward Purchases
+    final rewardSnap = await productPurchaseCollection()
+        .where("userId", isEqualTo: userId)
+        .get();
+    rewardPurchases.value = rewardSnap.docs.map((e) => e.data()).toList();
+    log("===========Reward Purchases: ${rewardPurchases.length}");
   }
 }
